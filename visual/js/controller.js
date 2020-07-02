@@ -84,7 +84,7 @@ var Controller = StateMachine.create({
         {
             name: 'addPit',
             from: ['ready', 'finished'],
-            to: 'addingPit'
+            to: 'erasingWall'
         },
         {
             name: 'addBomb',
@@ -106,12 +106,16 @@ var Controller = StateMachine.create({
             from: ['draggingStart', 'draggingEnd', 'drawingWall', 'erasingWall', 'addingPit', 'addingIce', 'addingBomb'],
             to: 'ready'
         },
+        {
+            name: 'startMaze',
+            from: 'ready',
+            to: 'ready'
+        }
     ],
 });
 
 $.extend(Controller, {
     gridSize: [64, 36], // number of nodes horizontally and vertically
-
 
     /**
      * Asynchronous transition from `none` state to `ready` state.
@@ -268,8 +272,57 @@ $.extend(Controller, {
             text: 'Add Bomb',
             enabled: true,
             callback: $.proxy(this.addBomb, this)
+
+        }, {
+            id: 7,
+            text: 'Start maze',
+            enabled: true,
+            callback: $.proxy(this.startMaze, this),
         });
         // => [starting, draggingStart, draggingEnd, draggingPit drawingStart, drawingEnd]
+    },
+    createMazeWall: function(event, x, y) {
+
+        event.setWalkableAt(x, y, false);
+    },
+    // loop: function () {
+    //     var interval = 1000 / this.operationsPerSecond;
+    //     (function loop() {
+    //         var mazeWalls = this.mazeWalls
+    //         do {
+    //             if (!mazeWalls.length) {
+    //                 this.finish(); // transit to `finished` state
+    //                 return;
+    //             }
+    //             mz = mazeWalls.shift();
+    //             this.setWalkableAt(mz['x'], mz['y'], false);
+    //             isSupported = View.supportedOperations.indexOf(op.attr) !== -1;
+    //         } while (!isSupported);
+    //         setTimeout(loop, interval);
+    //     })();
+    // },
+    onstartMaze: function(event, from, to) {
+        this.mazeWalls = [];
+        var x = 0,
+            y = 0;
+        while (x < this.gridSize[0]) {
+            while (y < this.gridSize[1]) {
+                if ((x == this.startX && y == this.startY) || (x == this.endX && y == this.endY))
+                    y++;
+                else if (Math.random() > 0.8) {
+                    this.mazeWalls.push({
+                        x: x,
+                        y: y
+                    });
+                    setTimeout(this.createMazeWall, 300, this, x, y);
+                    y++;
+                } else {
+                    y++;
+                }
+            }
+            y = 0;
+            x++;
+        }
     },
     onstarting: function(event, from, to) {
         console.log('=> starting');
@@ -283,6 +336,7 @@ $.extend(Controller, {
         // => searching
     },
     onsearching: function() {
+
         console.log('=> searching');
         this.setButtonStates({
             id: 1,
@@ -404,7 +458,7 @@ $.extend(Controller, {
         if (speed == 'medium') {
             operationsPerSecond = 80;
         }
-        console.log(speed, operationsPerSecond)
+
         var interval = 1000 / operationsPerSecond;
         (function loop() {
             if (!Controller.is('searching')) {
