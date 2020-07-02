@@ -139,7 +139,7 @@ $.extend(Controller, {
 
         this.$buttons = $('.control_button');
 
-        this.hookPathFinding();
+        // this.hookPathFinding();
 
         return StateMachine.ASYNC;
         // => ready
@@ -176,9 +176,12 @@ $.extend(Controller, {
 
         timeStart = window.performance ? performance.now() : Date.now();
         grid = this.grid.clone();
-        this.path = finder.findPath(
+        var res = finder.findPath(
             this.startX, this.startY, this.endX, this.endY, grid
         );
+        this.path = res['path'];
+        this.operations = res['operations'];
+        console.log(res);
         this.operationCount = this.operations.length;
         timeEnd = window.performance ? performance.now() : Date.now();
         this.timeSpent = (timeEnd - timeStart).toFixed(4);
@@ -401,44 +404,44 @@ $.extend(Controller, {
      */
     hookPathFinding: function() {
 
-        PF.Node.prototype = {
-            get opened() {
-                return this._opened;
-            },
-            set opened(v) {
-                this._opened = v;
-                Controller.operations.push({
-                    x: this.x,
-                    y: this.y,
-                    attr: 'opened',
-                    value: v
-                });
-            },
-            get closed() {
-                return this._closed;
-            },
-            set closed(v) {
-                this._closed = v;
-                Controller.operations.push({
-                    x: this.x,
-                    y: this.y,
-                    attr: 'closed',
-                    value: v
-                });
-            },
-            get tested() {
-                return this._tested;
-            },
-            set tested(v) {
-                this._tested = v;
-                Controller.operations.push({
-                    x: this.x,
-                    y: this.y,
-                    attr: 'tested',
-                    value: v
-                });
-            },
-        };
+        //     PF.Node.prototype = {
+        //         get opened() {
+        //             return this._opened;
+        //         },
+        //         set opened(v) {
+        //             this._opened = v;
+        //             Controller.operations.push({
+        //                 x: this.x,
+        //                 y: this.y,
+        //                 attr: 'opened',
+        //                 value: v
+        //             });
+        //         },
+        //         get closed() {
+        //             return this._closed;
+        //         },
+        //         set closed(v) {
+        //             this._closed = v;
+        //             Controller.operations.push({
+        //                 x: this.x,
+        //                 y: this.y,
+        //                 attr: 'closed',
+        //                 value: v
+        //             });
+        //         },
+        //         get tested() {
+        //             return this._tested;
+        //         },
+        //         set tested(v) {
+        //             this._tested = v;
+        //             Controller.operations.push({
+        //                 x: this.x,
+        //                 y: this.y,
+        //                 attr: 'tested',
+        //                 value: v
+        //             });
+        //         },
+        //     };
 
         this.operations = [];
     },

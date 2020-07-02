@@ -4,13 +4,17 @@
  * @param {Node} node End node
  * @return {Array<Array<number>>} the path
  */
-function backtrace(node) {
+function backtrace(node, operations) {
     var path = [[node.x, node.y]];
     while (node.parent) {
         node = node.parent;
         path.push([node.x, node.y]);
     }
-    return path.reverse();
+    res = {
+        'path': path.reverse(),
+        'operations': operations
+    }
+    return res;
 }
 exports.backtrace = backtrace;
 
