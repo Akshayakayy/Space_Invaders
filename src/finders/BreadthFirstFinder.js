@@ -36,6 +36,8 @@ function BreadthFirstFinder(opt) {
  *     end positions.
  */
 BreadthFirstFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {
+    var operations = [];
+    console.log("BFS")
     var openList = [],
         diagonalMovement = this.diagonalMovement,
         startNode = grid.getNodeAt(startX, startY),
@@ -45,16 +47,27 @@ BreadthFirstFinder.prototype.findPath = function(startX, startY, endX, endY, gri
     // push the start pos into the queue
     openList.push(startNode);
     startNode.opened = true;
-
+    operations.push({
+        x: startNode.x,
+        y: startNode.y,
+        attr: 'opened',
+        value: true
+    })
     // while the queue is not empty
     while (openList.length) {
         // take the front node from the queue
         node = openList.shift();
         node.closed = true;
-
+        operations.push({
+            x: node.x,
+            y: node.y,
+            attr: 'closed',
+            value: true
+        })
         // reached the end position
         if (node === endNode) {
-            return Util.backtrace(endNode);
+            console.log("operations")
+            return Util.backtrace(endNode, operations);
         }
 
         neighbors = grid.getNeighbors(node, diagonalMovement);
@@ -68,6 +81,12 @@ BreadthFirstFinder.prototype.findPath = function(startX, startY, endX, endY, gri
 
             openList.push(neighbor);
             neighbor.opened = true;
+            operations.push({
+                x: neighbor.x,
+                y: neighbor.y,
+                attr: 'opened',
+                value: true
+            })
             neighbor.parent = node;
         }
     }

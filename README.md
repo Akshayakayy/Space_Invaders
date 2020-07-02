@@ -229,7 +229,7 @@ The build system uses gulp, so make sure you have it installed:
 
 To build the browser distribution:
 
-    gulp compile
+    gulp compile && mv lib/pathfinding-browser.min.js visual/lib
 
 To run the tests
 (algorithms only, not including the visualization) with
