@@ -35,8 +35,19 @@ function BreadthFirstFinder(opt) {
  * @return {Array<Array<number>>} The path, including both start and
  *     end positions.
  */
+// 1. First declare an empty operations array
+// 2,3,4. Then push to the operations array whenever
+// opened or closed or tested property of a node
+// gets changed
+// Object to be pushed
+// {
+//     x: node_name.x,
+//     y: node_name.y,
+//     attr: 'opened' || 'closed' || 'tested',
+//     value: true || false
+// }
 BreadthFirstFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {
-    var operations = [];
+    var operations = [];        // #1
     console.log("BFS")
     var openList = [],
         diagonalMovement = this.diagonalMovement,
@@ -47,7 +58,7 @@ BreadthFirstFinder.prototype.findPath = function(startX, startY, endX, endY, gri
     // push the start pos into the queue
     openList.push(startNode);
     startNode.opened = true;
-    operations.push({
+    operations.push({           // #2
         x: startNode.x,
         y: startNode.y,
         attr: 'opened',
@@ -58,7 +69,7 @@ BreadthFirstFinder.prototype.findPath = function(startX, startY, endX, endY, gri
         // take the front node from the queue
         node = openList.shift();
         node.closed = true;
-        operations.push({
+        operations.push({       // #3
             x: node.x,
             y: node.y,
             attr: 'closed',
@@ -80,8 +91,8 @@ BreadthFirstFinder.prototype.findPath = function(startX, startY, endX, endY, gri
             }
 
             openList.push(neighbor);
-            neighbor.opened = true;
-            operations.push({
+            neighbor.opened = true; // HEre the opened value of neighbor changed to true
+            operations.push({       // #4
                 x: neighbor.x,
                 y: neighbor.y,
                 attr: 'opened',
