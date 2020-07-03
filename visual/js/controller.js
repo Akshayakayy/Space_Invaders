@@ -237,6 +237,10 @@ $.extend(Controller, {
             Controller.clearAll();
             Controller.buildNewGrid();
         }, View.nodeColorizeEffect.duration * 1.2);
+        this.setButtonStates({
+            id: 4,
+            enabled: true,
+        });
         // => ready
     },
 
@@ -305,9 +309,13 @@ $.extend(Controller, {
     //     })();
     // },
     onstartMaze: function(event, from, to) {
-        this.mazeWalls = [];
+        this.mazeWalls = []
         var x = 0,
             y = 0;
+        this.setButtonStates({
+            id: 7,
+            enabled: false,
+        });
         while (x < this.gridSize[0]) {
             while (y < this.gridSize[1]) {
                 if ((x == this.startX && y == this.startY) || (x == this.endX && y == this.endY))
@@ -326,6 +334,7 @@ $.extend(Controller, {
             y = 0;
             x++;
         }
+        View.clearBlockedNodes();
     },
     onstarting: function(event, from, to) {
         console.log('=> starting');

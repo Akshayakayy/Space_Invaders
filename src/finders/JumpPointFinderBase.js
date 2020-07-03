@@ -24,6 +24,8 @@ function JumpPointFinderBase(opt) {
  *     end positions.
  */
 JumpPointFinderBase.prototype.findPath = function(startX, startY, endX, endY, grid) {
+    var operations = [];        
+    console.log("JumpPoint1");
     var openList = this.openList = new Heap(function(nodeA, nodeB) {
             return nodeA.f - nodeB.f;
         }),
@@ -40,15 +42,27 @@ JumpPointFinderBase.prototype.findPath = function(startX, startY, endX, endY, gr
     // push the start node into the open list
     openList.push(startNode);
     startNode.opened = true;
+    operations.push({           
+        x: startNode.x,
+        y: startNode.y,
+        attr: 'opened',
+        value: true
+    })
 
     // while the open list is not empty
     while (!openList.empty()) {
         // pop the position of node which has the minimum `f` value.
         node = openList.pop();
         node.closed = true;
+        operations.push({       
+            x: node.x,
+            y: node.y,
+            attr: 'closed',
+            value: true
+        })
 
         if (node === endNode) {
-            return Util.expandPath(Util.backtrace(endNode));
+            return Util.expandPath(Util.backtrace(endNode,operations));
         }
 
         this._identifySuccessors(node);
@@ -65,6 +79,8 @@ JumpPointFinderBase.prototype.findPath = function(startX, startY, endX, endY, gr
  * @protected
  */
 JumpPointFinderBase.prototype._identifySuccessors = function(node) {
+    var operations = [];        // #1
+    console.log("JumpPoint2");
     var grid = this.grid,
         heuristic = this.heuristic,
         openList = this.openList,
@@ -103,6 +119,12 @@ JumpPointFinderBase.prototype._identifySuccessors = function(node) {
                 if (!jumpNode.opened) {
                     openList.push(jumpNode);
                     jumpNode.opened = true;
+                    operations.push({       // #4
+                    x: jumpNode.x,
+                    y: jumpNode.y,
+                    attr: 'opened',
+                    value: true
+                    });
                 } else {
                     openList.updateItem(jumpNode);
                 }
