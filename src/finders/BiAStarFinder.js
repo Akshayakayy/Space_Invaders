@@ -53,6 +53,8 @@ function BiAStarFinder(opt) {
  *     end positions.
  */
 BiAStarFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {
+    var operations = [];        // #1
+    console.log("BiAStar")
     var cmp = function(nodeA, nodeB) {
             return nodeA.f - nodeB.f;
         },
@@ -87,6 +89,12 @@ BiAStarFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {
         // pop the position of start node which has the minimum `f` value.
         node = startOpenList.pop();
         node.closed = true;
+        operations.push({     
+        x: node.x,
+        y: node.y,
+        attr: 'closed',
+        value: true
+        });
 
         // get neigbours of the current node
         neighbors = grid.getNeighbors(node, diagonalMovement);
@@ -132,6 +140,12 @@ BiAStarFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {
         // pop the position of end node which has the minimum `f` value.
         node = endOpenList.pop();
         node.closed = true;
+        operations.push({
+        x: node.x,
+        y: node.y,
+        attr: 'closed',
+        value: true
+        })
 
         // get neigbours of the current node
         neighbors = grid.getNeighbors(node, diagonalMovement);
