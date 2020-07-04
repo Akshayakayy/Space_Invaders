@@ -68,13 +68,8 @@ var Controller = StateMachine.create({
         },
         {
             name: 'dragEnd',
-            from: 'ready',
+            from: ['ready', 'finished'],
             to: 'draggingEnd'
-        },
-        {
-            name: 'dragEndFinished',
-            from: 'finished',
-            to: 'draggingEndFinished'
         },
         {
             name: 'drawWall',
@@ -121,6 +116,7 @@ var Controller = StateMachine.create({
 
 $.extend(Controller, {
     gridSize: [64, 36], // number of nodes horizontally and vertically
+
     /**
      * Asynchronous transition from `none` state to `ready` state.
      */
@@ -177,7 +173,7 @@ $.extend(Controller, {
         var grid,
             timeStart, timeEnd,
             finder = Panel.getFinder();
-        this.finder = finder
+
         timeStart = window.performance ? performance.now() : Date.now();
         grid = this.grid.clone();
         var res = finder.findPath(
@@ -527,10 +523,6 @@ $.extend(Controller, {
             this.dragEnd();
             return;
         }
-        if (this.can('dragEndFinished') && this.isEndPos(gridX, gridY)) {
-            this.dragEndFinished();
-            return;
-        }
         if (this.can('drawWall') && grid.isWalkableAt(gridX, gridY)) {
             this.drawWall(gridX, gridY);
             return;
@@ -574,33 +566,6 @@ $.extend(Controller, {
             case 'draggingEnd':
                 if (grid.isWalkableAt(gridX, gridY)) {
                     this.setEndPos(gridX, gridY);
-                }
-                break;
-            case 'draggingEndFinished':
-                if (!this.draggingEndLock) {
-                    this.draggingEndLock = true
-                    if (grid.isWalkableAt(gridX, gridY)) {
-                        this.setEndPos(gridX, gridY);
-                        console.log()
-                        this.clearOperations()
-                        this.clearFootprints()
-                        var grid = this.grid.clone();
-                        var res = this.finder.findPath(
-                            this.startX, this.startY, gridX, gridY, grid
-                        );
-                        var path = res['path']
-                        var operations = res['operations']
-                        console.log(res['path'])
-                        var op, isSupported;
-                        while (operations.length) {
-                            op = operations.shift();
-                            View.setAttributeAt(op.x, op.y, op.attr, op.value);
-                        }
-                        View.drawPath(path);
-                    }
-                    this.draggingEndLock = false
-                } else {
-                    console.log("abcd")
                 }
                 break;
             case 'drawingWall':
