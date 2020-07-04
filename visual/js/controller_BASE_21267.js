@@ -6,7 +6,8 @@
  */
 var Controller = StateMachine.create({
     initial: 'none',
-    events: [{
+    events: [
+        {
             name: 'init',
             from: 'none',
             to: 'ready'
@@ -68,13 +69,8 @@ var Controller = StateMachine.create({
         },
         {
             name: 'dragEnd',
-            from: 'ready',
+            from: ['ready', 'finished'],
             to: 'draggingEnd'
-        },
-        {
-            name: 'dragEndFinished',
-            from: 'finished',
-            to: 'draggingEndFinished'
         },
         {
             name: 'drawWall',
@@ -82,33 +78,13 @@ var Controller = StateMachine.create({
             to: 'drawingWall'
         },
         {
-            name: 'eraseObstacle',
+            name: 'eraseWall',
             from: ['ready', 'finished'],
             to: 'erasingWall'
         },
-        {
-            name: 'addPit',
-            from: ['ready', 'finished'],
-            to: 'erasingWall'
-        },
-        {
-            name: 'addBomb',
-            from: ['ready', 'finished'],
-            to: 'addingBomb'
-        },
-        {
-            name: 'addIce',
-            from: ['ready', 'finished'],
-            to: 'addingIce'
-        },
-        // {
-        //     name: 'removePit',
-        //     from: ['ready', 'finished'],
-        //     to: 'removingPit'
-        // },
         {
             name: 'rest',
-            from: ['draggingStart', 'draggingEnd', 'drawingWall', 'erasingWall', 'addingPit', 'addingIce', 'addingBomb'],
+            from: ['draggingStart', 'draggingEnd', 'drawingWall', 'erasingWall'],
             to: 'ready'
         },
         {
@@ -121,10 +97,12 @@ var Controller = StateMachine.create({
 
 $.extend(Controller, {
     gridSize: [64, 36], // number of nodes horizontally and vertically
+    operationsPerSecond: 600,
+
     /**
      * Asynchronous transition from `none` state to `ready` state.
      */
-    onleavenone: function() {
+    onleavenone: function () {
         var numCols = this.gridSize[0],
             numRows = this.gridSize[1];
 
@@ -134,11 +112,10 @@ $.extend(Controller, {
             numCols: numCols,
             numRows: numRows
         });
-        View.generateGrid(function() {
+        View.generateGrid(function () {
             Controller.setDefaultStartEndPos();
             Controller.bindEvents();
             Controller.transition(); // transit to the next state (ready)
-
         });
 
         this.$buttons = $('.control_button');
@@ -148,44 +125,29 @@ $.extend(Controller, {
         return StateMachine.ASYNC;
         // => ready
     },
-    ondrawWall: function(event, from, to, gridX, gridY) {
-        console.log("drawing wall", gridX, gridY);
-        this.setWalkableAt(gridX, gridY, false, "wall");
+    ondrawWall: function (event, from, to, gridX, gridY) {
+        console.log("wall")
+        this.setWalkableAt(gridX, gridY, false);
         // => drawingWall
     },
-    oneraseObstacle: function(event, from, to, gridX, gridY) {
-        console.log("erasing wall");
-        this.setWalkableAt(gridX, gridY, true, "wall");
+    oneraseWall: function (event, from, to, gridX, gridY) {
+        this.setWalkableAt(gridX, gridY, true);
         // => erasingWall
     },
-    onaddPit: function(event, from, to, gridX, gridY) {
-        console.log("adding pit");
-        // => addingPit
-    },
-    onaddIce: function(event, from, to, gridX, gridY) {
-        console.log("adding ice");
-
-        // => addingIce
-    },
-    onaddBomb: function(event, from, to, gridX, gridY) {
-        console.log("adding bomb");
-
-
-        // => addingBomb
-    },
-    onsearch: function(event, from, to) {
+    onsearch: function (event, from, to) {
+        console.log("first")
         var grid,
             timeStart, timeEnd,
             finder = Panel.getFinder();
-        this.finder = finder
+
         timeStart = window.performance ? performance.now() : Date.now();
         grid = this.grid.clone();
         var res = finder.findPath(
             this.startX, this.startY, this.endX, this.endY, grid
         );
-        this.path = res['path'];
-        this.operations = res['operations'];
-        console.log(res);
+        this.path = res['path']
+        this.operations = res['operations']
+        console.log(res)
         this.operationCount = this.operations.length;
         timeEnd = window.performance ? performance.now() : Date.now();
         this.timeSpent = (timeEnd - timeStart).toFixed(4);
@@ -193,32 +155,32 @@ $.extend(Controller, {
         this.loop();
         // => searching
     },
-    onrestart: function() {
+    onrestart: function () {
         // When clearing the colorized nodes, there may be
         // nodes still animating, which is an asynchronous procedure.
         // Therefore, we have to defer the `abort` routine to make sure
         // that all the animations are done by the time we clear the colors.
         // The same reason applies for the `onreset` event handler.
-        setTimeout(function() {
+        setTimeout(function () {
             Controller.clearOperations();
             Controller.clearFootprints();
             Controller.start();
         }, View.nodeColorizeEffect.duration * 1.2);
         // => restarting
     },
-    onpause: function(event, from, to) {
+    onpause: function (event, from, to) {
         // => paused
     },
-    onresume: function(event, from, to) {
+    onresume: function (event, from, to) {
         this.loop();
         // => searching
     },
-    oncancel: function(event, from, to) {
+    oncancel: function (event, from, to) {
         this.clearOperations();
         this.clearFootprints();
         // => ready
     },
-    onfinish: function(event, from, to) {
+    onfinish: function (event, from, to) {
         View.showStats({
             pathLength: PF.Util.pathLength(this.path),
             timeSpent: this.timeSpent,
@@ -227,16 +189,16 @@ $.extend(Controller, {
         View.drawPath(this.path);
         // => finished
     },
-    onclear: function(event, from, to) {
+    onclear: function (event, from, to) {
         this.clearOperations();
         this.clearFootprints();
         // => ready
     },
-    onmodify: function(event, from, to) {
+    onmodify: function (event, from, to) {
         // => modified
     },
-    onreset: function(event, from, to) {
-        setTimeout(function() {
+    onreset: function (event, from, to) {
+        setTimeout(function () {
             Controller.clearOperations();
             Controller.clearAll();
             Controller.buildNewGrid();
@@ -252,7 +214,7 @@ $.extend(Controller, {
      * The following functions are called on entering states.
      */
 
-    onready: function() {
+    onready: function () {
         console.log('=> ready');
         this.setButtonStates({
             id: 1,
@@ -270,30 +232,14 @@ $.extend(Controller, {
             callback: $.proxy(this.reset, this),
         }, {
             id: 4,
-            text: 'Add Pits',
-            enabled: true,
-            callback: $.proxy(this.addPit, this)
-        }, {
-            id: 5,
-            text: 'Add Ice',
-            enabled: true,
-            callback: $.proxy(this.addIce, this)
-        }, {
-            id: 6,
-            text: 'Add Bomb',
-            enabled: true,
-            callback: $.proxy(this.addBomb, this)
-
-        }, {
-            id: 7,
             text: 'Start maze',
             enabled: true,
             callback: $.proxy(this.startMaze, this),
         });
-        // => [starting, draggingStart, draggingEnd, draggingPit drawingStart, drawingEnd]
+        // => [starting, draggingStart, draggingEnd, drawingStart, drawingEnd]
     },
-    createMazeWall: function(event, x, y) {
-
+    createMazeWall: function (event, x, y) {
+        console.log("Maze wall")
         event.setWalkableAt(x, y, false);
     },
     // loop: function () {
@@ -312,12 +258,11 @@ $.extend(Controller, {
     //         setTimeout(loop, interval);
     //     })();
     // },
-    onstartMaze: function(event, from, to) {
+    onstartMaze: function (event, from, to) {
         this.mazeWalls = []
-        var x = 0,
-            y = 0;
+        var x = 0, y = 0;
         this.setButtonStates({
-            id: 7,
+            id: 4,
             enabled: false,
         });
         while (x < this.gridSize[0]) {
@@ -328,10 +273,11 @@ $.extend(Controller, {
                     this.mazeWalls.push({
                         x: x,
                         y: y
-                    });
+                    })
                     setTimeout(this.createMazeWall, 300, this, x, y);
                     y++;
-                } else {
+                }
+                else {
                     y++;
                 }
             }
@@ -340,7 +286,7 @@ $.extend(Controller, {
         }
         View.clearBlockedNodes();
     },
-    onstarting: function(event, from, to) {
+    onstart: function (event, from, to) {
         console.log('=> starting');
         // Clears any existing search progress
         this.clearFootprints();
@@ -351,8 +297,8 @@ $.extend(Controller, {
         this.search();
         // => searching
     },
-    onsearching: function() {
-
+    onsearching: function () {
+        console.log("second")
         console.log('=> searching');
         this.setButtonStates({
             id: 1,
@@ -367,7 +313,7 @@ $.extend(Controller, {
         });
         // => [paused, finished]
     },
-    onpaused: function() {
+    onpaused: function () {
         console.log('=> paused');
         this.setButtonStates({
             id: 1,
@@ -382,7 +328,7 @@ $.extend(Controller, {
         });
         // => [searching, ready]
     },
-    onfinished: function() {
+    onfinished: function () {
         console.log('=> finished');
         this.setButtonStates({
             id: 1,
@@ -396,7 +342,7 @@ $.extend(Controller, {
             callback: $.proxy(this.clear, this),
         });
     },
-    onmodified: function() {
+    onmodified: function () {
         console.log('=> modified');
         this.setButtonStates({
             id: 1,
@@ -415,67 +361,57 @@ $.extend(Controller, {
      * Define setters and getters of PF.Node, then we can get the operations
      * of the pathfinding.
      */
-    hookPathFinding: function() {
+    // hookPathFinding: function () {
 
-        //     PF.Node.prototype = {
-        //         get opened() {
-        //             return this._opened;
-        //         },
-        //         set opened(v) {
-        //             this._opened = v;
-        //             Controller.operations.push({
-        //                 x: this.x,
-        //                 y: this.y,
-        //                 attr: 'opened',
-        //                 value: v
-        //             });
-        //         },
-        //         get closed() {
-        //             return this._closed;
-        //         },
-        //         set closed(v) {
-        //             this._closed = v;
-        //             Controller.operations.push({
-        //                 x: this.x,
-        //                 y: this.y,
-        //                 attr: 'closed',
-        //                 value: v
-        //             });
-        //         },
-        //         get tested() {
-        //             return this._tested;
-        //         },
-        //         set tested(v) {
-        //             this._tested = v;
-        //             Controller.operations.push({
-        //                 x: this.x,
-        //                 y: this.y,
-        //                 attr: 'tested',
-        //                 value: v
-        //             });
-        //         },
-        //     };
+    //     PF.Node.prototype = {
+    //         get opened() {
+    //             return this._opened;
+    //         },
+    //         set opened(v) {
+    //             this._opened = v;
+    //             Controller.operations.push({
+    //                 x: this.x,
+    //                 y: this.y,
+    //                 attr: 'opened',
+    //                 value: v
+    //             });
+    //         },
+    //         get closed() {
+    //             return this._closed;
+    //         },
+    //         set closed(v) {
+    //             this._closed = v;
+    //             Controller.operations.push({
+    //                 x: this.x,
+    //                 y: this.y,
+    //                 attr: 'closed',
+    //                 value: v
+    //             });
+    //         },
+    //         get tested() {
+    //             return this._tested;
+    //         },
+    //         set tested(v) {
+    //             this._tested = v;
+    //             Controller.operations.push({
+    //                 x: this.x,
+    //                 y: this.y,
+    //                 attr: 'tested',
+    //                 value: v
+    //             });
+    //         },
+    //     };
 
-        this.operations = [];
-    },
-    bindEvents: function() {
+    //     this.operations = [];
+    // },
+    bindEvents: function () {
         $('#draw_area').mousedown($.proxy(this.mousedown, this));
         $(window)
             .mousemove($.proxy(this.mousemove, this))
             .mouseup($.proxy(this.mouseup, this));
     },
-    loop: function() {
-
-        speed = Panel.getSpeed();
-        var operationsPerSecond = 20;
-        if (speed == 'fast') {
-            operationsPerSecond = 300;
-        }
-        if (speed == 'medium') {
-            operationsPerSecond = 80;
-        }
-
-        var interval = 1000 / operationsPerSecond;
+    loop: function () {
+        var interval = 1000 / this.operationsPerSecond;
         (function loop() {
             if (!Controller.is('searching')) {
                 return;
@@ -484,7 +420,7 @@ $.extend(Controller, {
             setTimeout(loop, interval);
         })();
     },
-    step: function() {
+    step: function () {
         var operations = this.operations,
             op, isSupported;
 
@@ -497,23 +433,23 @@ $.extend(Controller, {
             isSupported = View.supportedOperations.indexOf(op.attr) !== -1;
         } while (!isSupported);
 
-        View.setAttributeAt(op.x, op.y, op.attr, op.value, false);
+        View.setAttributeAt(op.x, op.y, op.attr, op.value);
     },
-    clearOperations: function() {
+    clearOperations: function () {
         this.operations = [];
     },
-    clearFootprints: function() {
+    clearFootprints: function () {
         View.clearFootprints();
         View.clearPath();
     },
-    clearAll: function() {
+    clearAll: function () {
         this.clearFootprints();
         View.clearBlockedNodes();
     },
-    buildNewGrid: function() {
+    buildNewGrid: function () {
         this.grid = new PF.Grid(this.gridSize[0], this.gridSize[1]);
     },
-    mousedown: function(event) {
+    mousedown: function (event) {
         var coord = View.toGridCoordinate(event.pageX, event.pageY),
             gridX = coord[0],
             gridY = coord[1],
@@ -527,35 +463,15 @@ $.extend(Controller, {
             this.dragEnd();
             return;
         }
-        if (this.can('dragEndFinished') && this.isEndPos(gridX, gridY)) {
-            this.dragEndFinished();
-            return;
-        }
         if (this.can('drawWall') && grid.isWalkableAt(gridX, gridY)) {
             this.drawWall(gridX, gridY);
             return;
         }
-        if (this.can('eraseObstacle') && !grid.isWalkableAt(gridX, gridY)) {
-            this.eraseObstacle(gridX, gridY);
+        if (this.can('eraseWall') && !grid.isWalkableAt(gridX, gridY)) {
+            this.eraseWall(gridX, gridY);
         }
-        if (this.can('addPit') && grid.isWalkableAt(gridX, gridY)) {
-            this.addPit(gridX, gridY);
-            return;
-        }
-        if (this.can('addIce') && grid.isWalkableAt(gridX, gridY)) {
-            this.addIce(gridX, gridY);
-            return;
-        }
-        if (this.can('addBomb') && grid.isWalkableAt(gridX, gridY)) {
-            this.addBomb(gridX, gridY);
-            return;
-        }
-        // if (this.can('removePit') && !grid.isWalkableAt(gridX, gridY)) {
-        //     this.removePit(gridX, gridY);
-        // }
-
     },
-    mousemove: function(event) {
+    mousemove: function (event) {
         var coord = View.toGridCoordinate(event.pageX, event.pageY),
             grid = this.grid,
             gridX = coord[0],
@@ -576,57 +492,22 @@ $.extend(Controller, {
                     this.setEndPos(gridX, gridY);
                 }
                 break;
-            case 'draggingEndFinished':
-                if (!this.draggingEndLock) {
-                    this.draggingEndLock = true
-                    if (grid.isWalkableAt(gridX, gridY)) {
-                        this.setEndPos(gridX, gridY);
-                        console.log()
-                        this.clearOperations()
-                        this.clearFootprints()
-                        var grid = this.grid.clone();
-                        var res = this.finder.findPath(
-                            this.startX, this.startY, gridX, gridY, grid
-                        );
-                        var path = res['path']
-                        var operations = res['operations']
-                        console.log(res['path'])
-                        var op, isSupported;
-                        while (operations.length) {
-                            op = operations.shift();
-                            View.setAttributeAt(op.x, op.y, op.attr, op.value);
-                        }
-                        View.drawPath(path);
-                    }
-                    this.draggingEndLock = false
-                } else {
-                    console.log("abcd")
-                }
-                break;
             case 'drawingWall':
-                this.setWalkableAt(gridX, gridY, false, "wall");
+                console.log("wall2")
+                this.setWalkableAt(gridX, gridY, false);
                 break;
             case 'erasingWall':
-                this.setWalkableAt(gridX, gridY, true, "wall");
-                break;
-            case 'addingPit':
-                this.setPitAt(gridX, gridY, false);
-                break;
-            case 'addingBomb':
-                this.setBombAt(gridX, gridY, false);
-                break;
-            case 'addingIce':
-                this.setIceAt(gridX, gridY, false);
+                this.setWalkableAt(gridX, gridY, true);
                 break;
         }
     },
-    mouseup: function(event) {
+    mouseup: function (event) {
         if (Controller.can('rest')) {
             Controller.rest();
         }
     },
-    setButtonStates: function() {
-        $.each(arguments, function(i, opt) {
+    setButtonStates: function () {
+        $.each(arguments, function (i, opt) {
             var $button = Controller.$buttons.eq(opt.id - 1);
             if (opt.text) {
                 $button.text(opt.text);
@@ -650,7 +531,7 @@ $.extend(Controller, {
      * of start node and end node.
      * It will detect user's display size, and compute the best positions.
      */
-    setDefaultStartEndPos: function() {
+    setDefaultStartEndPos: function () {
         var width, height,
             marginRight, availWidth,
             centerX, centerY,
@@ -669,39 +550,27 @@ $.extend(Controller, {
         this.setStartPos(centerX - 5, centerY);
         this.setEndPos(centerX + 5, centerY);
     },
-    setStartPos: function(gridX, gridY) {
+    setStartPos: function (gridX, gridY) {
         this.startX = gridX;
         this.startY = gridY;
         View.setStartPos(gridX, gridY);
     },
-    setEndPos: function(gridX, gridY) {
+    setEndPos: function (gridX, gridY) {
         this.endX = gridX;
         this.endY = gridY;
         View.setEndPos(gridX, gridY);
     },
-    setWalkableAt: function(gridX, gridY, walkable, pit) {
-        this.grid.setWalkableAt(gridX, gridY, walkable, pit);
-        View.setAttributeAt(gridX, gridY, 'walkable', walkable, "wall");
-    },
-    setPitAt: function(gridX, gridY, walkable) {
+    setWalkableAt: function (gridX, gridY, walkable) {
         this.grid.setWalkableAt(gridX, gridY, walkable);
-        View.setAttributeAt(gridX, gridY, 'walkable', walkable, "pit");
+        View.setAttributeAt(gridX, gridY, 'walkable', walkable);
     },
-    setIceAt: function(gridX, gridY, walkable) {
-        this.grid.setWalkableAt(gridX, gridY, walkable);
-        View.setAttributeAt(gridX, gridY, 'walkable', walkable, "ice");
-    },
-    setBombAt: function(gridX, gridY, walkable) {
-        this.grid.setWalkableAt(gridX, gridY, walkable);
-        View.setAttributeAt(gridX, gridY, 'walkable', walkable, "bomb");
-    },
-    isStartPos: function(gridX, gridY) {
+    isStartPos: function (gridX, gridY) {
         return gridX === this.startX && gridY === this.startY;
     },
-    isEndPos: function(gridX, gridY) {
+    isEndPos: function (gridX, gridY) {
         return gridX === this.endX && gridY === this.endY;
     },
-    isStartOrEndPos: function(gridX, gridY) {
+    isStartOrEndPos: function (gridX, gridY) {
         return this.isStartPos(gridX, gridY) || this.isEndPos(gridX, gridY);
     },
 });
