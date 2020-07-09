@@ -166,7 +166,7 @@ var Panel = {
                 trackRecursion = typeof $('#cla_section ' +
                     '.track_recursion:checked').val() !== 'undefined';
                 heuristic = $('input[name=cla_heuristic]:checked').val();
-
+                console.log(heuristic);
                 finder = new PF.JumpPointFinder({
                     heuristic: PF.Heuristic[heuristic],
 

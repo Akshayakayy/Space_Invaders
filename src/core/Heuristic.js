@@ -19,7 +19,7 @@ module.exports = {
      * @param {number} dy - Difference in y.
      * @return {number} (dx + dy)^2
      */
-    PoweredManhattan: function(dx, dy) {
+    poweredManhattan: function(dx, dy) {
         return Math.pow((dx + dy), 2);
     },
 
@@ -29,7 +29,7 @@ module.exports = {
      * @param {number} dy - Difference in y.
      * @return {number} (dx + dy)^10
      */
-    extraPoweredManhattan: function(dx, dy) {
+    extrapoweredManhattan: function(dx, dy) {
         return Math.pow((dx + dy), 10);
     },
 

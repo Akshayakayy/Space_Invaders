@@ -17,8 +17,7 @@ var AStarFinder = require('./AStarFinder');
 function CLAFinder(opt) {
     AStarFinder.call(this, opt);
     opt = opt || {};
-    console.log(opt.heuristic)
-    if (opt.heuristic == 'PoweredManhattan') {
+    if (opt.heuristic == 'poweredManhattan') {
         this.heuristic = function(dx, dy) {
             return Math.pow((dx + dy), 2);
         };
