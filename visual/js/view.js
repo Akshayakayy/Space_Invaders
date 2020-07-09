@@ -152,18 +152,30 @@ var View = {
         } else {
             this.startNode.attr({ x: coord[0], y: coord[1] }).toFront();
         }
-        console.log(this.checkpoint)
+        // console.log(this.checkpoint)
     },
-    setCheckPoint: function(gridX, gridY) {
+    setCheckPoint: function(gridX, gridY, oldX, oldY) {
         var coord = this.toPageCoordinate(gridX, gridY);
-        this.checkpoint.push(this.paper.rect(
-                    coord[0],
-                    coord[1],
-                    this.nodeSize,
-                    this.nodeSize
-                ).attr(this.nodeStyle.checkpoint)
-                .animate(this.nodeStyle.checkpoint, 1000))
-            // if (this.checkpoint) {
+        console.log(this.checkpoint)
+        if (this.checkpoint.findIndex(node => node.x == oldX && node.y == oldY) == -1) {
+            this.checkpoint.push({
+                x: gridX,
+                y: gridY,
+                paper_el: this.paper.rect(
+                        coord[0],
+                        coord[1],
+                        this.nodeSize,
+                        this.nodeSize
+                    ).attr(this.nodeStyle.checkpoint)
+                    .animate(this.nodeStyle.checkpoint, 1000)
+            })
+        } else {
+            checkindex = this.checkpoint.findIndex(node => node.x == oldX && node.y == oldY);
+            this.checkpoint[checkindex].x = gridX;
+            this.checkpoint[checkindex].y = gridY;
+            this.checkpoint[checkindex].paper_el.attr({ x: coord[0], y: coord[1] }).toFront();
+        }
+        // if (this.checkpoint) {
 
         //     // this.startNode = this.paper.rect(
         //     //     coord[0],
@@ -261,12 +273,23 @@ var View = {
         if (value) {
             // clear blocked node
             if (node) {
+                // console.log(node)
                 this.colorizeNode(node, this.rects[gridY][gridX].attr('fill'));
                 this.zoomNode(node);
                 setTimeout(function() {
                     node.remove();
                 }, this.nodeZoomEffect.duration);
                 blockedNodes[gridY][gridX] = null;
+            } else {
+                node = this.rects[gridY][gridX].clone();
+                console.log(this.checkpoint);
+                // this.paper.rect(
+                //     coord[0],
+                //     coord[1],
+                //     this.nodeSize,
+                //     this.nodeSize
+                // ).attr(this.nodeStyle.checkpoint)
+                //  .animate(this.nodeStyle.checkpoint, 1000)
             }
         } else {
             // draw blocked node
