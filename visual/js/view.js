@@ -4,6 +4,7 @@
  */
 
 var View = {
+    checkpoint: [],
     nodeSize: 30, // width and height of a single node, in pixel
     nodeStyle: {
         normal: {
@@ -55,7 +56,10 @@ var View = {
             fill: '#e5e5e5',
             'stroke-opacity': 0.2,
         },
-
+        checkpoint: {
+            fill: '#0000FF',
+            'stroke-opacity': 0.2,
+        }
     },
     nodeColorizeEffect: {
         duration: 50,
@@ -148,6 +152,29 @@ var View = {
         } else {
             this.startNode.attr({ x: coord[0], y: coord[1] }).toFront();
         }
+        console.log(this.checkpoint)
+    },
+    setCheckPoint: function(gridX, gridY) {
+        var coord = this.toPageCoordinate(gridX, gridY);
+        this.checkpoint.push(this.paper.rect(
+                    coord[0],
+                    coord[1],
+                    this.nodeSize,
+                    this.nodeSize
+                ).attr(this.nodeStyle.checkpoint)
+                .animate(this.nodeStyle.checkpoint, 1000))
+            // if (this.checkpoint) {
+
+        //     // this.startNode = this.paper.rect(
+        //     //     coord[0],
+        //     //     coord[1],
+        //     //     this.nodeSize,
+        //     //     this.nodeSize
+        //     // ).attr(this.nodeStyle.normal)
+        //     //  .animate(this.nodeStyle.checkpoint, 1000);
+        // } else {
+        //     this.startNode.attr({ x: coord[0], y: coord[1] }).toFront();
+        // }
     },
     setBombPos: function(gridX, gridY) {
         var coord = this.toPageCoordinate(gridX, gridY);
@@ -324,6 +351,7 @@ var View = {
             return;
         }
         var svgPath = this.buildSvgPath(path);
+        console.log(svgPath)
         this.path = this.paper.path(svgPath).attr(this.pathStyle);
     },
     /**
