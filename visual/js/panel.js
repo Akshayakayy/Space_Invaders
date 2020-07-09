@@ -16,10 +16,13 @@ var Panel = {
             $('#instructions_panel').slideUp();
         });
         $('#play_panel').css({
-            top: $algo.offset().top + $algo.outerHeight() + 140
+            top: $algo.offset().top + $algo.outerHeight() + 200
         });
         $('#speed_panel').css({
-            top: $algo.offset().top + $algo.outerHeight() + 20
+            top: $algo.offset().top + $algo.outerHeight() + 30
+        });
+        $('#obstacles_panel').css({
+            top: $algo.offset().top + $algo.outerHeight() + 140
         });
         $('#button2').attr('disabled', 'disabled');
     },
