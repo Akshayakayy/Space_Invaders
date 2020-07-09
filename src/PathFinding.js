@@ -7,6 +7,7 @@ module.exports = {
     'Heuristic': require('./core/Heuristic'),
     'AStarFinder': require('./finders/AStarFinder'),
     'BestFirstFinder': require('./finders/BestFirstFinder'),
+    'CLAFinder': require('./finders/CLAFinder'),
     'BreadthFirstFinder': require('./finders/BreadthFirstFinder'),
     'DijkstraFinder': require('./finders/DijkstraFinder'),
     'BiAStarFinder': require('./finders/BiAStarFinder'),

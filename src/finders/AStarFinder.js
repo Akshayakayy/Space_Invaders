@@ -1,7 +1,6 @@
 var Heap = require('heap');
 var Util = require('../core/Util');
 var Heuristic = require('../core/Heuristic');
-// var Speed = require('../core/Speed');
 var DiagonalMovement = require('../core/DiagonalMovement');
 
 
@@ -25,7 +24,6 @@ function AStarFinder(opt) {
     this.allowDiagonal = opt.allowDiagonal;
     this.dontCrossCorners = opt.dontCrossCorners;
     this.heuristic = opt.heuristic || Heuristic.manhattan;
-    // this.speed = opt.speed;
     this.weight = opt.weight || 1;
     this.diagonalMovement = opt.diagonalMovement;
 
