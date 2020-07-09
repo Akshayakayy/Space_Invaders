@@ -6,93 +6,92 @@
  */
 var Controller = StateMachine.create({
     initial: 'none',
-    events: [
-        {
+    events: [{
             name: 'init',
             from: 'none',
-            to:   'ready'
+            to: 'ready'
         },
         {
             name: 'search',
             from: 'starting',
-            to:   'searching'
+            to: 'searching'
         },
         {
             name: 'pause',
             from: 'searching',
-            to:   'paused'
+            to: 'paused'
         },
         {
             name: 'finish',
             from: 'searching',
-            to:   'finished'
+            to: 'finished'
         },
         {
             name: 'resume',
             from: 'paused',
-            to:   'searching'
+            to: 'searching'
         },
         {
             name: 'cancel',
             from: 'paused',
-            to:   'ready'
+            to: 'ready'
         },
         {
             name: 'modify',
             from: 'finished',
-            to:   'modified'
+            to: 'modified'
         },
         {
             name: 'reset',
             from: '*',
-            to:   'ready'
+            to: 'ready'
         },
         {
             name: 'clear',
             from: ['finished', 'modified'],
-            to:   'ready'
+            to: 'ready'
         },
         {
             name: 'start',
             from: ['ready', 'modified', 'restarting'],
-            to:   'starting'
+            to: 'starting'
         },
         {
             name: 'restart',
             from: ['searching', 'finished'],
-            to:   'restarting'
+            to: 'restarting'
         },
         {
             name: 'dragStart',
             from: ['ready', 'finished'],
-            to:   'draggingStart'
+            to: 'draggingStart'
         },
         {
             name: 'dragEnd',
             from: ['ready', 'finished'],
-            to:   'draggingEnd'
+            to: 'draggingEnd'
         },
         {
             name: 'drawWall',
             from: ['ready', 'finished'],
-            to:   'drawingWall'
+            to: 'drawingWall'
         },
         {
             name: 'eraseWall',
             from: ['ready', 'finished'],
-            to:   'erasingWall'
+            to: 'erasingWall'
         },
         {
             name: 'rest',
             from: ['draggingStart', 'draggingEnd', 'drawingWall', 'erasingWall'],
-            to  : 'ready'
+            to: 'ready'
         },
     ],
 });
 
 $.extend(Controller, {
     gridSize: [64, 36], // number of nodes horizontally and vertically
-    operationsPerSecond: 300,
+
 
     /**
      * Asynchronous transition from `none` state to `ready` state.
@@ -173,7 +172,7 @@ $.extend(Controller, {
     onfinish: function(event, from, to) {
         View.showStats({
             pathLength: PF.Util.pathLength(this.path),
-            timeSpent:  this.timeSpent,
+            timeSpent: this.timeSpent,
             operationCount: this.operationCount,
         });
         View.drawPath(this.path);
@@ -343,7 +342,18 @@ $.extend(Controller, {
             .mouseup($.proxy(this.mouseup, this));
     },
     loop: function() {
-        var interval = 1000 / this.operationsPerSecond;
+        // finder = Panel.getFinder();
+
+        speed = Panel.getSpeed();
+        var operationsPerSecond = 20;
+        if (speed == 'fast') {
+            operationsPerSecond = 300;
+        }
+        if (speed == 'medium') {
+            operationsPerSecond = 80;
+        }
+        console.log(speed, operationsPerSecond)
+        var interval = 1000 / operationsPerSecond;
         (function loop() {
             if (!Controller.is('searching')) {
                 return;
@@ -381,11 +391,11 @@ $.extend(Controller, {
     buildNewGrid: function() {
         this.grid = new PF.Grid(this.gridSize[0], this.gridSize[1]);
     },
-    mousedown: function (event) {
+    mousedown: function(event) {
         var coord = View.toGridCoordinate(event.pageX, event.pageY),
             gridX = coord[0],
             gridY = coord[1],
-            grid  = this.grid;
+            grid = this.grid;
 
         if (this.can('dragStart') && this.isStartPos(gridX, gridY)) {
             this.dragStart();
@@ -414,22 +424,22 @@ $.extend(Controller, {
         }
 
         switch (this.current) {
-        case 'draggingStart':
-            if (grid.isWalkableAt(gridX, gridY)) {
-                this.setStartPos(gridX, gridY);
-            }
-            break;
-        case 'draggingEnd':
-            if (grid.isWalkableAt(gridX, gridY)) {
-                this.setEndPos(gridX, gridY);
-            }
-            break;
-        case 'drawingWall':
-            this.setWalkableAt(gridX, gridY, false);
-            break;
-        case 'erasingWall':
-            this.setWalkableAt(gridX, gridY, true);
-            break;
+            case 'draggingStart':
+                if (grid.isWalkableAt(gridX, gridY)) {
+                    this.setStartPos(gridX, gridY);
+                }
+                break;
+            case 'draggingEnd':
+                if (grid.isWalkableAt(gridX, gridY)) {
+                    this.setEndPos(gridX, gridY);
+                }
+                break;
+            case 'drawingWall':
+                this.setWalkableAt(gridX, gridY, false);
+                break;
+            case 'erasingWall':
+                this.setWalkableAt(gridX, gridY, true);
+                break;
         }
     },
     mouseup: function(event) {
@@ -469,7 +479,7 @@ $.extend(Controller, {
             endX, endY,
             nodeSize = View.nodeSize;
 
-        width  = $(window).width();
+        width = $(window).width();
         height = $(window).height();
 
         marginRight = $('#algorithm_panel').width();
