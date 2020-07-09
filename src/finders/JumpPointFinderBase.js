@@ -79,7 +79,7 @@ JumpPointFinderBase.prototype.findPath = function(startX, startY, endX, endY, gr
  * @protected
  */
 JumpPointFinderBase.prototype._identifySuccessors = function(node) {
-    var operations = [];        // #1
+    //var operations = [];        // #1
     console.log("JumpPoint2");
     var grid = this.grid,
         heuristic = this.heuristic,
@@ -119,12 +119,12 @@ JumpPointFinderBase.prototype._identifySuccessors = function(node) {
                 if (!jumpNode.opened) {
                     openList.push(jumpNode);
                     jumpNode.opened = true;
-                    operations.push({       // #4
-                    x: jumpNode.x,
-                    y: jumpNode.y,
-                    attr: 'opened',
-                    value: true
-                    });
+                    // operations.push({       // #4
+                    // x: jumpNode.x,
+                    // y: jumpNode.y,
+                    // attr: 'opened',
+                    // value: true
+                    // });
                 } else {
                     openList.updateItem(jumpNode);
                 }
