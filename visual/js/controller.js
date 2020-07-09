@@ -68,13 +68,8 @@ var Controller = StateMachine.create({
         },
         {
             name: 'dragEnd',
-            from: 'ready',
+            from: ['ready', 'finished'],
             to: 'draggingEnd'
-        },
-        {
-            name: 'dragEndFinished',
-            from: 'finished',
-            to: 'draggingEndFinished'
         },
         {
             name: 'drawWall',
@@ -121,6 +116,11 @@ var Controller = StateMachine.create({
 
 $.extend(Controller, {
     gridSize: [64, 36], // number of nodes horizontally and vertically
+    draggingEndLock: false,
+    checkpoints: [],
+    path: [],
+    operations: [],
+    endstatus: 0,
     /**
      * Asynchronous transition from `none` state to `ready` state.
      */
@@ -177,20 +177,44 @@ $.extend(Controller, {
         var grid,
             timeStart, timeEnd,
             finder = Panel.getFinder();
-        this.finder = finder
-        timeStart = window.performance ? performance.now() : Date.now();
-        grid = this.grid.clone();
-        var res = finder.findPath(
-            this.startX, this.startY, this.endX, this.endY, grid
-        );
-        this.path = res['path'];
-        this.operations = res['operations'];
-        console.log(res);
-        this.operationCount = this.operations.length;
-        timeEnd = window.performance ? performance.now() : Date.now();
-        this.timeSpent = (timeEnd - timeStart).toFixed(4);
+        for (var i = -1; i < this.checkpoints.length; i++) {
+            if (i == -1) {
+                var originX = this.startX;
+                var originY = this.startY;
+            } else {
+                var originX = this.checkpoints[i].x;
+                var originY = this.checkpoints[i].y;
+            }
+            if (i == this.checkpoints.length - 1) {
+                var destX = this.endX;
+                var destY = this.endY
+            } else {
+                var destX = this.checkpoints[i + 1].x;
+                var destY = this.checkpoints[i + 1].y;
+            }
+            this.finder = finder;
+            timeStart = window.performance ? performance.now() : Date.now();
+            grid = this.grid.clone();
+            var res = finder.findPath(
+                originX, originY, destX, destY, grid
+            );
+            this.path = this.path.concat(res['path']);
+            this.operations = this.operations.concat(res['operations']);
+            console.log(this.path)
+                // console.log(this.operations)
+            this.operationCount = this.operations.length;
+            timeEnd = window.performance ? performance.now() : Date.now();
+            this.timeSpent = (timeEnd - timeStart).toFixed(4);
+            this.loop();
+            // break;
+        }
+        // if(this.checkpoints.length == 0){
 
-        this.loop();
+        // }
+        // else{
+
+        //     console.log(this.checkpoints.length)
+        // }
         // => searching
     },
     onrestart: function() {
@@ -199,6 +223,7 @@ $.extend(Controller, {
         // Therefore, we have to defer the `abort` routine to make sure
         // that all the animations are done by the time we clear the colors.
         // The same reason applies for the `onreset` event handler.
+        this.endstatus = 0;
         setTimeout(function() {
             Controller.clearOperations();
             Controller.clearFootprints();
@@ -225,6 +250,9 @@ $.extend(Controller, {
             operationCount: this.operationCount,
         });
         View.drawPath(this.path);
+        this.endstatus = 1;
+        this.path = [];
+        this.operations = [];
         // => finished
     },
     onclear: function(event, from, to) {
@@ -236,6 +264,7 @@ $.extend(Controller, {
         // => modified
     },
     onreset: function(event, from, to) {
+        this.endstatus = 0;
         setTimeout(function() {
             Controller.clearOperations();
             Controller.clearAll();
@@ -342,6 +371,7 @@ $.extend(Controller, {
     },
     onstarting: function(event, from, to) {
         console.log('=> starting');
+        this.endstatus = 0;
         // Clears any existing search progress
         this.clearFootprints();
         this.setButtonStates({
@@ -491,6 +521,7 @@ $.extend(Controller, {
         do {
             if (!operations.length) {
                 this.finish(); // transit to `finished` state
+
                 return;
             }
             op = operations.shift();
@@ -518,18 +549,8 @@ $.extend(Controller, {
             gridX = coord[0],
             gridY = coord[1],
             grid = this.grid;
-
-        if (this.can('dragStart') && this.isStartPos(gridX, gridY)) {
-            this.dragStart();
-            return;
-        }
-        if (this.can('dragEnd') && this.isEndPos(gridX, gridY)) {
-            this.dragEnd();
-            return;
-        }
-        if (this.can('dragEndFinished') && this.isEndPos(gridX, gridY)) {
-            this.dragEndFinished();
-            return;
+        if (event.ctrlKey) {
+            this.setCheckPoint(gridX, gridY)
         }
         if (this.can('drawWall') && grid.isWalkableAt(gridX, gridY)) {
             this.drawWall(gridX, gridY);
@@ -546,6 +567,26 @@ $.extend(Controller, {
             this.addIce(gridX, gridY);
             return;
         }
+        if (this.can('dragStart') && this.isStartPos(gridX, gridY)) {
+            this.dragStart();
+            return;
+        }
+        if (this.can('dragEnd') && this.isEndPos(gridX, gridY)) {
+            this.dragEnd();
+            return;
+        }
+        // if (this.can('dragEndFinished') && this.isEndPos(gridX, gridY)) {
+        //     this.dragEndFinished();
+        //     return;
+        // }
+        if (this.can('drawWall') && grid.isWalkableAt(gridX, gridY)) {
+            this.drawWall(gridX, gridY);
+            return;
+        }
+        if (this.can('eraseWall') && !grid.isWalkableAt(gridX, gridY)) {
+            this.eraseWall(gridX, gridY);
+        }
+
         if (this.can('addBomb') && grid.isWalkableAt(gridX, gridY)) {
             this.addBomb(gridX, gridY);
             return;
@@ -572,8 +613,10 @@ $.extend(Controller, {
                 }
                 break;
             case 'draggingEnd':
-                if (grid.isWalkableAt(gridX, gridY)) {
-                    this.setEndPos(gridX, gridY);
+                if (this.endstatus == 0) {
+                    if (grid.isWalkableAt(gridX, gridY)) {
+                        this.setEndPos(gridX, gridY);
+                    }
                 }
                 break;
             case 'draggingEndFinished':
@@ -598,11 +641,39 @@ $.extend(Controller, {
                         }
                         View.drawPath(path);
                     }
-                    this.draggingEndLock = false
+                    this.draggingEndLock = false;
                 } else {
-                    console.log("abcd")
+                    console.log("abcd");
                 }
                 break;
+                // case 'draggingEndFinished':
+                //     if(!this.draggingEndLock){
+                //         this.draggingEndLock = true
+                //         if (grid.isWalkableAt(gridX, gridY)) {
+                //             this.setEndPos(gridX, gridY);
+                //             console.log()
+                //             this.clearOperations()
+                //             this.clearFootprints()
+                //             var grid = this.grid.clone();
+                //             var res = this.finder.findPath(
+                //                 this.startX, this.startY, gridX, gridY, grid
+                //             );
+                //             var path = res['path']
+                //             var operations = res['operations']
+                //             console.log(res['path'])
+                //             var op, isSupported;
+                //             while(operations.length){
+                //                 op = operations.shift();
+                //                 View.setAttributeAt(op.x, op.y, op.attr, op.value);
+                //             }
+                //             View.drawPath(path);
+                //         }
+                //         this.draggingEndLock = false
+                //     }
+                //     else{
+                //         console.log("abcd")
+                //     }
+                //     break;
             case 'drawingWall':
                 this.setWalkableAt(gridX, gridY, false, "wall");
                 break;
