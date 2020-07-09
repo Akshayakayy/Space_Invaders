@@ -1,7 +1,9 @@
-var Heap       = require('heap');
-var Util       = require('../core/Util');
-var Heuristic  = require('../core/Heuristic');
+var Heap = require('heap');
+var Util = require('../core/Util');
+var Heuristic = require('../core/Heuristic');
+// var Speed = require('../core/Speed');
 var DiagonalMovement = require('../core/DiagonalMovement');
+
 
 /**
  * A* path-finder. Based upon https://github.com/bgrins/javascript-astar
@@ -12,6 +14,7 @@ var DiagonalMovement = require('../core/DiagonalMovement');
  * @param {boolean} opt.dontCrossCorners Disallow diagonal movement touching 
  *     block corners. Deprecated, use diagonalMovement instead.
  * @param {DiagonalMovement} opt.diagonalMovement Allowed diagonal movement.
+ * @param {Speed} speed of agent
  * @param {function} opt.heuristic Heuristic function to estimate the distance
  *     (defaults to manhattan).
  * @param {number} opt.weight Weight to apply to the heuristic to allow for
@@ -22,8 +25,10 @@ function AStarFinder(opt) {
     this.allowDiagonal = opt.allowDiagonal;
     this.dontCrossCorners = opt.dontCrossCorners;
     this.heuristic = opt.heuristic || Heuristic.manhattan;
+    // this.speed = opt.speed;
     this.weight = opt.weight || 1;
     this.diagonalMovement = opt.diagonalMovement;
+
 
     if (!this.diagonalMovement) {
         if (!this.allowDiagonal) {
@@ -60,7 +65,8 @@ AStarFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {
         heuristic = this.heuristic,
         diagonalMovement = this.diagonalMovement,
         weight = this.weight,
-        abs = Math.abs, SQRT2 = Math.SQRT2,
+        abs = Math.abs,
+        SQRT2 = Math.SQRT2,
         node, neighbors, neighbor, i, l, x, y, ng;
 
     // set the `g` and `f` value of the start node to be 0

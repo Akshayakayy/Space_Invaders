@@ -61,6 +61,9 @@
             <input type="radio" name="astar_heuristic" value="chebyshev"/>
             <label class="option_label">Chebyshev</label> <br>
           </div>
+        
+       
+        
 
           <header class="option_header">
             <h3>Options</h3>
@@ -216,15 +219,26 @@
           </div>
         </div>
 
-      </div><!-- .accordion -->
+        
+       <!-- .accordion -->
     </div><!-- #algorithm_panel -->
+    <div id="speed" class="panel right_panel">
+    Speed
+        
+            <input type="radio" name="speed" id="slow" value="slow" checked />
+            <label class="option_label">Slow</label> <br>
+            <input type="radio" name="speed" id="medium" value="medium" />
+            <label class="option_label">Meduim</label> <br>
+            <input type="radio" name="speed" id="fast" value="fast"/>
+            <label class="option_label">Fast</label> <br>
+    </div>
 
     <div id="play_panel" class="panel right_panel">
       <button id="button1" class="control_button">Start Search</button>
       <button id="button2" class="control_button">Pause Search</button>
       <button id="button3" class="control_button">Clear Walls</button>
     </div>
-
+  
     <div id="stats"></div>
 
     <footer>

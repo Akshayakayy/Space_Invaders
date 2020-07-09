@@ -52,10 +52,10 @@ var View = {
     },
     supportedOperations: ['opened', 'closed', 'tested'],
     init: function(opts) {
-        this.numCols      = opts.numCols;
-        this.numRows      = opts.numRows;
-        this.paper        = Raphael('draw_area');
-        this.$stats       = $('#stats');
+        this.numCols = opts.numCols;
+        this.numRows = opts.numRows;
+        this.paper = Raphael('draw_area');
+        this.$stats = $('#stats');
     },
     /**
      * Generate the grid asynchronously.
@@ -68,13 +68,13 @@ var View = {
             rect,
             normalStyle, nodeSize,
             createRowTask, sleep, tasks,
-            nodeSize    = this.nodeSize,
+            nodeSize = this.nodeSize,
             normalStyle = this.nodeStyle.normal,
-            numCols     = this.numCols,
-            numRows     = this.numRows,
-            paper       = this.paper,
-            rects       = this.rects = [],
-            $stats      = this.$stats;
+            numCols = this.numCols,
+            numRows = this.numRows,
+            paper = this.paper,
+            rects = this.rects = [],
+            $stats = this.$stats;
 
         paper.setSize(numCols * nodeSize, numRows * nodeSize);
 
@@ -119,12 +119,12 @@ var View = {
         var coord = this.toPageCoordinate(gridX, gridY);
         if (!this.startNode) {
             this.startNode = this.paper.rect(
-                coord[0],
-                coord[1],
-                this.nodeSize,
-                this.nodeSize
-            ).attr(this.nodeStyle.normal)
-             .animate(this.nodeStyle.start, 1000);
+                    coord[0],
+                    coord[1],
+                    this.nodeSize,
+                    this.nodeSize
+                ).attr(this.nodeStyle.normal)
+                .animate(this.nodeStyle.start, 1000);
         } else {
             this.startNode.attr({ x: coord[0], y: coord[1] }).toFront();
         }
@@ -133,12 +133,12 @@ var View = {
         var coord = this.toPageCoordinate(gridX, gridY);
         if (!this.endNode) {
             this.endNode = this.paper.rect(
-                coord[0],
-                coord[1],
-                this.nodeSize,
-                this.nodeSize
-            ).attr(this.nodeStyle.normal)
-             .animate(this.nodeStyle.end, 1000);
+                    coord[0],
+                    coord[1],
+                    this.nodeSize,
+                    this.nodeSize
+                ).attr(this.nodeStyle.normal)
+                .animate(this.nodeStyle.end, 1000);
         } else {
             this.endNode.attr({ x: coord[0], y: coord[1] }).toFront();
         }
@@ -149,31 +149,30 @@ var View = {
     setAttributeAt: function(gridX, gridY, attr, value) {
         var color, nodeStyle = this.nodeStyle;
         switch (attr) {
-        case 'walkable':
-            color = value ? nodeStyle.normal.fill : nodeStyle.blocked.fill;
-            this.setWalkableAt(gridX, gridY, value);
-            break;
-        case 'opened':
-            this.colorizeNode(this.rects[gridY][gridX], nodeStyle.opened.fill);
-            this.setCoordDirty(gridX, gridY, true);
-            break;
-        case 'closed':
-            this.colorizeNode(this.rects[gridY][gridX], nodeStyle.closed.fill);
-            this.setCoordDirty(gridX, gridY, true);
-            break;
-        case 'tested':
-            color = (value === true) ? nodeStyle.tested.fill : nodeStyle.normal.fill;
-
-            this.colorizeNode(this.rects[gridY][gridX], color);
-            this.setCoordDirty(gridX, gridY, true);
-            break;
-        case 'parent':
-            // XXX: Maybe draw a line from this node to its parent?
-            // This would be expensive.
-            break;
-        default:
-            console.error('unsupported operation: ' + attr + ':' + value);
-            return;
+            case 'walkable':
+                color = value ? nodeStyle.normal.fill : nodeStyle.blocked.fill;
+                this.setWalkableAt(gridX, gridY, value);
+                break;
+            case 'opened':
+                this.colorizeNode(this.rects[gridY][gridX], nodeStyle.opened.fill);
+                this.setCoordDirty(gridX, gridY, true);
+                break;
+            case 'closed':
+                this.colorizeNode(this.rects[gridY][gridX], nodeStyle.closed.fill);
+                this.setCoordDirty(gridX, gridY, true);
+                break;
+            case 'tested':
+                color = (value === true) ? nodeStyle.tested.fill : nodeStyle.normal.fill;
+                this.colorizeNode(this.rects[gridY][gridX], color);
+                this.setCoordDirty(gridX, gridY, true);
+                break;
+            case 'parent':
+                // XXX: Maybe draw a line from this node to its parent?
+                // This would be expensive.
+                break;
+            default:
+                console.error('unsupported operation: ' + attr + ':' + value);
+                return;
         }
     },
     colorizeNode: function(node, color) {
@@ -233,7 +232,7 @@ var View = {
             return;
         }
         for (i = 0; i < this.numRows; ++i) {
-            for (j = 0 ;j < this.numCols; ++j) {
+            for (j = 0; j < this.numCols; ++j) {
                 if (blockedNodes[i][j]) {
                     blockedNodes[i][j].remove();
                     blockedNodes[i][j] = null;
@@ -252,13 +251,14 @@ var View = {
      * Given a path, build its SVG represention.
      */
     buildSvgPath: function(path) {
-        var i, strs = [], size = this.nodeSize;
+        var i, strs = [],
+            size = this.nodeSize;
 
         strs.push('M' + (path[0][0] * size + size / 2) + ' ' +
-                  (path[0][1] * size + size / 2));
+            (path[0][1] * size + size / 2));
         for (i = 1; i < path.length; ++i) {
             strs.push('L' + (path[i][0] * size + size / 2) + ' ' +
-                      (path[i][1] * size + size / 2));
+                (path[i][1] * size + size / 2));
         }
 
         return strs.join('');
