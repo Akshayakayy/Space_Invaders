@@ -162,6 +162,16 @@ var Panel = {
                     diagonalMovement: PF.DiagonalMovement.Never
                 });
                 break;
+            case 'cla_header':
+                trackRecursion = typeof $('#cla_section ' +
+                    '.track_recursion:checked').val() !== 'undefined';
+                heuristic = $('input[name=cla_heuristic]:checked').val();
+
+                finder = new PF.JumpPointFinder({
+                    heuristic: PF.Heuristic[heuristic],
+
+                });
+                break;
             case 'ida_header':
                 allowDiagonal = typeof $('#ida_section ' +
                     '.allow_diagonal:checked').val() !== 'undefined';
