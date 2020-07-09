@@ -1,4 +1,4 @@
-var PF        = require('..')
+var PF = require('..')
 var scenarios = require('./PathTestScenarios');
 
 /**
@@ -18,7 +18,7 @@ function pathTest(opt) {
             var testId = 0;
 
             return function(startX, startY, endX, endY, grid, expectedLength) {
-                it('should solve maze '+ ++testId, function() {
+                it('should solve maze ' + ++testId, function() {
                     path = finder.findPath(startX, startY, endX, endY, grid);
                     if (optimal) {
                         path.length.should.equal(expectedLength);
@@ -41,9 +41,9 @@ function pathTest(opt) {
             grid = new PF.Grid(width, height, matrix);
 
             test(
-                scen.startX, scen.startY, 
-                scen.endX, scen.endY, 
-                grid, 
+                scen.startX, scen.startY,
+                scen.endX, scen.endY,
+                grid,
                 scen.expectedLength
             );
         }
@@ -98,15 +98,19 @@ pathTests({
     finder: new PF.IDAStarFinder(),
     optimal: false
 }, {
+    name: 'CLA',
+    finder: new PF.CLAFinder(),
+    optimal: false
+}, {
     name: 'JPFMoveDiagonallyIfAtMostOneObstacle',
     finder: new PF.JumpPointFinder({
-      diagonalMovement: PF.DiagonalMovement.IfAtMostOneObstacle
+        diagonalMovement: PF.DiagonalMovement.IfAtMostOneObstacle
     }),
     optimal: false
-},  {
+}, {
     name: 'JPFNeverMoveDiagonally',
     finder: new PF.JumpPointFinder({
-      diagonalMovement: PF.DiagonalMovement.Never
+        diagonalMovement: PF.DiagonalMovement.Never
     }),
     optimal: false
 });

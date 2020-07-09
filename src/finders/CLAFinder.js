@@ -16,7 +16,19 @@ var AStarFinder = require('./AStarFinder');
  */
 function CLAFinder(opt) {
     AStarFinder.call(this, opt);
-    this.heuristic = opt.heuristic;
+    opt = opt || {};
+    console.log(opt.heuristic)
+    if (opt.heuristic == 'PoweredManhattan') {
+        this.heuristic = function(dx, dy) {
+            return Math.pow((dx + dy), 2);
+        };
+    } else {
+        this.heuristic = function(dx, dy) {
+            return Math.pow((dx + dy), 10);
+        };
+
+    }
+
 }
 
 CLAFinder.prototype = new AStarFinder();
