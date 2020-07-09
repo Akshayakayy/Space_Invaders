@@ -17,20 +17,20 @@ module.exports = {
      * Powered Manhattan distance.
      * @param {number} dx - Difference in x.
      * @param {number} dy - Difference in y.
-     * @return {number} (dx + dy)^3
+     * @return {number} (dx + dy)^2
      */
-    extraPoweredManhattan: function(dx, dy) {
-        return Math.pow((dx + dy), 3);
+    PoweredManhattan: function(dx, dy) {
+        return Math.pow((dx + dy), 2);
     },
 
     /**
      * Extra Powered Manhattan distance.
      * @param {number} dx - Difference in x.
      * @param {number} dy - Difference in y.
-     * @return {number} (dx + dy)^7
+     * @return {number} (dx + dy)^10
      */
     extraPoweredManhattan: function(dx, dy) {
-        return Math.pow((dx + dy), 7);
+        return Math.pow((dx + dy), 10);
     },
 
 
