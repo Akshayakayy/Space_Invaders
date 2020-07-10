@@ -10,7 +10,13 @@ var View = {
             'stroke-opacity': 0.2, // the border
         },
         pitnode: {
+
             fill: '#50240B',
+            'stroke-opacity': 0.2,
+
+        },
+        icenode: {
+            fill: '#88ECF6',
             'stroke-opacity': 0.2,
 
         },
@@ -166,12 +172,12 @@ var View = {
     /**
      * Set the attribute of the node at the given coordinate.
      */
-    setAttributeAt: function(gridX, gridY, attr, value, pit) {
+    setAttributeAt: function(gridX, gridY, attr, value, ob) {
         var color, nodeStyle = this.nodeStyle;
         switch (attr) {
             case 'walkable':
                 color = value ? nodeStyle.normal.fill : nodeStyle.blocked.fill;
-                this.setWalkableAt(gridX, gridY, value, pit);
+                this.setWalkableAt(gridX, gridY, value, ob);
                 break;
             case 'opened':
                 this.colorizeNode(this.rects[gridY][gridX], nodeStyle.opened.fill);
@@ -208,7 +214,7 @@ var View = {
             transform: this.nodeZoomEffect.transformBack,
         }, this.nodeZoomEffect.duration);
     },
-    setWalkableAt: function(gridX, gridY, value, pit) {
+    setWalkableAt: function(gridX, gridY, value, ob) {
         var node, i, blockedNodes = this.blockedNodes;
         if (!blockedNodes) {
             blockedNodes = this.blockedNodes = new Array(this.numRows);
@@ -233,13 +239,16 @@ var View = {
                 return;
             }
             node = blockedNodes[gridY][gridX] = this.rects[gridY][gridX].clone();
-            // console.log(pit);
-            if (!pit) {
+            console.log(ob);
+            if (ob == "wall") {
                 // console.log("wall style");
                 this.colorizeNode(node, this.nodeStyle.blocked.fill);
-            } else {
+            } else if (ob == "pit") {
                 // console.log("pit style");
                 this.colorizeNode(node, this.nodeStyle.pitnode.fill);
+            } else {
+                // console.log("pit style");
+                this.colorizeNode(node, this.nodeStyle.icenode.fill);
             }
 
             this.zoomNode(node);

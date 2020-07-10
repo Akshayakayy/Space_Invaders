@@ -86,6 +86,11 @@ var Controller = StateMachine.create({
             from: ['ready', 'finished'],
             to: 'addingPit'
         },
+        {
+            name: 'addIce',
+            from: ['ready', 'finished'],
+            to: 'addingIce'
+        },
         // {
         //     name: 'removePit',
         //     from: ['ready', 'finished'],
@@ -93,7 +98,7 @@ var Controller = StateMachine.create({
         // },
         {
             name: 'rest',
-            from: ['draggingStart', 'draggingEnd', 'drawingWall', 'erasingWall', 'addingPit', 'removingPit'],
+            from: ['draggingStart', 'draggingEnd', 'drawingWall', 'erasingWall', 'addingPit', 'addingIce'],
             to: 'ready'
         },
     ],
@@ -120,7 +125,7 @@ $.extend(Controller, {
             Controller.setDefaultStartEndPos();
             Controller.bindEvents();
             Controller.transition(); // transit to the next state (ready)
-            // Controller.setDefaultPitPos();
+
         });
 
         this.$buttons = $('.control_button');
@@ -132,12 +137,12 @@ $.extend(Controller, {
     },
     ondrawWall: function(event, from, to, gridX, gridY) {
         console.log("drawing wall", gridX, gridY);
-        this.setWalkableAt(gridX, gridY, false, false);
+        this.setWalkableAt(gridX, gridY, false, "wall");
         // => drawingWall
     },
     oneraseObstacle: function(event, from, to, gridX, gridY) {
         console.log("erasing wall");
-        this.setWalkableAt(gridX, gridY, true, false);
+        this.setWalkableAt(gridX, gridY, true, "wall");
         // => erasingWall
     },
     onaddPit: function(event, from, to, gridX, gridY) {
@@ -146,12 +151,12 @@ $.extend(Controller, {
 
         // => addingPit
     },
-    // onremovePit: function(event, from, to, gridX, gridY) {
-    //     console.log("removing pit");
-    //     this.setPitAt(gridX, gridY, true);
+    onaddIce: function(event, from, to, gridX, gridY) {
+        console.log("adding ice");
+        // this.setPitAt(7, 11, false);
 
-    //     // => removingPit
-    // },
+        // => addingPit
+    },
     onsearch: function(event, from, to) {
         var grid,
             timeStart, timeEnd,
@@ -245,6 +250,11 @@ $.extend(Controller, {
             text: 'Add Pits',
             enabled: true,
             callback: $.proxy(this.addPit, this)
+        }, {
+            id: 5,
+            text: 'Add Ice',
+            enabled: true,
+            callback: $.proxy(this.addIce, this)
         });
         // => [starting, draggingStart, draggingEnd, draggingPit drawingStart, drawingEnd]
     },
@@ -445,6 +455,10 @@ $.extend(Controller, {
             this.addPit(gridX, gridY);
             return;
         }
+        if (this.can('addIce') && grid.isWalkableAt(gridX, gridY)) {
+            this.addIce(gridX, gridY);
+            return;
+        }
         // if (this.can('removePit') && !grid.isWalkableAt(gridX, gridY)) {
         //     this.removePit(gridX, gridY);
         // }
@@ -472,16 +486,19 @@ $.extend(Controller, {
                 }
                 break;
             case 'drawingWall':
-                this.setWalkableAt(gridX, gridY, false, false);
+                this.setWalkableAt(gridX, gridY, false, "wall");
                 break;
             case 'erasingWall':
-                this.setWalkableAt(gridX, gridY, true, false);
+                this.setWalkableAt(gridX, gridY, true, "wall");
                 break;
             case 'addingPit':
                 this.setPitAt(gridX, gridY, false);
                 break;
             case 'removingPit':
                 this.setPitAt(gridX, gridY, true);
+                break;
+            case 'addingIce':
+                this.setIceAt(gridX, gridY, false);
                 break;
         }
     },
@@ -546,11 +563,15 @@ $.extend(Controller, {
     },
     setWalkableAt: function(gridX, gridY, walkable, pit) {
         this.grid.setWalkableAt(gridX, gridY, walkable, pit);
-        View.setAttributeAt(gridX, gridY, 'walkable', walkable, false);
+        View.setAttributeAt(gridX, gridY, 'walkable', walkable, "wall");
     },
     setPitAt: function(gridX, gridY, walkable) {
         this.grid.setWalkableAt(gridX, gridY, walkable);
-        View.setAttributeAt(gridX, gridY, 'walkable', walkable, true);
+        View.setAttributeAt(gridX, gridY, 'walkable', walkable, "pit");
+    },
+    setIceAt: function(gridX, gridY, walkable) {
+        this.grid.setWalkableAt(gridX, gridY, walkable);
+        View.setAttributeAt(gridX, gridY, 'walkable', walkable, "ice");
     },
     isStartPos: function(gridX, gridY) {
         return gridX === this.startX && gridY === this.startY;
