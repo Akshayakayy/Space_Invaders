@@ -6,27 +6,32 @@ var View = {
     nodeSize: 30, // width and height of a single node, in pixel
     nodeStyle: {
         normal: {
-            fill: 'white',
+            fill: '#FBDE98',
             'stroke-opacity': 0.2, // the border
+        },
+        pitnode: {
+            fill: '#50240B',
+            'stroke-opacity': 0.2,
+
         },
         blocked: {
             fill: 'grey',
             'stroke-opacity': 0.2,
         },
         start: {
-            fill: '#0d0',
+            fill: '#52E05F',
             'stroke-opacity': 0.2,
         },
         end: {
-            fill: '#e40',
+            fill: '#C70039',
             'stroke-opacity': 0.2,
         },
         opened: {
-            fill: '#98fb98',
+            fill: '#EF9E4A',
             'stroke-opacity': 0.2,
         },
         closed: {
-            fill: '#afeeee',
+            fill: '#F6C088',
             'stroke-opacity': 0.2,
         },
         failed: {
@@ -41,6 +46,7 @@ var View = {
     nodeColorizeEffect: {
         duration: 50,
     },
+
     nodeZoomEffect: {
         duration: 200,
         transform: 's1.2', // scale by 1.2x
@@ -129,6 +135,20 @@ var View = {
             this.startNode.attr({ x: coord[0], y: coord[1] }).toFront();
         }
     },
+    setPitPos: function(gridX, gridY) {
+        var coord = this.toPageCoordinate(gridX, gridY);
+        if (!this.pitNode) {
+            this.pitNode = this.paper.ui - icon - circle - minus(
+                    coord[0],
+                    coord[1],
+                    this.nodeSize,
+                    this.nodeSize
+                ).attr(this.nodeStyle.pitnode)
+                .animate(this.nodeStyle.start, 1000);
+        } else {
+            this.pitNode.attr({ x: coord[0] + 100, y: coord[1] + 100 }).toFront();
+        }
+    },
     setEndPos: function(gridX, gridY) {
         var coord = this.toPageCoordinate(gridX, gridY);
         if (!this.endNode) {
@@ -146,12 +166,12 @@ var View = {
     /**
      * Set the attribute of the node at the given coordinate.
      */
-    setAttributeAt: function(gridX, gridY, attr, value) {
+    setAttributeAt: function(gridX, gridY, attr, value, pit) {
         var color, nodeStyle = this.nodeStyle;
         switch (attr) {
             case 'walkable':
                 color = value ? nodeStyle.normal.fill : nodeStyle.blocked.fill;
-                this.setWalkableAt(gridX, gridY, value);
+                this.setWalkableAt(gridX, gridY, value, pit);
                 break;
             case 'opened':
                 this.colorizeNode(this.rects[gridY][gridX], nodeStyle.opened.fill);
@@ -180,6 +200,7 @@ var View = {
             fill: color
         }, this.nodeColorizeEffect.duration);
     },
+
     zoomNode: function(node) {
         node.toFront().attr({
             transform: this.nodeZoomEffect.transform,
@@ -187,7 +208,7 @@ var View = {
             transform: this.nodeZoomEffect.transformBack,
         }, this.nodeZoomEffect.duration);
     },
-    setWalkableAt: function(gridX, gridY, value) {
+    setWalkableAt: function(gridX, gridY, value, pit) {
         var node, i, blockedNodes = this.blockedNodes;
         if (!blockedNodes) {
             blockedNodes = this.blockedNodes = new Array(this.numRows);
@@ -212,10 +233,48 @@ var View = {
                 return;
             }
             node = blockedNodes[gridY][gridX] = this.rects[gridY][gridX].clone();
-            this.colorizeNode(node, this.nodeStyle.blocked.fill);
+            // console.log(pit);
+            if (!pit) {
+                // console.log("wall style");
+                this.colorizeNode(node, this.nodeStyle.blocked.fill);
+            } else {
+                // console.log("pit style");
+                this.colorizeNode(node, this.nodeStyle.pitnode.fill);
+            }
+
             this.zoomNode(node);
         }
     },
+    setPitAt: function(gridX, gridY, value) {
+        var node, i, blockedNodes = this.blockedNodes;
+        if (!blockedNodes) {
+            blockedNodes = this.blockedNodes = new Array(this.numRows);
+            for (i = 0; i < this.numRows; ++i) {
+                blockedNodes[i] = [];
+            }
+        }
+        node = blockedNodes[gridY][gridX];
+        if (value) {
+            // clear blocked node
+            if (node) {
+                this.colorizeNode(node, this.rects[gridY][gridX].attr('fill'));
+                this.zoomNode(node);
+                setTimeout(function() {
+                    node.remove();
+                }, this.nodeZoomEffect.duration);
+                blockedNodes[gridY][gridX] = null;
+            }
+        } else {
+            // add pit to Node
+            if (node) {
+                return;
+            }
+            node = blockedNodes[gridY][gridX] = this.rects[gridY][gridX].clone();
+            this.colorizeNode(node, this.nodeStyle.pitnode.fill);
+            this.zoomNode(node);
+        }
+    },
+
     clearFootprints: function() {
         var i, x, y, coord, coords = this.getDirtyCoords();
         for (i = 0; i < coords.length; ++i) {
