@@ -192,49 +192,52 @@ $.extend(Controller, {
         }
         return perms;
     },
-    onTSP: function(startX, startY, endX, endY, grid, checkpoints, finder) {
-        console.log("Here goes TSP!"); //something wrong here????
+    onTSP: function() {
         //console.log(checkpoints);
-        let perms = Controller.permfinder(checkpoints);
-        console.log(perms);
+        let perms = Controller.permfinder(this.checkpoints);
         var mindist = 999999;
         var minperm = [];
         for (let i = 0; i < perms.length; i = i + 1) {
             var totaldist = 0;
-            console.log("new perm:", perms[i]);
-            for (let j = 0; j < (perms[i].length - 2); j = j + 1) {
-                var originX = perms[i][j].x;
-                var originY = perms[i][j].y;
-                var destX = perms[i][j + 1].x;
-                var destY = perms[i][j + 1].y;
-                console.log(originX, originY, destX, destY); //these r printing fine for the second case too
-                var res = finder.findPath(
+            for (let j = -1; j < (perms[i].length); j = j + 1) {
+                if (j == -1) {
+                    var originX = this.startX;
+                    var originY = this.startY;
+                } else {
+                    var originX = perms[i][j].x;
+                    var originY = perms[i][j].y;
+                }
+                if (j == this.checkpoints.length - 1) {
+                    var destX = this.endX;
+                    var destY = this.endY
+                } else {
+                    var destX = perms[i][j + 1].x;
+                    var destY = perms[i][j + 1].y;
+                }
+                // var originX = perms[i][j].x;
+                // var originY = perms[i][j].y;
+                // var destX = perms[i][j + 1].x;
+                // var destY = perms[i][j + 1].y;
+                var grid = this.grid.clone();
+                var res = this.finder.findPath(
                     originX, originY, destX, destY, grid
                 );
-                console.log("New Path:");
-                console.log(res); //gives empty array after the first perm
                 totaldist += PF.Util.pathLength(res['path']);
             }
-            console.log(totaldist);
             if (totaldist < mindist) {
                 mindist = totaldist;
                 minperm = perms[i];
             }
         }
-        // let perms = [];
-        // for(let i=-1;i<checkpoints.length;i++){
-
-        //     }
-        console.log("Best Path:");
-        console.log(minperm);
+        this.checkpoints = minperm
         return minperm;
     },
     onsearch: function(event, from, to) {
-        console.log("first")
         var grid,
             timeStart, timeEnd,
             finder = Panel.getFinder();
-        var perm = Controller.onTSP(this.startX, this.startY, this.endX, this.endY, this.grid.clone(), this.checkpoints, finder);
+        this.finder = finder;
+        this.onTSP();
         for (var i = -1; i < this.checkpoints.length; i++) {
             if (i == -1) {
                 var originX = this.startX;
@@ -250,6 +253,7 @@ $.extend(Controller, {
                 var destX = this.checkpoints[i + 1].x;
                 var destY = this.checkpoints[i + 1].y;
             }
+
             this.finder = finder;
             timeStart = window.performance ? performance.now() : Date.now();
             grid = this.grid.clone();
@@ -722,11 +726,7 @@ $.extend(Controller, {
                     if (grid.isWalkableAt(gridX, gridY)) {
                         this.setEndPos(gridX, gridY);
                     }
-                }
-                break;
-            case 'draggingEndFinished':
-                if (!this.draggingEndLock) {
-                    this.draggingEndLock = true
+                } else {
                     if (grid.isWalkableAt(gridX, gridY)) {
                         this.setEndPos(gridX, gridY);
                         this.clearOperations()
