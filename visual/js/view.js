@@ -2,6 +2,7 @@
  * The pathfinding visualization.
  * It uses raphael.js to show the grids.
  */
+
 var View = {
     nodeSize: 30, // width and height of a single node, in pixel
     nodeStyle: {
@@ -15,6 +16,12 @@ var View = {
             'stroke-opacity': 0.2,
 
         },
+        bombnode: {
+            fill: "#0A0202",
+            "stroke-opacity": 0.2,
+
+        },
+
         icenode: {
             fill: '#88ECF6',
             'stroke-opacity': 0.2,
@@ -48,6 +55,7 @@ var View = {
             fill: '#e5e5e5',
             'stroke-opacity': 0.2,
         },
+
     },
     nodeColorizeEffect: {
         duration: 50,
@@ -141,18 +149,18 @@ var View = {
             this.startNode.attr({ x: coord[0], y: coord[1] }).toFront();
         }
     },
-    setPitPos: function(gridX, gridY) {
+    setBombPos: function(gridX, gridY) {
         var coord = this.toPageCoordinate(gridX, gridY);
-        if (!this.pitNode) {
-            this.pitNode = this.paper.ui - icon - circle - minus(
+        if (!this.bombNode) {
+            this.bombNode = this.paper.ui - icon - circle - minus(
                     coord[0],
                     coord[1],
                     this.nodeSize,
                     this.nodeSize
-                ).attr(this.nodeStyle.pitnode)
+                ).attr(circle(320, 240, 60))
                 .animate(this.nodeStyle.start, 1000);
         } else {
-            this.pitNode.attr({ x: coord[0] + 100, y: coord[1] + 100 }).toFront();
+            this.pitNode.attr({ x: coord[0] + 120, y: coord[1] + 120 }).toFront();
         }
     },
     setEndPos: function(gridX, gridY) {
@@ -239,17 +247,20 @@ var View = {
                 return;
             }
             node = blockedNodes[gridY][gridX] = this.rects[gridY][gridX].clone();
-            console.log(ob);
+            console.log("my object", ob);
             if (ob == "wall") {
                 // console.log("wall style");
                 this.colorizeNode(node, this.nodeStyle.blocked.fill);
             } else if (ob == "pit") {
                 // console.log("pit style");
                 this.colorizeNode(node, this.nodeStyle.pitnode.fill);
-            } else {
-                // console.log("pit style");
+            } else if (ob == "ice") {
+
                 this.colorizeNode(node, this.nodeStyle.icenode.fill);
+            } else {
+                this.colorizeNode(node, this.nodeStyle.bombnode.fill);
             }
+
 
             this.zoomNode(node);
         }
