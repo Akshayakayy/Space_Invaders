@@ -87,6 +87,11 @@ var Controller = StateMachine.create({
             to: 'addingPit'
         },
         {
+            name: 'addBomb',
+            from: ['ready', 'finished'],
+            to: 'addingBomb'
+        },
+        {
             name: 'addIce',
             from: ['ready', 'finished'],
             to: 'addingIce'
@@ -98,7 +103,7 @@ var Controller = StateMachine.create({
         // },
         {
             name: 'rest',
-            from: ['draggingStart', 'draggingEnd', 'drawingWall', 'erasingWall', 'addingPit', 'addingIce'],
+            from: ['draggingStart', 'draggingEnd', 'drawingWall', 'erasingWall', 'addingPit', 'addingIce', 'addingBomb'],
             to: 'ready'
         },
     ],
@@ -147,15 +152,18 @@ $.extend(Controller, {
     },
     onaddPit: function(event, from, to, gridX, gridY) {
         console.log("adding pit");
-        this.setPitAt(7, 11, false);
-
         // => addingPit
     },
     onaddIce: function(event, from, to, gridX, gridY) {
         console.log("adding ice");
-        // this.setPitAt(7, 11, false);
 
-        // => addingPit
+        // => addingIce
+    },
+    onaddBomb: function(event, from, to, gridX, gridY) {
+        console.log("adding bomb");
+
+
+        // => addingBomb
     },
     onsearch: function(event, from, to) {
         var grid,
@@ -255,6 +263,11 @@ $.extend(Controller, {
             text: 'Add Ice',
             enabled: true,
             callback: $.proxy(this.addIce, this)
+        }, {
+            id: 6,
+            text: 'Add Bomb',
+            enabled: true,
+            callback: $.proxy(this.addBomb, this)
         });
         // => [starting, draggingStart, draggingEnd, draggingPit drawingStart, drawingEnd]
     },
@@ -459,6 +472,10 @@ $.extend(Controller, {
             this.addIce(gridX, gridY);
             return;
         }
+        if (this.can('addBomb') && grid.isWalkableAt(gridX, gridY)) {
+            this.addBomb(gridX, gridY);
+            return;
+        }
         // if (this.can('removePit') && !grid.isWalkableAt(gridX, gridY)) {
         //     this.removePit(gridX, gridY);
         // }
@@ -494,8 +511,8 @@ $.extend(Controller, {
             case 'addingPit':
                 this.setPitAt(gridX, gridY, false);
                 break;
-            case 'removingPit':
-                this.setPitAt(gridX, gridY, true);
+            case 'addingBomb':
+                this.setBombAt(gridX, gridY, false);
                 break;
             case 'addingIce':
                 this.setIceAt(gridX, gridY, false);
@@ -572,6 +589,10 @@ $.extend(Controller, {
     setIceAt: function(gridX, gridY, walkable) {
         this.grid.setWalkableAt(gridX, gridY, walkable);
         View.setAttributeAt(gridX, gridY, 'walkable', walkable, "ice");
+    },
+    setBombAt: function(gridX, gridY, walkable) {
+        this.grid.setWalkableAt(gridX, gridY, walkable);
+        View.setAttributeAt(gridX, gridY, 'walkable', walkable, "bomb");
     },
     isStartPos: function(gridX, gridY) {
         return gridX === this.startX && gridY === this.startY;

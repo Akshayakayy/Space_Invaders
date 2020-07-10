@@ -8,7 +8,12 @@ input {
     cursor: pointer;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
     margin: 0px;
     padding: 0px;
     font-weight: normal;
@@ -20,7 +25,6 @@ h1, h2, h3, h4, h5, h6 {
     padding-bottom: 5px;
     margin-top: -10px;
 }
-
 
 .panel {
     position: fixed;
@@ -140,4 +144,12 @@ footer {
 
 .spinner {
     width: 2em;
+}
+
+.weight {
+    background-color: rgb(255, 254, 106);
+    background-image: url(weight.svg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
 }
