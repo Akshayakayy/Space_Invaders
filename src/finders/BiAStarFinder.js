@@ -1,6 +1,6 @@
-var Heap       = require('heap');
-var Util       = require('../core/Util');
-var Heuristic  = require('../core/Heuristic');
+var Heap = require('heap');
+var Util = require('../core/Util');
+var Heuristic = require('../core/Heuristic');
 var DiagonalMovement = require('../core/DiagonalMovement');
 
 /**
@@ -52,12 +52,12 @@ function BiAStarFinder(opt) {
  * @return {Array<Array<number>>} The path, including both start and
  *     end positions.
  */
-BiAStarFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {
+BiAStarFinder.prototype.findPath = function (startX, startY, endX, endY, grid) {
     var operations = [];        // #1
     console.log("BiAStar")
-    var cmp = function(nodeA, nodeB) {
-            return nodeA.f - nodeB.f;
-        },
+    var cmp = function (nodeA, nodeB) {
+        return nodeA.f - nodeB.f;
+    },
         startOpenList = new Heap(cmp),
         endOpenList = new Heap(cmp),
         startNode = grid.getNodeAt(startX, startY),
@@ -75,6 +75,12 @@ BiAStarFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {
     startNode.f = 0;
     startOpenList.push(startNode);
     startNode.opened = BY_START;
+    operations.push({
+        x: startNode.x,
+        y: startNode.y,
+        attr: 'opened',
+        value: BY_START
+    });
 
     // set the `g` and `f` value of the end node to be 0
     // and push it into the open open list
@@ -82,18 +88,23 @@ BiAStarFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {
     endNode.f = 0;
     endOpenList.push(endNode);
     endNode.opened = BY_END;
-
+    operations.push({
+        x: endNode.x,
+        y: endNode.y,
+        attr: 'opened',
+        value: BY_END
+    });
     // while both the open lists are not empty
     while (!startOpenList.empty() && !endOpenList.empty()) {
 
         // pop the position of start node which has the minimum `f` value.
         node = startOpenList.pop();
         node.closed = true;
-        operations.push({     
-        x: node.x,
-        y: node.y,
-        attr: 'closed',
-        value: true
+        operations.push({
+            x: node.x,
+            y: node.y,
+            attr: 'closed',
+            value: true
         });
 
         // get neigbours of the current node
@@ -105,7 +116,7 @@ BiAStarFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {
                 continue;
             }
             if (neighbor.opened === BY_END) {
-                return Util.biBacktrace(node, neighbor);
+                return Util.biBacktrace(node, neighbor, operations);
             }
 
             x = neighbor.x;
@@ -127,6 +138,12 @@ BiAStarFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {
                 if (!neighbor.opened) {
                     startOpenList.push(neighbor);
                     neighbor.opened = BY_START;
+                    operations.push({
+                        x: neighbor.x,
+                        y: neighbor.y,
+                        attr: 'opened',
+                        value: BY_START
+                    });
                 } else {
                     // the neighbor can be reached with smaller cost.
                     // Since its f value has been updated, we have to
@@ -141,10 +158,10 @@ BiAStarFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {
         node = endOpenList.pop();
         node.closed = true;
         operations.push({
-        x: node.x,
-        y: node.y,
-        attr: 'closed',
-        value: true
+            x: node.x,
+            y: node.y,
+            attr: 'closed',
+            value: true
         })
 
         // get neigbours of the current node
@@ -156,7 +173,7 @@ BiAStarFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {
                 continue;
             }
             if (neighbor.opened === BY_START) {
-                return Util.biBacktrace(neighbor, node);
+                return Util.biBacktrace(neighbor, node, operations);
             }
 
             x = neighbor.x;
@@ -178,6 +195,12 @@ BiAStarFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {
                 if (!neighbor.opened) {
                     endOpenList.push(neighbor);
                     neighbor.opened = BY_END;
+                    operations.push({
+                        x: neighbor.x,
+                        y: neighbor.y,
+                        attr: 'opened',
+                        value: BY_END
+                    });
                 } else {
                     // the neighbor can be reached with smaller cost.
                     // Since its f value has been updated, we have to

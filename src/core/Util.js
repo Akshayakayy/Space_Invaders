@@ -24,10 +24,16 @@ exports.backtrace = backtrace;
  * @param {Node}
  * @param {Node}
  */
-function biBacktrace(nodeA, nodeB) {
+function biBacktrace(nodeA, nodeB, operations) {
+    // console.log(nodeA, nodeB)
     var pathA = backtrace(nodeA),
         pathB = backtrace(nodeB);
-    return pathA.concat(pathB.reverse());
+    // console.log(pathA['path'], pathB['path'].reverse())
+    res = {
+        'path': pathA['path'].concat(pathB['path'].reverse()),
+        'operations': operations
+    }
+    return res;
 }
 exports.biBacktrace = biBacktrace;
 
