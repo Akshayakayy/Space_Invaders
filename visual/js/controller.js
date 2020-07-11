@@ -732,7 +732,7 @@ $.extend(Controller, {
                         this.clearOperations()
                         this.clearFootprints()
                         var path = [];
-                        var operations = [];
+                        operations = [];
                         for (var i = -1; i < this.checkpoints.length; i++) {
                             if (i == -1) {
                                 var originX = this.startX;
