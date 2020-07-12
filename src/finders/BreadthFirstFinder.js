@@ -48,7 +48,7 @@ function BreadthFirstFinder(opt) {
 // }
 BreadthFirstFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {
     var operations = [];        // #1
-    console.log("BFS")
+    // console.log("BFS")
     var openList = [],
         diagonalMovement = this.diagonalMovement,
         startNode = grid.getNodeAt(startX, startY),
@@ -77,7 +77,7 @@ BreadthFirstFinder.prototype.findPath = function(startX, startY, endX, endY, gri
         })
         // reached the end position
         if (node === endNode) {
-            console.log("operations")
+            // console.log("operations")
             return Util.backtrace(endNode, operations);
         }
 

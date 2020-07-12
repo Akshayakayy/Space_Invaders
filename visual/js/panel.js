@@ -160,10 +160,11 @@ var Panel = {
             case 'orth_jump_point_header':
                 trackRecursion = typeof $('#orth_jump_point_section ' +
                     '.track_recursion:checked').val() !== 'undefined';
+                
                 heuristic = $('input[name=orth_jump_point_heuristic]:checked').val();
 
                 finder = new PF.JumpPointFinder({
-                    mpRecursion: trackRecursion,
+                    trackJumpRecursion: trackRecursion,
                     heuristic: PF.Heuristic[heuristic],
                     diagonalMovement: PF.DiagonalMovement.Never
                 });
