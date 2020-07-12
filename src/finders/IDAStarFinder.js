@@ -1,6 +1,6 @@
-var Util       = require('../core/Util');
-var Heuristic  = require('../core/Heuristic');
-var Node       = require('../core/Node');
+var Util = require('../core/Util');
+var Heuristic = require('../core/Heuristic');
+var Node = require('../core/Node');
 var DiagonalMovement = require('../core/DiagonalMovement');
 
 /**
@@ -69,20 +69,20 @@ function IDAStarFinder(opt) {
  * @return {Array<Array<number>>} The path, including both start and
  *     end positions.
  */
-IDAStarFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {
+IDAStarFinder.prototype.findPath = function (startX, startY, endX, endY, grid) {
     // Used for statistics:
     var nodesVisited = 0;
-
+    var operations = []
     // Execution time limitation:
     var startTime = new Date().getTime();
 
     // Heuristic helper:
-    var h = function(a, b) {
+    var h = function (a, b) {
         return this.heuristic(Math.abs(b.x - a.x), Math.abs(b.y - a.y));
     }.bind(this);
 
     // Step cost from a to b:
-    var cost = function(a, b) {
+    var cost = function (a, b) {
         return (a.x === b.x || a.y === b.y) ? 1 : Math.SQRT2;
     };
 
@@ -98,7 +98,7 @@ IDAStarFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {
      * @return {Object} either a number with the new optimal cut-off depth,
      * or a valid node instance, in which case a path was found.
      */
-    var search = function(node, g, cutoff, route, depth) {
+    var search = function (node, g, cutoff, route, depth) {
         nodesVisited++;
 
         // Enforce timelimit:
@@ -130,17 +130,23 @@ IDAStarFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {
         //    return h(a, end) - h(b, end);
         //});
 
-        
+
         /*jshint -W084 *///Disable warning: Expected a conditional expression and instead saw an assignment
         for (k = 0, min = Infinity; neighbour = neighbours[k]; ++k) {
-        /*jshint +W084 *///Enable warning: Expected a conditional expression and instead saw an assignment
+            /*jshint +W084 *///Enable warning: Expected a conditional expression and instead saw an assignment
             if (this.trackRecursion) {
                 // Retain a copy for visualisation. Due to recursion, this
                 // node may be part of other paths too.
                 neighbour.retainCount = neighbour.retainCount + 1 || 1;
 
-                if(neighbour.tested !== true) {
+                if (neighbour.tested !== true) {
                     neighbour.tested = true;
+                    operations.push({
+                        x: neighbour.x,
+                        y: neighbour.y,
+                        attr: 'tested',
+                        value: true
+                    });
                 }
             }
 
@@ -157,6 +163,12 @@ IDAStarFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {
             // Decrement count, then determine whether it's actually closed.
             if (this.trackRecursion && (--neighbour.retainCount) === 0) {
                 neighbour.tested = false;
+                operations.push({
+                    x: neighbour.x,
+                    y: neighbour.y,
+                    attr: 'tested',
+                    value: false
+                });
             }
 
             if (t < min) {
@@ -170,7 +182,7 @@ IDAStarFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {
 
     // Node instance lookups:
     var start = grid.getNodeAt(startX, startY);
-    var end   = grid.getNodeAt(endX, endY);
+    var end = grid.getNodeAt(endX, endY);
 
     // Initial search depth, given the typical heuristic contraints,
     // there should be no cheaper route possible.
@@ -188,13 +200,21 @@ IDAStarFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {
 
         // Route not possible, or not found in time limit.
         if (t === Infinity) {
-            return [];
+            res = {
+                'path': [],
+                'operations': []
+            }
+            return res
         }
 
         // If t is a node, it's also the end node. Route is now
         // populated with a valid path to the end node.
         if (t instanceof Node) {
-            return route;
+            res = {
+                'path': route,
+                'operations': operations
+            }
+            return res;
         }
 
         // Try again, this time with a deeper cut-off. The t score
@@ -203,7 +223,11 @@ IDAStarFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {
     }
 
     // This _should_ never to be reached.
-    return [];
+    res = {
+        'path': [],
+        'operations': []
+    }
+    return res
 };
 
 module.exports = IDAStarFinder;
