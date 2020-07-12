@@ -22,43 +22,85 @@ JPFNeverMoveDiagonally.prototype.constructor = JPFNeverMoveDiagonally;
  * @return {Array<Array<number>>} The x, y coordinate of the jump point
  *     found, or null if not found
  */
-JPFNeverMoveDiagonally.prototype._jump = function(x, y, px, py) {
+JPFNeverMoveDiagonally.prototype._jump = function (x, y, px, py, operations) {
     var grid = this.grid,
         dx = x - px, dy = y - py;
-
+        
     if (!grid.isWalkableAt(x, y)) {
-        return null;
+        res = {
+            jumppoint: null,
+            operations: operations
+        }
+        // console.log("res1",res)
+        return res
     }
 
-    if(this.trackJumpRecursion === true) {
+    if (this.trackJumpRecursion === true) {
         grid.getNodeAt(x, y).tested = true;
+        operations.push({
+            x: x,
+            y: y,
+            attr: 'tested',
+            value: true
+        });
+        // console.log(operations)
     }
 
     if (grid.getNodeAt(x, y) === this.endNode) {
-        return [x, y];
+        res = {
+            jumppoint: [x, y],
+            operations: operations
+        }
+        // console.log("res2",res)
+        return res
     }
 
     if (dx !== 0) {
         if ((grid.isWalkableAt(x, y - 1) && !grid.isWalkableAt(x - dx, y - 1)) ||
             (grid.isWalkableAt(x, y + 1) && !grid.isWalkableAt(x - dx, y + 1))) {
-            return [x, y];
+            res = {
+                jumppoint: [x, y],
+                operations: operations
+            }
+            // console.log("res3",res)
+            return res
         }
     }
     else if (dy !== 0) {
         if ((grid.isWalkableAt(x - 1, y) && !grid.isWalkableAt(x - 1, y - dy)) ||
             (grid.isWalkableAt(x + 1, y) && !grid.isWalkableAt(x + 1, y - dy))) {
-            return [x, y];
+            res = {
+                jumppoint: [x, y],
+                operations: operations
+            }
+            // console.log("res4",res)
+            return res
         }
         //When moving vertically, must check for horizontal jump points
-        if (this._jump(x + 1, y, x, y) || this._jump(x - 1, y, x, y)) {
-            return [x, y];
+        check1 = this._jump(x + 1, y, x, y, operations)
+        if (check1) {
+            res = {
+                jumppoint: [x, y],
+                operations: check1['operations']
+            }
+            // console.log("res5",res)
+            return res
+        }
+        check2 = this._jump(x - 1, y, x, y, check1['operations'])
+        if (check2) {
+            res = {
+                jumppoint: [x, y],
+                operations: check2['operations']
+            }
+            // console.log("res6",res)
+            return res
         }
     }
     else {
         throw new Error("Only horizontal and vertical movements are allowed");
     }
 
-    return this._jump(x + dx, y + dy, x, y);
+    return this._jump(x + dx, y + dy, x, y, operations);
 };
 
 /**
@@ -67,7 +109,7 @@ JPFNeverMoveDiagonally.prototype._jump = function(x, y, px, py) {
  * return all available neighbors.
  * @return {Array<Array<number>>} The neighbors found.
  */
-JPFNeverMoveDiagonally.prototype._findNeighbors = function(node) {
+JPFNeverMoveDiagonally.prototype._findNeighbors = function (node) {
     var parent = node.parent,
         x = node.x, y = node.y,
         grid = this.grid,

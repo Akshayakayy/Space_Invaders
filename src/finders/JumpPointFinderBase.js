@@ -6,6 +6,7 @@ var Util       = require('../core/Util');
 var Heuristic  = require('../core/Heuristic');
 var DiagonalMovement = require('../core/DiagonalMovement');
 
+
 /**
  * Base class for the Jump Point Search algorithm
  * @param {object} opt
@@ -16,6 +17,7 @@ function JumpPointFinderBase(opt) {
     opt = opt || {};
     this.heuristic = opt.heuristic || Heuristic.manhattan;
     this.trackJumpRecursion = opt.trackJumpRecursion || false;
+    console.log("recursion",this.trackJumpRecursion)
 }
 
 /**
@@ -23,9 +25,8 @@ function JumpPointFinderBase(opt) {
  * @return {Array<Array<number>>} The path, including both start and
  *     end positions.
  */
-JumpPointFinderBase.prototype.findPath = function(startX, startY, endX, endY, grid) {
-    var operations = [];        
-    console.log("JumpPoint1");
+JumpPointFinderBase.prototype.findPath = function(startX, startY, endX, endY, grid) {     
+    // console.log("JumpPoint1");
     var openList = this.openList = new Heap(function(nodeA, nodeB) {
             return nodeA.f - nodeB.f;
         }),
@@ -33,7 +34,7 @@ JumpPointFinderBase.prototype.findPath = function(startX, startY, endX, endY, gr
         endNode = this.endNode = grid.getNodeAt(endX, endY), node;
 
     this.grid = grid;
-
+    var operations = [];
 
     // set the `g` and `f` value of the start node to be 0
     startNode.g = 0;
@@ -62,14 +63,24 @@ JumpPointFinderBase.prototype.findPath = function(startX, startY, endX, endY, gr
         })
 
         if (node === endNode) {
-            return Util.expandPath(Util.backtrace(endNode,operations));
+            res = {
+                path : Util.expandPath(Util.backtrace(endNode,operations)['path']),
+                operations : operations
+            }
+            // console.log(res)
+            return res
+            // return Util.expandPath(Util.backtrace(endNode,operations));
         }
 
-        this._identifySuccessors(node);
+        operations = this._identifySuccessors(node, operations);
     }
 
     // fail to find the path
-    return [];
+    res = {
+        path : [],
+        operations : operations
+    }
+    return res
 };
 
 /**
@@ -78,9 +89,9 @@ JumpPointFinderBase.prototype.findPath = function(startX, startY, endX, endY, gr
  * list.
  * @protected
  */
-JumpPointFinderBase.prototype._identifySuccessors = function(node) {
+JumpPointFinderBase.prototype._identifySuccessors = function(node, operations) {
     //var operations = [];        // #1
-    console.log("JumpPoint2");
+    // console.log("JumpPoint2");
     var grid = this.grid,
         heuristic = this.heuristic,
         openList = this.openList,
@@ -95,7 +106,11 @@ JumpPointFinderBase.prototype._identifySuccessors = function(node) {
     neighbors = this._findNeighbors(node);
     for(i = 0, l = neighbors.length; i < l; ++i) {
         neighbor = neighbors[i];
-        jumpPoint = this._jump(neighbor[0], neighbor[1], x, y);
+        // console.log("a",operations)
+        res = this._jump(neighbor[0], neighbor[1], x, y, operations);
+        jumpPoint = res['jumppoint']
+        operations = res['operations']
+        // console.log("b",res)
         if (jumpPoint) {
 
             jx = jumpPoint[0];
@@ -119,18 +134,19 @@ JumpPointFinderBase.prototype._identifySuccessors = function(node) {
                 if (!jumpNode.opened) {
                     openList.push(jumpNode);
                     jumpNode.opened = true;
-                    // operations.push({       // #4
-                    // x: jumpNode.x,
-                    // y: jumpNode.y,
-                    // attr: 'opened',
-                    // value: true
-                    // });
+                    operations.push({       // #4
+                    x: jumpNode.x,
+                    y: jumpNode.y,
+                    attr: 'opened',
+                    value: true
+                    });
                 } else {
                     openList.updateItem(jumpNode);
                 }
             }
         }
     }
+    return operations;
 };
 
 module.exports = JumpPointFinderBase;
