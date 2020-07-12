@@ -1,4 +1,4 @@
-#PathFinding.js
+# Space_Invaders
 
 #### A comprehensive path-finding library in javascript. ####
 
