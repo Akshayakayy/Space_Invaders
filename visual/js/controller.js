@@ -286,6 +286,8 @@ $.extend(Controller, {
         // that all the animations are done by the time we clear the colors.
         // The same reason applies for the `onreset` event handler.
         this.endstatus = 0;
+        this.path = [];
+        this.operations = [];
         setTimeout(function() {
             Controller.clearOperations();
             Controller.clearFootprints();
