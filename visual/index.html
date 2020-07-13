@@ -12,81 +12,88 @@
   </head>
   <body>
     <div id="draw_area"></div>
-  
-  <div class="dropdown" id="algorithm_dropdown">
-    <button class="btn btn-default dropdown-toggle" "test" type="button" data-toggle="dropdown">Algorithm
-    <span class="caret"></span></button>
-  
-      <ul class="dropdown-menu" type='none'>
-        <li class="dropdown-submenu">
-          <a class="test" tabindex="-1" href="#" id="astar_header">A star <span class="caret"></span></a>
-          <ul class="dropdown-menu" type='none'>
-            <li class="dropdown-submenu">
-              <a class="test" href="#"> <div id="astar_section" class="finder_section">
-                <header class="option_header">
-                <h3>Heuristic</h3>
-                </header>
+    <div class="topnav">
+          <a class="active" href="#">
+            <div class="dropdown" id="algorithm_dropdown">
+              <button class="btn btn-default dropdown-toggle" "test" type="button" data-toggle="dropdown">Algorithm
+              <span class="caret"></span></button>
+            
+                <ul class=">dropdown-menu" type='none'>
+                  <li class="dropdown-submenu">
+                    <a class="test" tabindex="-1" href="#" id="astar_header">A star <span class="caret"></span>
+                    <ul class="dropdown-menu" type='none'>
+                      <li class="dropdown-submenu">
+                        <a class="test" href="#"> <div id="astar_section" class="finder_section">
+                          <header class="option_header">
+                          <h3>Heuristic</h3>
+                          </header>
+                          <span class="caret"></span></a>
+                            <ul class="dropdown-menu" type='none'>
+                              <li><a href="#"><input type="radio" name="astar_heuristic" value="manhattan" checked />
+                                <label class="option_label">Manhattan</label> <br></a></li>
+                              <li><a href="#"> <input type="radio" name="astar_heuristic" value="euclidean"/>
+                                <label class="option_label">Euclidean</label> <br></a></li>
+                              <li><a href="#"><input type="radio" name="astar_heuristic" value="octile" checked />
+                                <label class="option_label">Octile</label> <br></a></li>
+                              <li><a href="#"> <input type="radio" name="astar_heuristic" value="chebyshev"/>
+                              <label class="option_label">Chebyshev</label> <br></a></li>
+                            </ul>
+                        </a>
+                      </li>
+                      <li class="dropdown-submenu">
+                        <a class="test" href="#"> <div id="astar_section" class="finder_section">
+                          <header class="option_header">
+                          <h3>Options</h3>
+                          </header>
+                          <span class="caret"></span></a>
+                            <ul class="dropdown-menu" type='none'>
+                              <li><a href="#"><input type="checkbox" class="allow_diagonal" checked>
+                                <label class="option_label">Allow Diagonal</label> <br></a></li>
+                              <li><a href="#"> <input type="checkbox" class="bi-directional">
+                                <label class="option_label">Bi-directional</label> <br></a></li>
+                              <li><a href="#"><input type="checkbox" class="dont_cross_corners">
+                                <label class="option_label">Don't Cross Corners</label> <br></a></li>
+                              <li><a href="#"> <input class="spinner" name="astar_weight" value="1">
+                                <label class="option_label">Weight</label> <br> </a></li>
+                            </ul>
+                        </a>
+                      </li>
+                    </ul>
+                    </a>
+                  </li>
+                </ul>
+            </div>
+          </a>
+          <a href="#">
+            <div class="dropdown" id="play_dropdown">
+            <button class="btn btn-default dropdown-toggle" "test" type="button" data-toggle="dropdown">Controls
+                <span class="caret"></span></button>
                 <span class="caret"></span></a>
-                  <ul class="dropdown-menu" type='none'>
-                    <li><a href="#"><input type="radio" name="astar_heuristic" value="manhattan" checked />
-                      <label class="option_label">Manhattan</label> <br></a></li>
-                    <li><a href="#"> <input type="radio" name="astar_heuristic" value="euclidean"/>
-                      <label class="option_label">Euclidean</label> <br></a></li>
-                    <li><a href="#"><input type="radio" name="astar_heuristic" value="octile" checked />
-                      <label class="option_label">Octile</label> <br></a></li>
-                    <li><a href="#"> <input type="radio" name="astar_heuristic" value="chebyshev"/>
-                    <label class="option_label">Chebyshev</label> <br></a></li>
-                  </ul>
-              </a>
-            </li>
-            <li class="dropdown-submenu">
-              <a class="test" href="#"> <div id="astar_section" class="finder_section">
-                <header class="option_header">
-                <h3>Options</h3>
-                </header>
-                <span class="caret"></span></a>
-                  <ul class="dropdown-menu">
-                    <li><a href="#"><input type="checkbox" class="allow_diagonal" checked>
-                      <label class="option_label">Allow Diagonal</label> <br></a></li>
-                    <li><a href="#"> <input type="checkbox" class="bi-directional">
-                      <label class="option_label">Bi-directional</label> <br></a></li>
-                    <li><a href="#"><input type="checkbox" class="dont_cross_corners">
-                      <label class="option_label">Don't Cross Corners</label> <br></a></li>
-                    <li><a href="#"> <input class="spinner" name="astar_weight" value="1">
-                      <label class="option_label">Weight</label> <br> </a></li>
-                  </ul>
-              </a>
-            </li>
-          </ul>
-        </li>
-      </ul>
-
-  </div>
-  <div class="dropdown" id="play_dropdown">
-  <a class="btn btn-default dropdown-toggle" "test" type="button" data-toggle="dropdown"  href="#">Controls
-    <span class="caret"></span></a>
-  <ul class="dropdown-menu" type='none'>
-      <li><button id="button1" class="control_button">Start Search</button> </li>
-      <li><button id="button2" class="control_button">Pause Search</button><li>
-      <li><button id="button3" class="control_button">Clear Obstacles</button><li>
-      <li><button id="button4" class="control_button">Add Pit</button><li>
-      <li><button id="button5" class="control_button">Add ice</button><li>
-      <li><button id="button6" class="control_button">Add bombs</button><li>
-      <li><button id="button7" class="control_button">Start maze</button><li>
-  </ul>
-  </div>
-   <div id="speed_dropdown" class="dropdown" >
-     <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Speed
-    <span class="caret"></span></button>
-    
-            <ul type='none'>
-            <li><input type="radio" name="speed" id="slow" value="slow" checked />
-            <label class="option_label">Slow</label> <br><li>
-            <li><input type="radio" name="speed" id="medium" value="medium" />
-            <label class="option_label">Meduim</label> <br><li>
-            <li><input type="radio" name="speed" id="fast" value="fast"/>
-            <label class="option_label">Fast</label> <br><li>
-            </ul>
+                <ul class="dropdown-menu" type='none'>
+                    <li><button id="button1" class="control_button">Start Search</button> </li>
+                    <li><button id="button2" class="control_button">Pause Search</button><li>
+                    <li><button id="button3" class="control_button">Clear Obstacles</button><li>
+                    <li><button id="button4" class="control_button">Add Pit</button><li>
+                    <li><button id="button5" class="control_button">Add ice</button><li>
+                    <li><button id="button6" class="control_button">Add bombs</button><li>
+                    <li><button id="button7" class="control_button">Start maze</button><li>
+                </ul>
+              </div>
+            </a>
+            <a href="#">
+              <div id="speed_dropdown" class="dropdown" >
+                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Speed
+                <span class="caret"></span></button>
+                        <ul type='none'>
+                        <li><input type="radio" name="speed" id="slow" value="slow" checked />
+                        <label class="option_label">Slow</label> <br><li>
+                        <li><input type="radio" name="speed" id="medium" value="medium" />
+                        <label class="option_label">Meduim</label> <br><li>
+                        <li><input type="radio" name="speed" id="fast" value="fast"/>
+                        <label class="option_label">Fast</label> <br><li>
+                        </ul>
+                </div>
+            </a>
     </div>
       
     <div id="algorithm_panel" class="panel right_panel">
@@ -308,5 +315,6 @@
     <script type="text/javascript" src="./js/controller.js"></script>
     <script type="text/javascript" src="./js/panel.js"></script>
     <script type="text/javascript" src="./js/main.js"></script>
+    
 
 </html>
