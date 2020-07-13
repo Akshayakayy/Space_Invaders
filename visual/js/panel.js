@@ -21,6 +21,7 @@ var Panel = {
 
         });
         $(document).ready(function() {
+            alert("Welcome to Space Invaders! Let's move forwards towards the base");
             $('.dropdown-submenu a.test').on("click", function(e) {
                 $(this).next('ul').toggle();
                 e.stopPropagation();
@@ -52,7 +53,7 @@ var Panel = {
      */
     getFinder: function() {
         var finder, selected_header, heuristic, allowDiagonal, biDirectional, dontCrossCorners, weight, trackRecursion, timeLimit;
-        selected_header = $($("#algorithm_dropdown:selected").text()).attr('id');
+        selected_header = $($("#algorithm_dropdown").text()).attr('id');
         console.log("hiii", selected_header);
 
 
