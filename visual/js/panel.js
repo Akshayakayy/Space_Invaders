@@ -16,7 +16,19 @@ var Panel = {
             $('#instructions_panel').slideUp();
         });
         $('#play_panel').css({
-            top: $algo.offset().top + $algo.outerHeight() + 200
+            top: 70,
+            left: 400,
+
+        });
+        $(document).ready(function() {
+            $('.dropdown-submenu a.test').on("click", function(e) {
+                $(this).next('ul').toggle();
+                e.stopPropagation();
+                e.preventDefault();
+            });
+        });
+        $('#navbar').css({
+
         });
         $('#speed_panel').css({
             top: $algo.offset().top + $algo.outerHeight() + 30
@@ -40,11 +52,8 @@ var Panel = {
      */
     getFinder: function() {
         var finder, selected_header, heuristic, allowDiagonal, biDirectional, dontCrossCorners, weight, trackRecursion, timeLimit;
-        selected_header = $(
-            '#algorithm_panel ' +
-            '.ui-accordion-header[aria-selected=true]'
-        ).attr('id');
-
+        selected_header = $($("#algorithm_dropdown:selected").text()).attr('id');
+        console.log("hiii", selected_header);
 
 
         switch (selected_header) {
@@ -63,7 +72,7 @@ var Panel = {
                 weight = weight >= 1 ? weight : 1; /* if negative or 0, use 1 */
 
                 heuristic = $('input[name=astar_heuristic]:checked').val();
-
+                console.log(heuristic);
                 if (biDirectional) {
                     finder = new PF.BiAStarFinder({
                         allowDiagonal: allowDiagonal,

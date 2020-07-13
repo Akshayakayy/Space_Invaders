@@ -26,22 +26,62 @@
     <script type="text/javascript" src="./js/controller.js"></script>
     <script type="text/javascript" src="./js/panel.js"></script>
     <script type="text/javascript" src="./js/main.js"></script>
+
+   
   </head>
   <body>
     <div id="draw_area"></div>
+  
+  <div class="dropdown" id="algorithm_dropdown">
+    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Algorithm
+    <span class="caret"></span></button>
+  
+      <ul class="dropdown-menu">
+        <li class="dropdown-submenu">
+          <a class="test" tabindex="-1" href="#" id="astar_header">A star <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li class="dropdown-submenu">
+              <a class="test" href="#"> <div id="astar_section" class="finder_section">
+                <header class="option_header">
+                <h3>Heuristic</h3>
+                </header>
+                <span class="caret"></span></a>
+                  <ul class="dropdown-menu">
+                    <li><a href="#"><input type="radio" name="astar_heuristic" value="manhattan" checked />
+                      <label class="option_label">Manhattan</label> <br></a></li>
+                    <li><a href="#"> <input type="radio" name="astar_heuristic" value="euclidean"/>
+                      <label class="option_label">Euclidean</label> <br></a></li>
+                    <li><a href="#"><input type="radio" name="astar_heuristic" value="octile" checked />
+                      <label class="option_label">Octile</label> <br></a></li>
+                    <li><a href="#"> <input type="radio" name="astar_heuristic" value="chebyshev"/>
+                    <label class="option_label">Chebyshev</label> <br></a></li>
+                  </ul>
+              </a>
+            </li>
+            <li class="dropdown-submenu">
+              <a class="test" href="#"> <div id="astar_section" class="finder_section">
+                <header class="option_header">
+                <h3>Options</h3>
+                </header>
+                <span class="caret"></span></a>
+                  <ul class="dropdown-menu">
+                    <li><a href="#"><input type="checkbox" class="allow_diagonal" checked>
+                      <label class="option_label">Allow Diagonal</label> <br></a></li>
+                    <li><a href="#"> <input type="checkbox" class="bi-directional">
+                      <label class="option_label">Bi-directional</label> <br></a></li>
+                    <li><a href="#"><input type="checkbox" class="dont_cross_corners">
+                      <label class="option_label">Don't Cross Corners</label> <br></a></li>
+                    <li><a href="#"> <input class="spinner" name="astar_weight" value="1">
+                      <label class="option_label">Weight</label> <br> </a></li>
+                  </ul>
+              </a>
+            </li>
+          </ul>
+        </li>
+      </ul>
 
-    <div id="instructions_panel" class="panel">
-      <header>
-        <h2 class="header_title">Instructions</h2>
-        <span id="hide_instructions">hide</span>
-      </header>
-      Click within the <span class="white">cream</span> grid and drag your mouse to draw obstacles. <br>
-      Drag the <span class="green">green</span> node to set the start position. <br>
-      Drag the <span class="red">red</span> node to set the end position. <br>
-      Choose an algorithm from the right-hand panel. <br>
-      Click Start Search in the lower-right corner to start the animation.
-    </div>
-
+  </div>
+      
     <div id="algorithm_panel" class="panel right_panel">
       <header><h2 class="header_title">Select Algorithm</h2></header>
 
