@@ -17,7 +17,7 @@ var Panel = {
         });
         $('#play_dropdown').css({
             top: 30,
-            left: 400,
+            left: 300,
 
         });
         $(document).ready(function() {

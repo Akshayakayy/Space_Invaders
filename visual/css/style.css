@@ -12,6 +12,12 @@ input {
     color: white;
 }
 
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
 h1,
 h2,
 h3,
@@ -80,11 +86,6 @@ h6 {
 
 
 /* Add a color to the active/current link */
-
-.topnav a.active {
-    background-color: rgb(216, 172, 90);
-    color: white;
-}
 
 
 /* Dropdown button */
