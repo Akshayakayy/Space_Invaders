@@ -8,16 +8,6 @@ input {
     cursor: pointer;
 }
 
-.text {
-    color: white;
-}
-
-ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-}
-
 h1,
 h2,
 h3,
@@ -29,151 +19,38 @@ h6 {
     font-weight: normal;
 }
 
+#algo_panel {
+    background: transparent;
+}
+
+.finder_section{
+    height: 400px;
+    width: 300px;
+}
+
+/* .navbar-inverse {
+    height: 30px;
+} */
+
+#brand {
+    font-family: Julius Sans One;
+    background-color: black;
+    font-weight: bolder;
+    color: red; 
+    font-size: x-large;
+}
+
+/* #algo_panel {
+    background: transparent;
+} */
+
 .header_title {
-    font-size: 120%;
+    font-size: large;
+    color: yellow; 
     font-weight: bold;
-    padding-bottom: 5px;
-    margin-top: -10px;
-}
-
-.dropdown {
-    position: fixed;
-    padding: 20px;
-    background-color: rgba(0, 0, 0, 0.6);
-    color: #fff;
-    border-radius: 8px;
-    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
-    cursor: default;
-    top: 30px;
-    left: 20px;
-}
-
-.dropdown-submenu {
-    background-color: rgba(0, 0, 0, 0.6);
-    color: #fff;
-    border-radius: 8px;
-    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
-    cursor: default;
-}
-
-
-/* Add a black background color to the top navigation */
-
-.topnav {
-    background-color: #333;
-    overflow: hidden;
-}
-
-
-/* Style the links inside the navigation bar */
-
-.topnav a {
-    float: left;
-    color: #f2f2f2;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-    font-size: 17px;
-}
-
-
-/* Change the color of links on hover */
-
-.topnav a:hover {
-    background-color: #ddd;
-    color: black;
-}
-
-
-/* Add a color to the active/current link */
-
-
-/* Dropdown button */
-
-.dropdown .dropbtn {
-    font-size: 16px;
-    border: none;
-    outline: none;
-    color: rgba(0, 0, 0, 0.6);
-    padding: 14px 16px;
-    background-color: inherit;
-    font-family: inherit;
-    /* Important for vertical align on mobile phones */
-    margin: 0;
-    /* Important for vertical align on mobile phones */
-}
-
-
-/* Add a red background color to navbar links on hover */
-
-.navbar a:hover,
-.dropdown:hover .dropbtn {
-    background-color: red;
-}
-
-
-/* Dropdown content (hidden by default) */
-
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: rgba(0, 0, 0, 0.6);
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-    z-index: 1;
-}
-
-
-/* Links inside the dropdown */
-
-.dropdown-content a {
-    float: none;
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-    text-align: left;
-}
-
-
-/* Add a grey background color to dropdown links on hover */
-
-.dropdown-content a:hover {
-    background-color: rgba(0, 0, 0, 0.6);
-}
-
-
-/* Show the dropdown menu on hover */
-
-.dropdown:hover .dropdown-content {
-    display: block;
-}
-
-.caret {
-    display: inline-block;
-    width: 0;
-    height: 0;
-    margin-left: 5px;
-    vertical-align: middle;
-    border-top: 8px solid;
-    border-right: 6px solid transparent;
-    border-left: 6px solid transparent;
-    -webkit-transition: border-color 0.25s, color 0.25s;
-    transition: border-color 0.25s, color 0.25s;
-    color: rgba(0, 0, 0, 0.6);
-}
-
-.dropdown-toggle .caret {
-    margin-left: 8px;
-}
-
-.dropdown-menu,
-.select2-drop {
-    background-color: rgba(0, 0, 0, 0.6) !important;
-    color: #fff;
-    border-radius: 8px;
-    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
-    color: #fff;
+    font-family: Didact Gothic;
+    /* padding-bottom: 5px; */
+    /* margin-top: -10px; */
 }
 
 .panel {
@@ -186,15 +63,15 @@ h6 {
     cursor: default;
 }
 
-.right_panel {
+/* .right_panel {
     width: 250px;
     right: 20px;
-}
+} */
 
-#algorithm_panel {
+/* #algorithm_panel {
     right: 20px;
     top: 20px;
-}
+} */
 
 #instructions_panel {
     top: 20px;
@@ -227,12 +104,12 @@ h6 {
 button {
     border: none;
     background: rgba(255, 255, 255, 0.7);
-    border-radius: 2px;
+    border-radius: 5px;
     font-size: 90%;
     cursor: pointer;
     padding: 2px 8px;
     margin: 0 2%;
-    width: 80%;
+    width: 28%;
 }
 
 button:hover {
@@ -263,7 +140,7 @@ button:hover {
 }
 
 a {
-    color: rgba(255, 255, 255, 0.9);
+    color: #33f;
 }
 
 footer {
