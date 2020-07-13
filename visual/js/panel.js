@@ -16,7 +16,7 @@ var Panel = {
             $('#instructions_panel').slideUp();
         });
         $('#play_dropdown').css({
-            top: 70,
+            top: 30,
             left: 400,
 
         });
@@ -31,8 +31,9 @@ var Panel = {
         $('#navbar').css({
 
         });
-        $('#speed_panel').css({
-            top: $algo.offset().top + $algo.outerHeight() + 30
+        $('#speed_dropdown').css({
+            top: 30,
+            left: 600,
         });
         $('#obstacles_panel').css({
             top: $algo.offset().top + $algo.outerHeight() + 140

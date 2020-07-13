@@ -14,7 +14,7 @@
     <div id="draw_area"></div>
   
   <div class="dropdown" id="algorithm_dropdown">
-    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Algorithm
+    <button class="btn btn-default dropdown-toggle" "test" type="button" data-toggle="dropdown">Algorithm
     <span class="caret"></span></button>
   
       <ul class="dropdown-menu">
@@ -63,6 +63,8 @@
 
   </div>
   <div class="dropdown" id="play_dropdown">
+  <button class="btn btn-default dropdown-toggle" "test" type="button" data-toggle="dropdown">Options
+    <span class="caret"></span></button>
   <ul class="dropdown-menu" type='none'>
       <li><button id="button1" class="control_button">Start Search</button> </li>
       <li><button id="button2" class="control_button">Pause Search</button><li>
@@ -73,6 +75,19 @@
       <li><button id="button7" class="control_button">Start maze</button><li>
   </ul>
   </div>
+   <div id="speed_dropdown" class="dropdown">
+     <button class="btn btn-default dropdown-toggle" "test" type="button" data-toggle="dropdown">Speed
+    <span class="caret"></span></button>
+    
+            <ul type='none'>
+            <li><input type="radio" name="speed" id="slow" value="slow" checked />
+            <label class="option_label">Slow</label> <br><li>
+            <li><input type="radio" name="speed" id="medium" value="medium" />
+            <label class="option_label">Meduim</label> <br><li>
+            <li><input type="radio" name="speed" id="fast" value="fast"/>
+            <label class="option_label">Fast</label> <br><li>
+            </ul>
+    </div>
       
     <div id="algorithm_panel" class="panel right_panel">
       <header><h2 class="header_title">Select Algorithm</h2></header>
@@ -262,16 +277,7 @@
         
        <!-- .accordion -->
     </div><!-- #algorithm_panel -->
-    <div id="speed" class="panel right_panel">
-    Speed
-        
-            <input type="radio" name="speed" id="slow" value="slow" checked />
-            <label class="option_label">Slow</label> <br>
-            <input type="radio" name="speed" id="medium" value="medium" />
-            <label class="option_label">Meduim</label> <br>
-            <input type="radio" name="speed" id="fast" value="fast"/>
-            <label class="option_label">Fast</label> <br>
-    </div>
+   
   
 
    
