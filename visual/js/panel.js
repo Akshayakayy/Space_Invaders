@@ -15,7 +15,7 @@ var Panel = {
         $('#hide_instructions').click(function() {
             $('#instructions_panel').slideUp();
         });
-        $('#play_panel').css({
+        $('#play_dropdown').css({
             top: 70,
             left: 400,
 
@@ -53,7 +53,11 @@ var Panel = {
      */
     getFinder: function() {
         var finder, selected_header, heuristic, allowDiagonal, biDirectional, dontCrossCorners, weight, trackRecursion, timeLimit;
-        selected_header = $($("#algorithm_dropdown").text()).attr('id');
+        selected_header = $(
+            '#algorithm_panel ' +
+            '.ui-accordion-header[aria-selected=true]'
+        ).attr('id');
+
         console.log("hiii", selected_header);
 
 

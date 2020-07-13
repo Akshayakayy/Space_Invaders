@@ -186,12 +186,12 @@ h6 {
 button {
     border: none;
     background: rgba(255, 255, 255, 0.7);
-    border-radius: 5px;
+    border-radius: 2px;
     font-size: 90%;
     cursor: pointer;
     padding: 2px 8px;
     margin: 0 2%;
-    width: 28%;
+    width: 80%;
 }
 
 button:hover {
