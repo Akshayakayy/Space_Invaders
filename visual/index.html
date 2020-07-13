@@ -17,17 +17,17 @@
     <button class="btn btn-default dropdown-toggle" "test" type="button" data-toggle="dropdown">Algorithm
     <span class="caret"></span></button>
   
-      <ul class="dropdown-menu">
+      <ul class="dropdown-menu" type='none'>
         <li class="dropdown-submenu">
           <a class="test" tabindex="-1" href="#" id="astar_header">A star <span class="caret"></span></a>
-          <ul class="dropdown-menu">
+          <ul class="dropdown-menu" type='none'>
             <li class="dropdown-submenu">
               <a class="test" href="#"> <div id="astar_section" class="finder_section">
                 <header class="option_header">
                 <h3>Heuristic</h3>
                 </header>
                 <span class="caret"></span></a>
-                  <ul class="dropdown-menu">
+                  <ul class="dropdown-menu" type='none'>
                     <li><a href="#"><input type="radio" name="astar_heuristic" value="manhattan" checked />
                       <label class="option_label">Manhattan</label> <br></a></li>
                     <li><a href="#"> <input type="radio" name="astar_heuristic" value="euclidean"/>
@@ -63,8 +63,8 @@
 
   </div>
   <div class="dropdown" id="play_dropdown">
-  <button class="btn btn-default dropdown-toggle" "test" type="button" data-toggle="dropdown">Options
-    <span class="caret"></span></button>
+  <a class="btn btn-default dropdown-toggle" "test" type="button" data-toggle="dropdown"  href="#">Controls
+    <span class="caret"></span></a>
   <ul class="dropdown-menu" type='none'>
       <li><button id="button1" class="control_button">Start Search</button> </li>
       <li><button id="button2" class="control_button">Pause Search</button><li>
@@ -75,8 +75,8 @@
       <li><button id="button7" class="control_button">Start maze</button><li>
   </ul>
   </div>
-   <div id="speed_dropdown" class="dropdown">
-     <button class="btn btn-default dropdown-toggle" "test" type="button" data-toggle="dropdown">Speed
+   <div id="speed_dropdown" class="dropdown" >
+     <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Speed
     <span class="caret"></span></button>
     
             <ul type='none'>
