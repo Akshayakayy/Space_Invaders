@@ -82,7 +82,7 @@ var Controller = StateMachine.create({
             to: 'drawingWall'
         },
         {
-            name: 'eraseObstacle',
+            name: 'eraseWall',
             from: ['ready', 'finished'],
             to: 'erasingWall'
         },
@@ -153,7 +153,7 @@ $.extend(Controller, {
         this.setWalkableAt(gridX, gridY, false, "wall");
         // => drawingWall
     },
-    oneraseObstacle: function(event, from, to, gridX, gridY) {
+    oneraseWall: function(event, from, to, gridX, gridY) {
         console.log("erasing wall");
         this.setWalkableAt(gridX, gridY, true, "wall");
         // => erasingWall
@@ -263,6 +263,7 @@ $.extend(Controller, {
             timeEnd = window.performance ? performance.now() : Date.now();
             this.timeSpent = (timeEnd - timeStart).toFixed(4);
             this.loop();
+
             // break;
         }
         // if(this.checkpoints.length == 0){
@@ -306,6 +307,7 @@ $.extend(Controller, {
             timeSpent: this.timeSpent,
             operationCount: this.operationCount,
         });
+
         View.drawPath(this.path);
         this.endstatus = 1;
         this.path = [];
@@ -640,9 +642,6 @@ $.extend(Controller, {
                 return;
             }
 
-            if (this.can('eraseObstacle') && !grid.isWalkableAt(gridX, gridY)) {
-                this.eraseObstacle(gridX, gridY);
-            }
             if (this.can('addPit') && grid.isWalkableAt(gridX, gridY)) {
                 this.addPit(gridX, gridY);
                 return;
@@ -671,6 +670,7 @@ $.extend(Controller, {
         if (this.isStartOrEndPos(gridX, gridY) || this.isCheckPoint(gridX, gridY) != -1) {
             return;
         }
+
         switch (this.current) {
             case 'draggingStart':
                 if (this.endstatus == 0) {
