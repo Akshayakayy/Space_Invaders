@@ -4,6 +4,19 @@ body {
     overflow: hidden;
 }
 
+#stats {
+    position: fixed;
+    color: rgb(0, 0, 0);
+    font-size: 85%;
+    padding: 5px;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 5px;
+}
+
+#ul_top_hypers li {
+    float: right;
+}
+
 input {
     cursor: pointer;
 }
@@ -143,17 +156,6 @@ button:hover {
     padding: 2px;
     font-size: 14px;
     margin: 2px 30px 0;
-}
-
-#stats {
-    position: fixed;
-    bottom: 40px;
-    left: 35px;
-    color: #0a0;
-    font-size: 85%;
-    padding: 5px;
-    background: rgba(255, 255, 255, 0.5);
-    border-radius: 5px;
 }
 
 a {
