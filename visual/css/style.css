@@ -4,6 +4,7 @@ body {
     overflow: hidden;
 }
 
+<<<<<<< HEAD
 #stats {
     position: fixed;
     color: rgb(0, 0, 0);
@@ -26,6 +27,8 @@ body {
     float: right;
 }
 
+=======
+>>>>>>> f271642ab1deccfa5f566b6c66a483c274ba5e8e
 input {
     cursor: pointer;
 }
@@ -41,6 +44,7 @@ h6 {
     font-weight: normal;
 }
 
+<<<<<<< HEAD
 #algo_panel {
     background: transparent;
 }
@@ -87,6 +91,16 @@ h6 {
 
 
 /* .panel {
+=======
+.header_title {
+    font-size: 120%;
+    font-weight: bold;
+    padding-bottom: 5px;
+    margin-top: -10px;
+}
+
+.panel {
+>>>>>>> f271642ab1deccfa5f566b6c66a483c274ba5e8e
     position: fixed;
     padding: 20px;
     background-color: rgba(0, 0, 0, 0.6);
@@ -94,6 +108,7 @@ h6 {
     border-radius: 8px;
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
     cursor: default;
+<<<<<<< HEAD
 } */
 
 
@@ -110,6 +125,18 @@ h6 {
     /* border-radius: 8px; */
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
     cursor: default;
+=======
+}
+
+.right_panel {
+    width: 250px;
+    right: 20px;
+}
+
+#algorithm_panel {
+    right: 20px;
+    top: 20px;
+>>>>>>> f271642ab1deccfa5f566b6c66a483c274ba5e8e
 }
 
 #instructions_panel {
@@ -143,12 +170,21 @@ h6 {
 button {
     border: none;
     background: rgba(255, 255, 255, 0.7);
+<<<<<<< HEAD
     border-radius: 2px;
     font-size: 98%;
     cursor: pointer;
     padding: 2px 8px;
     margin: 0 2%;
     width: 80%;
+=======
+    border-radius: 5px;
+    font-size: 90%;
+    cursor: pointer;
+    padding: 2px 8px;
+    margin: 0 2%;
+    width: 28%;
+>>>>>>> f271642ab1deccfa5f566b6c66a483c274ba5e8e
 }
 
 button:hover {
@@ -167,6 +203,20 @@ button:hover {
     margin: 2px 30px 0;
 }
 
+<<<<<<< HEAD
+=======
+#stats {
+    position: fixed;
+    bottom: 40px;
+    left: 35px;
+    color: #0a0;
+    font-size: 85%;
+    padding: 5px;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 5px;
+}
+
+>>>>>>> f271642ab1deccfa5f566b6c66a483c274ba5e8e
 a {
     color: #33f;
 }
@@ -199,7 +249,10 @@ footer {
 
 .spinner {
     width: 2em;
+<<<<<<< HEAD
     color: black;
+=======
+>>>>>>> f271642ab1deccfa5f566b6c66a483c274ba5e8e
 }
 
 .weight {

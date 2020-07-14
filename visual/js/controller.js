@@ -263,7 +263,6 @@ $.extend(Controller, {
             timeEnd = window.performance ? performance.now() : Date.now();
             this.timeSpent = (timeEnd - timeStart).toFixed(4);
             this.loop();
-
             // break;
         }
         // if(this.checkpoints.length == 0){
@@ -307,7 +306,6 @@ $.extend(Controller, {
             timeSpent: this.timeSpent,
             operationCount: this.operationCount,
         });
-
         View.drawPath(this.path);
         this.endstatus = 1;
         this.path = [];
@@ -673,7 +671,6 @@ $.extend(Controller, {
         if (this.isStartOrEndPos(gridX, gridY) || this.isCheckPoint(gridX, gridY) != -1) {
             return;
         }
-
         switch (this.current) {
             case 'draggingStart':
                 if (this.endstatus == 0) {

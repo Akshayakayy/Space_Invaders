@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #PathFinding.js
 
 #### A comprehensive path-finding library in javascript. ####
@@ -18,6 +19,43 @@ It comes along with an [online demo](http://qiao.github.com/PathFinding.js/visua
 Note that this project only provides path-finding algorithms for 2D space. If you need to work in a 3D environment, then you may use [@schteppe](https://github.com/schteppe)'s [fork](https://github.com/schteppe/PathFinding3D.js).
 
 There is new documentation being written for PathFinding.js. You can read it [here](http://pathfindingjs.readthedocs.org/en/latest/). Note that this is in very early stages and far from complete so keep your eyes open for mistakes and don't hesitate to open a pull request in case you find one.
+=======
+# Space_Invaders
+
+# Project 1: NAVIGATE THE MARS ROVER
+Help the Mars Curiosity Rover find the shortest path between two points while avoiding obstacles on the way.
+
+
+## Introduction
+------------
+This is the Javascript based webgame for navigating the mars rover using various pathfinding algorithms.
+
+## Features
+
+* Multiple Destinations
+	* ctrl+ click on board cells to add checkpoints.
+	* The agent covers the checkpoints in shortest path order and reaches destination.
+	* Rendering using Travelling salesmen algorithm.
+	
+* Dynamic Rendering of path through just drag and drop
+	The shortest path is dynamically visible if user even after search is over drags the nodes.
+	
+* Speed of visualization
+	Three different speeds for pathfinder: Fast, Medium, Slow
+
+* Mutiple Obstacles
+	* Ice, Pits, Bombs
+	* Click on respective buttons then click on cells where you want to add the obstacle.
+
+* Different Algorithms
+	New 	
+	 * Collaborative Learning Agents
+	 * Travelling salesmen
+
+* Music loop in game
+
+	
+>>>>>>> f271642ab1deccfa5f566b6c66a483c274ba5e8e
 
 Server
 ------
@@ -86,8 +124,13 @@ var matrix = [
 var grid = new PF.Grid(matrix);
 ```
 
+<<<<<<< HEAD
 Currently there are 10 path-finders bundled in this library, namely:
 
+=======
+Currently there are 12 path-finders bundled in this library, namely:
+*  `TravellingSalesmenFinder` *
+>>>>>>> f271642ab1deccfa5f566b6c66a483c274ba5e8e
 *  `AStarFinder` *
 *  `BestFirstFinder`
 *  `BreadthFirstFinder` *
@@ -99,6 +142,10 @@ Currently there are 10 path-finders bundled in this library, namely:
 *  `BiBestFirstFinder`
 *  `BiBreadthFirstFinder` *
 *  `BiDijkstraFinder` *
+<<<<<<< HEAD
+=======
+*  `CLAFinder` *
+>>>>>>> f271642ab1deccfa5f566b6c66a483c274ba5e8e
 
 The prefix `Bi` for the last four finders in the above list stands for the bi-directional searching strategy.
 
@@ -218,6 +265,11 @@ Layout:
     |-- utils        # build scripts
 	|-- benchmark    # benchmarks
     `-- visual       # visualization
+<<<<<<< HEAD
+=======
+    
+	
+>>>>>>> f271642ab1deccfa5f566b6c66a483c274ba5e8e
 
 Make sure you have `node.js` installed, then use `npm` to install the dependencies: 
 
@@ -256,12 +308,15 @@ License
 [MIT License](http://www.opensource.org/licenses/mit-license.php)
 
 &copy; 2011-2012 Xueqiao Xu &lt;xueqiaoxu@gmail.com&gt;
+<<<<<<< HEAD
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+=======
+>>>>>>> f271642ab1deccfa5f566b6c66a483c274ba5e8e
 =======
 # Space_Invaders
 Repository for project "NAVIGATE THE MARS ROVER" under Microsoft Mars Colonization Program 2020
