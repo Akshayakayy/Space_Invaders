@@ -23,6 +23,19 @@ h6 {
     background: transparent;
 }
 
+#speed {
+    height: 90px;
+    width: 80px;
+    background: transparent;
+    position: fixed;
+    /* padding: 20px; */
+    background-color: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    border-radius: 8px;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+    cursor: default;
+}
+
 .finder_section{
     height: 400px;
     width: 300px;
@@ -32,6 +45,7 @@ h6 {
     height: 30px;
 } */
 
+
 #brand {
     font-family: Julius Sans One;
     background-color: black;
@@ -39,10 +53,6 @@ h6 {
     color: red; 
     font-size: x-large;
 }
-
-/* #algo_panel {
-    background: transparent;
-} */
 
 .header_title {
     font-size: large;
@@ -53,7 +63,7 @@ h6 {
     /* margin-top: -10px; */
 }
 
-.panel {
+/* .panel {
     position: fixed;
     padding: 20px;
     background-color: rgba(0, 0, 0, 0.6);
@@ -61,17 +71,22 @@ h6 {
     border-radius: 8px;
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
     cursor: default;
-}
+} */
 
 /* .right_panel {
     width: 250px;
     right: 20px;
 } */
 
-/* #algorithm_panel {
-    right: 20px;
-    top: 20px;
-} */
+#algorithm_panel {
+    position: fixed;
+    /* padding: 20px; */
+    background-color: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    /* border-radius: 8px; */
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+    cursor: default;
+}
 
 #instructions_panel {
     top: 20px;
@@ -171,6 +186,7 @@ footer {
 
 .spinner {
     width: 2em;
+    color: black;
 }
 
 .weight {
