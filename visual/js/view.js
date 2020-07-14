@@ -113,10 +113,10 @@ var View = {
                     rect.attr(normalStyle);
                     rects[rowId].push(rect);
                 }
-                $stats.text(
-                    'generating grid ' +
-                    Math.round((rowId + 1) / numRows * 100) + '%'
-                );
+                // $stats.text(
+                //     'generating grid ' +
+                //     Math.round((rowId + 1) / numRows * 100) + '%'
+                // );
                 done(null);
             };
         };
@@ -423,6 +423,7 @@ var View = {
             'time: ' + opts.timeSpent + 'ms',
             'operations: ' + opts.operationCount
         ];
+
         $('#stats').show().html(texts.join('<br>'));
     },
     setCoordDirty: function(gridX, gridY, isDirty) {
