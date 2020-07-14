@@ -1,7 +1,7 @@
 # Space_Invaders
 
 # Project 1: NAVIGATE THE MARS ROVER
-Help the Mars Curiosity Rover find the shortest path between two points while avoiding obstacles on the way. ####
+Help the Mars Curiosity Rover find the shortest path between two points while avoiding obstacles on the way.
 
 
 ## Introduction
@@ -101,8 +101,8 @@ var matrix = [
 var grid = new PF.Grid(matrix);
 ```
 
-Currently there are 10 path-finders bundled in this library, namely:
-
+Currently there are 12 path-finders bundled in this library, namely:
+*  `TravellingSalesmenFinder` *
 *  `AStarFinder` *
 *  `BestFirstFinder`
 *  `BreadthFirstFinder` *
@@ -234,6 +234,8 @@ Layout:
     |-- utils        # build scripts
 	|-- benchmark    # benchmarks
     `-- visual       # visualization
+    
+	
 
 Make sure you have `node.js` installed, then use `npm` to install the dependencies: 
 
