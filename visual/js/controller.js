@@ -82,7 +82,7 @@ var Controller = StateMachine.create({
             to: 'drawingWall'
         },
         {
-            name: 'eraseObstacle',
+            name: 'eraseWall',
             from: ['ready', 'finished'],
             to: 'erasingWall'
         },
@@ -153,7 +153,7 @@ $.extend(Controller, {
         this.setWalkableAt(gridX, gridY, false, "wall");
         // => drawingWall
     },
-    oneraseObstacle: function(event, from, to, gridX, gridY) {
+    oneraseWall: function(event, from, to, gridX, gridY) {
         console.log("erasing wall");
         this.setWalkableAt(gridX, gridY, true, "wall");
         // => erasingWall
@@ -642,9 +642,6 @@ $.extend(Controller, {
                 return;
             }
 
-            if (this.can('eraseObstacle') && !grid.isWalkableAt(gridX, gridY)) {
-                this.eraseObstacle(gridX, gridY);
-            }
             if (this.can('addPit') && grid.isWalkableAt(gridX, gridY)) {
                 this.addPit(gridX, gridY);
                 return;
