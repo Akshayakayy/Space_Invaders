@@ -29,15 +29,15 @@ var View = {
 
         },
         blocked: {
-            fill: 'grey',
+            fill: 'url("images/walls.jpg")',
             'stroke-opacity': 0.2,
         },
         start: {
-            fill: '#52E05F',
+            fill: 'url("images/moon-rover.png")',
             'stroke-opacity': 0.2,
         },
         end: {
-            fill: '#C70039',
+            fill: 'url("images/blob.jpg")',
             'stroke-opacity': 0.2,
         },
         opened: {
@@ -57,7 +57,7 @@ var View = {
             'stroke-opacity': 0.2,
         },
         checkpoint: {
-            fill: '#0000FF',
+            fill: 'url("images/flag.png")',
             'stroke-opacity': 0.2,
         }
     },
@@ -71,7 +71,7 @@ var View = {
         transformBack: 's1.0',
     },
     pathStyle: {
-        stroke: 'yellow',
+        stroke: 'brown',
         'stroke-width': 3,
     },
     supportedOperations: ['opened', 'closed', 'tested'],
@@ -150,7 +150,7 @@ var View = {
                 ).attr(this.nodeStyle.normal)
                 .animate(this.nodeStyle.start, 1000);
         } else {
-            this.startNode.attr({ x: coord[0], y: coord[1] }).toFront();
+            this.startNode.attr({ x: coord[0], y: coord[1]}).toFront();
         }
         // console.log(this.checkpoint)
     },
