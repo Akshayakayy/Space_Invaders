@@ -13,7 +13,7 @@ var View = {
         },
         pitnode: {
 
-            fill: '#50240B',
+            fill: '#800000',
             'stroke-opacity': 0.2,
 
         },
@@ -302,10 +302,10 @@ var View = {
                 // console.log("wall style");
                 this.colorizeNode(node, this.nodeStyle.blocked.fill);
             } else if (ob == "pit") {
-                // console.log("pit style");
+                console.log("pit style");
                 this.colorizeNode(node, this.nodeStyle.pitnode.fill);
             } else if (ob == "ice") {
-
+                console.log("ice style");
                 this.colorizeNode(node, this.nodeStyle.icenode.fill);
             } else {
                 this.colorizeNode(node, this.nodeStyle.bombnode.fill);

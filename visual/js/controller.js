@@ -89,7 +89,7 @@ var Controller = StateMachine.create({
         {
             name: 'addPit',
             from: ['ready', 'finished'],
-            to: 'erasingWall'
+            to: 'addingPit'
         },
         {
             name: 'addBomb',
@@ -359,7 +359,7 @@ $.extend(Controller, {
             callback: $.proxy(this.reset, this),
         }, {
             id: 4,
-            text: 'Add Pits',
+            text: 'Add Pit',
             enabled: true,
             callback: $.proxy(this.addPit, this)
         }, {

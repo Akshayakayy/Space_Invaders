@@ -33,9 +33,7 @@ var Panel = {
         $('#obstacles_panel').css({
             top: $algo.offset().top + $algo.outerHeight() + 140
         });
-        $('#pit').css({
-            top: $algo.offset().top + $algo.outerHeight() + 180
-        });
+
         $('#button2').attr('disabled', 'disabled');
     },
 
