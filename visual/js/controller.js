@@ -263,6 +263,7 @@ $.extend(Controller, {
             timeEnd = window.performance ? performance.now() : Date.now();
             this.timeSpent = (timeEnd - timeStart).toFixed(4);
             this.loop();
+
             // break;
         }
         // if(this.checkpoints.length == 0){
@@ -306,10 +307,12 @@ $.extend(Controller, {
             timeSpent: this.timeSpent,
             operationCount: this.operationCount,
         });
+
         View.drawPath(this.path);
         this.endstatus = 1;
         this.path = [];
         this.operations = [];
+        alert("Congratulations, base found! Click ok to render");
         // => finished
     },
     onclear: function(event, from, to) {
