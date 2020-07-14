@@ -7,10 +7,10 @@ body {
 #stats {
     position: fixed;
     color: rgb(0, 0, 0);
-    font-size: 85%;
+    font-size: 80%;
     padding: 5px;
     background: rgba(255, 255, 255, 0.5);
-    border-radius: 5px;
+    border-radius: 100%;
 }
 
 #timer {
@@ -142,19 +142,26 @@ h6 {
 
 button {
     border: none;
-    background: rgba(255, 255, 255, 0.7);
-    border-radius: 2px;
+    background: rgba(32, 178, 170);
+    box-shadow: 0 3px #999;
+    border-radius: 15px;
     font-size: 98%;
+    color: #fff;
     cursor: pointer;
     padding: 2px 8px;
     margin: 0 2%;
-    width: 80%;
+    outline: none;
+    width: 10%;
 }
 
 button:hover {
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(32, 178, 170, 0.9);
 }
-
+button:active {
+  background-color: rgba(32, 178, 170, 0.9);
+  box-shadow: 0 1px #666;
+  transform: translateY(4px);
+}
 .finder_section {
     border: solid 1px #ddd;
     border-radius: 5px;
@@ -173,7 +180,7 @@ a {
 
 footer {
     color: #333;
-    font-size: 70%;
+    font-size: 100%;
     text-align: center;
     position: fixed;
     width: 200px;
