@@ -1,23 +1,30 @@
-#PathFinding.js
+# Space_Invaders
+## Project 1: NAVIGATE THE MARS ROVER
+Help the Mars Curiosity Rover find the shortest path between two points while avoiding obstacles on the way. ####
 
-#### A comprehensive path-finding library in javascript. ####
+# Introduction
+This is the Javascript based webgame for navigating the mars rover using various pathfinding algorithms.
 
-[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/qiao/PathFinding.js?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+# Features
+* Multiple Destinations
 
-[![Build Status](https://travis-ci.org/qiao/PathFinding.js.svg?branch=master)](https://travis-ci.org/qiao/PathFinding.js)
-[![Dependency Status](https://david-dm.org/qiao/pathfinding.js.png)](https://david-dm.org/qiao/pathfinding.js)
-[![Documentation Status](https://readthedocs.org/projects/pathfindingjs/badge/)](https://readthedocs.org/projects/pathfindingjs/?badge=latest)
+	* ctrl+ click on board cells to add checkpoints.
+	* The agent covers the checkpoints in shortest path order and reaches destination.
+	* Rendering using Travelling salesmen algorithm.
+	* Dynamic Rendering of path through just drag and drop The shortest path is dynamically visible if user even after search is over drags the nodes.
 
-Introduction
-------------
+* Speed of visualization Three different speeds for pathfinder: Fast, Medium, Slow
 
-The aim of this project is to provide a path-finding library that can be easily incorporated into web games. It may run on Node.js or the browser.
+* Mutiple Obstacles
 
-It comes along with an [online demo](http://qiao.github.com/PathFinding.js/visual) to show how the algorithms execute. (The pathfinding speed is slowed down in the demo)
+	* Ice, Pits, Bombs
+	* Click on respective buttons then click on cells where you want to add the obstacle.
+	* Different Algorithms New
 
-Note that this project only provides path-finding algorithms for 2D space. If you need to work in a 3D environment, then you may use [@schteppe](https://github.com/schteppe)'s [fork](https://github.com/schteppe/PathFinding3D.js).
+* Collaborative Learning Agents
+* Travelling salesmen
+* Music loop in game
 
-There is new documentation being written for PathFinding.js. You can read it [here](http://pathfindingjs.readthedocs.org/en/latest/). Note that this is in very early stages and far from complete so keep your eyes open for mistakes and don't hesitate to open a pull request in case you find one.
 
 Server
 ------
