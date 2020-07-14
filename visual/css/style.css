@@ -4,28 +4,6 @@ body {
     overflow: hidden;
 }
 
-#stats {
-    position: fixed;
-    color: rgb(0, 0, 0);
-    font-size: 85%;
-    padding: 5px;
-    background: rgba(255, 255, 255, 0.5);
-    border-radius: 5px;
-}
-
-#timer {
-    position: fixed;
-    color: rgb(0, 0, 0);
-    font-size: 85%;
-    padding: 5px;
-    background: rgba(255, 255, 255, 0.5);
-    border-radius: 5px;
-}
-
-#ul_top_hypers li {
-    float: right;
-}
-
 input {
     cursor: pointer;
 }
@@ -41,20 +19,75 @@ h6 {
     font-weight: normal;
 }
 
+.navbar {
+    height: 50px;
+}
+
 #algo_panel {
     background: transparent;
 }
 
 #speed {
-    height: 90px;
-    width: 80px;
+    height: 145px;
+    width: 145px;
+    font-size: 18px;
     background: transparent;
     position: fixed;
     /* padding: 20px; */
     background-color: rgba(0, 0, 0, 0.6);
     color: #fff;
-    border-radius: 8px;
+    border-radius: 1px;
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+    cursor: default;
+}
+
+#slow, #medium, #fast {
+    margin: 1em;
+}
+
+#sl {
+    color: rgb(255, 238, 0);
+}
+
+#me {
+    color: orange;
+}
+
+#fa {
+    color: orangered;
+}
+
+#button4,#button5,#button6 {
+    font-size: 20px;
+    width: 115px;
+    /* font-family: Didact Gothic; */
+}
+
+#button4 {
+    color: rgb(221, 159, 78);
+    background-color: rgb(54, 40, 8);
+}
+
+#button5 {
+    background-color: rgb(76, 208, 212);
+    color: rgb(255, 255, 255);
+}
+
+#button6 {
+    color: red;
+    background-color: black;
+}
+
+#obstacles {
+    height: 0px;
+    width: 115px;
+    background: transparent;
+    position: fixed;
+    /* padding: 20px; */
+    /* background-color: rgba(0, 0, 0, 0.6); */
+    /* color: #fff; */
+    /* border-radius: 1px; */
+    /* box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5); */
     cursor: default;
 }
 
@@ -140,15 +173,18 @@ h6 {
     cursor: pointer;
 }
 
-button {
-    border: none;
-    background: rgba(255, 255, 255, 0.7);
-    border-radius: 2px;
-    font-size: 98%;
+.control_button {
+    border: red;
+    /* background: rgba(255, 255, 255, 0.7); */
+    /* border-radius: 4px; */
+    font-size: 100%;
+    color: rgb(255, 255, 255);
     cursor: pointer;
     padding: 2px 8px;
-    margin: 0 2%;
-    width: 80%;
+    /* margin: 0 2%;  */
+    /* width: 75px;
+    height: 45px; */
+    font-weight: bold;
 }
 
 button:hover {
@@ -165,6 +201,17 @@ button:hover {
     padding: 2px;
     font-size: 14px;
     margin: 2px 30px 0;
+}
+
+#stats {
+    position: fixed;
+    bottom: 40px;
+    left: 35px;
+    color: #0a0;
+    font-size: 85%;
+    padding: 5px;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 5px;
 }
 
 a {
