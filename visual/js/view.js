@@ -418,6 +418,7 @@ var View = {
     },
     showStats: function(opts) {
         var texts = [
+
             'length: ' + Math.round(opts.pathLength * 100) / 100,
             'time: ' + opts.timeSpent + 'ms',
             'operations: ' + opts.operationCount
