@@ -101,11 +101,6 @@ var Controller = StateMachine.create({
             from: ['ready', 'finished'],
             to: 'addingIce'
         },
-        // {
-        //     name: 'removePit',
-        //     from: ['ready', 'finished'],
-        //     to: 'removingPit'
-        // },
         {
             name: 'rest',
             from: ['draggingStart', 'draggingEnd', 'drawingWall', 'erasingWall', 'addingPit', 'addingIce', 'addingBomb', 'draggingCheckpoint'],
@@ -948,4 +943,5 @@ $.extend(Controller, {
     isStartOrEndPos: function(gridX, gridY) {
         return this.isStartPos(gridX, gridY) || this.isEndPos(gridX, gridY);
     },
+
 });

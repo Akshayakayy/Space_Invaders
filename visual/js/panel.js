@@ -4,7 +4,6 @@
 var Panel = {
     init: function() {
         var $algo = $('#algorithm_panel');
-
         $('.panel').draggable();
         $('.accordion').accordion({
             collapsible: false,
@@ -18,7 +17,6 @@ var Panel = {
         $('#play_dropdown').css({
             top: 30,
             left: 300,
-
         });
         $(document).ready(function() {
             alert("Welcome to Space Invaders! Let's move forwards towards the base");
@@ -27,9 +25,6 @@ var Panel = {
                 e.stopPropagation();
                 e.preventDefault();
             });
-        });
-        $('#navbar').css({
-
         });
         $('#speed_dropdown').css({
             top: 30,
@@ -58,8 +53,6 @@ var Panel = {
             '#algorithm_panel ' +
             '.ui-accordion-header[aria-selected=true]'
         ).attr('id');
-
-        console.log("hiii", selected_header);
 
 
         switch (selected_header) {
