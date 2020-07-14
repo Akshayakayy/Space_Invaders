@@ -36,32 +36,33 @@ h6 {
     cursor: default;
 }
 
-.finder_section{
+.finder_section {
     height: 400px;
     width: 300px;
 }
+
 
 /* .navbar-inverse {
     height: 30px;
 } */
 
-
 #brand {
     font-family: Julius Sans One;
     background-color: black;
     font-weight: bolder;
-    color: red; 
+    color: red;
     font-size: x-large;
 }
 
 .header_title {
     font-size: large;
-    color: yellow; 
+    color: yellow;
     font-weight: bold;
     font-family: Didact Gothic;
     /* padding-bottom: 5px; */
     /* margin-top: -10px; */
 }
+
 
 /* .panel {
     position: fixed;
@@ -72,6 +73,7 @@ h6 {
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
     cursor: default;
 } */
+
 
 /* .right_panel {
     width: 250px;
@@ -119,12 +121,12 @@ h6 {
 button {
     border: none;
     background: rgba(255, 255, 255, 0.7);
-    border-radius: 5px;
-    font-size: 90%;
+    border-radius: 2px;
+    font-size: 98%;
     cursor: pointer;
     padding: 2px 8px;
     margin: 0 2%;
-    width: 28%;
+    width: 80%;
 }
 
 button:hover {
