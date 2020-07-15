@@ -173,66 +173,76 @@ $.extend(Controller, {
 
         // => addingBomb
     },
-    permfinder: function(checkpoints) {
-        let perms = [];
-        for (let i = 0; i < checkpoints.length; i = i + 1) {
-            let rest = Controller.permfinder(checkpoints.slice(0, i).concat(checkpoints.slice(i + 1)));
-            if (!rest.length) {
-                perms.push([checkpoints[i]]);
-            } else {
-                for (let j = 0; j < rest.length; j = j + 1) {
-                    perms.push([checkpoints[i]].concat(rest[j]));
-                }
-            }
-        }
-        return perms;
-    },
-    onTSP: function() {
-        //console.log(checkpoints);
-        let perms = Controller.permfinder(this.checkpoints);
-        var mindist = 999999;
-        var minperm = [];
-        for (let i = 0; i < perms.length; i = i + 1) {
-            var totaldist = 0;
-            for (let j = -1; j < (perms[i].length); j = j + 1) {
-                if (j == -1) {
-                    var originX = this.startX;
-                    var originY = this.startY;
-                } else {
-                    var originX = perms[i][j].x;
-                    var originY = perms[i][j].y;
-                }
-                if (j == this.checkpoints.length - 1) {
-                    var destX = this.endX;
-                    var destY = this.endY
-                } else {
-                    var destX = perms[i][j + 1].x;
-                    var destY = perms[i][j + 1].y;
-                }
-                // var originX = perms[i][j].x;
-                // var originY = perms[i][j].y;
-                // var destX = perms[i][j + 1].x;
-                // var destY = perms[i][j + 1].y;
-                var grid = this.grid.clone();
-                var res = this.finder.findPath(
-                    originX, originY, destX, destY, grid
-                );
-                totaldist += PF.Util.pathLength(res['path']);
-            }
-            if (totaldist < mindist) {
-                mindist = totaldist;
-                minperm = perms[i];
-            }
-        }
-        this.checkpoints = minperm
-        return minperm;
-    },
+    // permfinder: function(checkpoints) {
+    //     let perms = [];
+    //     for (let i = 0; i < checkpoints.length; i = i + 1) {
+    //         let rest = Controller.permfinder(checkpoints.slice(0, i).concat(checkpoints.slice(i + 1)));
+    //         if (!rest.length) {
+    //             perms.push([checkpoints[i]]);
+    //         } else {
+    //             for (let j = 0; j < rest.length; j = j + 1) {
+    //                 perms.push([checkpoints[i]].concat(rest[j]));
+    //             }
+    //         }
+    //     }
+    //     return perms;
+    // },
+    // onTSP: function() {
+    //     //console.log(checkpoints);
+    //     let perms = Controller.permfinder(this.checkpoints);
+    //     var mindist = 999999;
+    //     var minperm = [];
+    //     for (let i = 0; i < perms.length; i = i + 1) {
+    //         var totaldist = 0;
+    //         for (let j = -1; j < (perms[i].length); j = j + 1) {
+    //             if (j == -1) {
+    //                 var originX = this.startX;
+    //                 var originY = this.startY;
+    //             } else {
+    //                 var originX = perms[i][j].x;
+    //                 var originY = perms[i][j].y;
+    //             }
+    //             if (j == this.checkpoints.length - 1) {
+    //                 var destX = this.endX;
+    //                 var destY = this.endY
+    //             } else {
+    //                 var destX = perms[i][j + 1].x;
+    //                 var destY = perms[i][j + 1].y;
+    //             }
+    //             // var originX = perms[i][j].x;
+    //             // var originY = perms[i][j].y;
+    //             // var destX = perms[i][j + 1].x;
+    //             // var destY = perms[i][j + 1].y;
+    //             var grid = this.grid.clone();
+    //             var res = this.finder.findPath(
+    //                 originX, originY, destX, destY, grid
+    //             );
+    //             totaldist += PF.Util.pathLength(res['path']);
+    //         }
+    //         if (totaldist < mindist) {
+    //             mindist = totaldist;
+    //             minperm = perms[i];
+    //         }
+    //     }
+    //     this.checkpoints = minperm
+    //     return minperm;
+    // },
     onsearch: function(event, from, to) {
         var grid,
             timeStart, timeEnd,
             finder = Panel.getFinder();
         this.finder = finder;
-        this.onTSP();
+        //TSP is used here
+        // tsp_obj = new PF.TSP({ startX: this.startX,
+        //                         startY: this.startY,
+        //                         endX: this.endX,
+        //                         endY: this.endY,
+        //                         checkpoints: this.checkpoints,
+        //                         grid: this.grid,
+        //                         finder: this.finder
+        //                     });
+        // console.log(tsp_obj);
+        // minperm = tsp_obj.onTSP();
         for (var i = -1; i < this.checkpoints.length; i++) {
             if (i == -1) {
                 var originX = this.startX;
@@ -381,7 +391,7 @@ $.extend(Controller, {
         });
         // => [starting, draggingStart, draggingEnd, draggingPit drawingStart, drawingEnd]
     },
-    createMazeWall: function(event, x, y) {
+    createMazeWall: function(event,x, y) {
 
         event.setWalkableAt(x, y, false);
     },
@@ -402,32 +412,48 @@ $.extend(Controller, {
     //     })();
     // },
     onstartMaze: function(event, from, to) {
-        this.mazeWalls = []
-        var x = 0,
-            y = 0;
+        //this.mazeWalls = []
         this.setButtonStates({
             id: 7,
             enabled: false,
         });
-        while (x < this.gridSize[0]) {
-            while (y < this.gridSize[1]) {
-                if ((x == this.startX && y == this.startY) || (x == this.endX && y == this.endY))
-                    y++;
-                else if (Math.random() > 0.8) {
-                    this.mazeWalls.push({
-                        x: x,
-                        y: y
-                    });
-                    setTimeout(this.createMazeWall, 300, this, x, y);
-                    y++;
-                } else {
-                    y++;
-                }
-            }
-            y = 0;
-            x++;
+        console.log(this.gridSize[0],this.gridSize[1]);
+        var rows = this.gridSize[0];
+        var cols = this.gridSize[1];
+        maze = new PF.RandomMaze({xlim: rows,
+                                ylim: cols,
+                                startX: this.startX,
+                                startY: this.startY,
+                                endX: this.endX,
+                                endY: this.endY,
+                                controller: this
+                                });
+        console.log(maze);
+        var mazewall = maze.findmaze();
+        for (let i=0;i<mazewall.length;i++)
+        {
+            //this.createMazeWall(mazewall[i].x,mazewall[i].y);
+            setTimeout(this.createMazeWall, 3, this, mazewall[i].x, mazewall[i].y);
         }
-        View.clearBlockedNodes();
+        // while (x < this.gridSize[0]) {
+        //     while (y < this.gridSize[1]) {
+        //         if ((x == this.startX && y == this.startY) || (x == this.endX && y == this.endY))
+        //             y++;
+        //         else if (Math.random() > 0.8) {
+        //             this.mazeWalls.push({
+        //                 x: x,
+        //                 y: y
+        //             });
+        //             setTimeout(this.createMazeWall, 300, this, x, y);
+        //             y++;
+        //         } else {
+        //             y++;
+        //         }
+        //     }
+        //     y = 0;
+        //     x++;
+        // }
+        //View.clearBlockedNodes();
     },
     onstarting: function(event, from, to) {
         console.log('=> starting');
