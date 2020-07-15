@@ -16,6 +16,7 @@
   "author": "Xueqiao Xu <xueqiaoxu@gmail.com>",
   "main": "./index.js",
   "dependencies": {
+    "gulp-uglify-es": "^2.0.0",
     "heap": "0.2.5"
   },
   "devDependencies": {

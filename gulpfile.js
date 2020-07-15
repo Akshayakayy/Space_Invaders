@@ -1,5 +1,5 @@
 var gulp = require('gulp'),
-    uglify = require('gulp-uglify'),
+    uglify = require('gulp-uglify-es').default,
     rename = require('gulp-rename'),
     browserify = require('gulp-browserify'),
     concat = require('gulp-concat'),
