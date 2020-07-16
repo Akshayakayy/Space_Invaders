@@ -8,8 +8,8 @@ var View = {
     nodeSize: 30, // width and height of a single node, in pixel
     nodeStyle: {
         normal: {
-            fill: '#FBDE98',
-            'stroke-opacity': 0.2, // the border
+            fill: '#CFCFCF',
+            'stroke-opacity': 0.6, // the border
         },
         pitnode: {
 
@@ -29,7 +29,7 @@ var View = {
 
         },
         blocked: {
-            fill: 'url("images/walls.jpg")',
+            fill: '#47101E',
             'stroke-opacity': 0.2,
         },
         start: {
@@ -41,11 +41,11 @@ var View = {
             'stroke-opacity': 0.2,
         },
         opened: {
-            fill: '#EF9E4A',
+            fill: '#AD4C4C',
             'stroke-opacity': 0.2,
         },
         closed: {
-            fill: '#F6C088',
+            fill: '#D8B3B3',
             'stroke-opacity': 0.2,
         },
         failed: {
@@ -71,8 +71,8 @@ var View = {
         transformBack: 's1.0',
     },
     pathStyle: {
-        stroke: 'brown',
-        'stroke-width': 3,
+        stroke: '#FFFDBD',
+        'stroke-width': 5,
     },
     supportedOperations: ['opened', 'closed', 'tested'],
     init: function(opts) {

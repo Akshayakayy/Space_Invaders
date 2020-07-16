@@ -133,7 +133,7 @@ h6 {
 
 .header_title {
     font-size: large;
-    color: yellow;
+    color: #FFFDBD;
     font-weight: bold;
     font-family: Didact Gothic;
     /* padding-bottom: 5px; */
@@ -272,7 +272,7 @@ footer {
 
 .spinner {
     width: 2em;
-    color: black;
+    color: black;   
 }
 
 .weight {
