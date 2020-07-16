@@ -16,8 +16,10 @@
   "author": "Xueqiao Xu <xueqiaoxu@gmail.com>",
   "main": "./index.js",
   "dependencies": {
+    "@sweetalert2/theme-material-ui": "^3.2.0",
     "gulp-uglify-es": "^2.0.0",
-    "heap": "0.2.5"
+    "heap": "0.2.5",
+    "sweetalert2": "^9.17.0"
   },
   "devDependencies": {
     "colors": "^1.0.3",
