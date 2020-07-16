@@ -122,6 +122,7 @@ $.extend(Controller, {
     operations: [],
     endstatus: 0,
     currCheckpoint: -1,
+    mousemoveflag: 0,
     /**
      * Asynchronous transition from `none` state to `ready` state.
      */
@@ -634,7 +635,7 @@ $.extend(Controller, {
         }
 
     },
-    findPath: function () {
+    findPath: function (viewoperations) {
         this.clearOperations();
         this.clearFootprints();
         var path = [];
@@ -684,13 +685,17 @@ $.extend(Controller, {
         }
         // console.log(res['path'])
         var op, isSupported;
-        while (operations.length) {
-            op = operations.shift();
-            View.setAttributeAt(op.x, op.y, op.attr, op.value);
+        if (viewoperations) {
+            console.log(operations)
+            while (operations.length) {
+                op = operations.shift();
+                View.setAttributeAt(op.x, op.y, op.attr, op.value);
+            }
         }
         View.drawPath(path);
     },
     mousemove: function (event) {
+        
         var coord = View.toGridCoordinate(event.pageX, event.pageY),
             grid = this.grid,
             gridX = coord[0],
@@ -703,25 +708,28 @@ $.extend(Controller, {
         switch (this.current) {
             case 'draggingStart':
                 if (grid.isWalkableAt(gridX, gridY)) {
+                    this.mousemoveflag = 1
                     this.setStartPos(gridX, gridY);
                     if (this.endstatus == 1)
-                        this.findPath()
+                        this.findPath(0)
                 }
                 break;
             case 'draggingEnd':
                 if (grid.isWalkableAt(gridX, gridY)) {
+                    this.mousemoveflag = 1
                     this.setEndPos(gridX, gridY);
                     if (this.endstatus == 1)
-                        this.findPath()
+                        this.findPath(0)
                 }
                 break;
             case 'draggingCheckpoint':
                 if (grid.isWalkableAt(gridX, gridY)) {
+                    this.mousemoveflag = 1
                     View.setCheckPoint(gridX, gridY, this.checkpoints[this.currCheckpoint].x, this.checkpoints[this.currCheckpoint].y)
                     this.checkpoints[this.currCheckpoint].x = gridX;
                     this.checkpoints[this.currCheckpoint].y = gridY;
                     if (this.endstatus == 1) {
-                        this.findPath()
+                        this.findPath(0)
                     }
                 }
                 break;
@@ -744,7 +752,38 @@ $.extend(Controller, {
     },
     mouseup: function (event) {
         if (Controller.can('rest')) {
+            var state = this.current;
             Controller.rest();
+            var coord = View.toGridCoordinate(event.pageX, event.pageY),
+                grid = this.grid,
+                gridX = coord[0],
+                gridY = coord[1];
+            switch (state) {
+                case 'draggingStart':
+                    if (grid.isWalkableAt(gridX, gridY)) {
+                        this.setStartPos(gridX, gridY);
+                        if (this.endstatus == 1)
+                            this.findPath(1)
+                    }
+                    break;
+                case 'draggingEnd':
+                    if (grid.isWalkableAt(gridX, gridY)) {
+                        this.setEndPos(gridX, gridY);
+                        if (this.endstatus == 1)
+                            this.findPath(1)
+                    }
+                    break;
+                case 'draggingCheckpoint':
+                    if (grid.isWalkableAt(gridX, gridY)) {
+                        View.setCheckPoint(gridX, gridY, this.checkpoints[this.currCheckpoint].x, this.checkpoints[this.currCheckpoint].y)
+                        this.checkpoints[this.currCheckpoint].x = gridX;
+                        this.checkpoints[this.currCheckpoint].y = gridY;
+                        if (this.endstatus == 1) {
+                            this.findPath(1)
+                        }
+                    }
+                    break;
+            }
         }
     },
     setButtonStates: function () {
