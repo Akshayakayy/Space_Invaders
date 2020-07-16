@@ -46,14 +46,12 @@
         <ul class="nav navbar-nav">
           <li  class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                <div class="header_title">Obstacles<span class="caret"></span></div>
+                <div class="header_title">Generate Maze<span class="caret"></span></div>
             </a>
             <ul class="dropdown-menu" id="algo_panel">
               <div id="algorithm_panel">
-              <div id="obstacles">
-                <li><button id="button4" class="control_button">Add Pit</button></li>
-                <li><button id="button5" class="control_button">Add ice</button></li>
-                <li><button id="button6" class="control_button">Add bombs</button></li>
+              <div id="maze">
+                <li><a id="button7" class="control_button">Start maze</a></li>
               </div>
               </div>
             </ul>
@@ -61,7 +59,7 @@
 
           <li  class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                <div class="header_title">Search speed<span class="caret"></span></div>
+                <div class="header_title">Search setting<span class="caret"></span></div>
             </a>
             <ul class="dropdown-menu" id="algo_panel">
               <div id="algorithm_panel">
@@ -274,12 +272,17 @@
         </ul>
 
         <ul class="nav navbar-nav navbar-right">
-          <li><input type="range" min="1" max="100" value="50" class="slider" id="myRange"></li>
+          
           <li><a id="button1" class="control_button">Start Search</a></li>
           <li><a id="button2" class="control_button">Pause Search</a></li>
           <li><a id="button3" class="control_button">Clear Obstacles</a></li>
-          
-          <li><a id="button7" class="control_button">Start maze</a></li>
+          <li><a id="button4" class="control_button">Add Pit</a></li>
+          <li><a id="button5" class="control_button">Add ice</a></li>
+          <li><a id="button6" class="control_button">Add bombs</a></li>
+
+          <li><a>Speed:</a></li>
+          <li><input type="range" min="1" max="3" value="50" class="slider" id="myRange"></li>
+          <li><a></a></li>
         </ul>
       </div>
     </nav>
