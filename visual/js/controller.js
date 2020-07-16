@@ -122,7 +122,10 @@ $.extend(Controller, {
     operations: [],
     endstatus: 0,
     currCheckpoint: -1,
+<<<<<<< HEAD
     mousemoveflag: 0,
+=======
+>>>>>>> 113f8c3f10d22ea17481eb930cd81bf768328954
     /**
      * Asynchronous transition from `none` state to `ready` state.
      */
@@ -695,7 +698,10 @@ $.extend(Controller, {
         View.drawPath(path);
     },
     mousemove: function (event) {
+<<<<<<< HEAD
         
+=======
+>>>>>>> 113f8c3f10d22ea17481eb930cd81bf768328954
         var coord = View.toGridCoordinate(event.pageX, event.pageY),
             grid = this.grid,
             gridX = coord[0],
