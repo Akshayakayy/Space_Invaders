@@ -37,11 +37,11 @@ var View = {
             'stroke-opacity': 0.2,
         },
         end: {
-            fill: 'url("images/blob.jpg")',
+            fill: 'url("images/pin.png")',
             'stroke-opacity': 0.2,
         },
         opened: {
-            fill: '#AD4C4C',
+            fill: '#AD3C3C',
             'stroke-opacity': 0.2,
         },
         closed: {
