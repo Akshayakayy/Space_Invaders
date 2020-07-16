@@ -51,7 +51,7 @@ h6 {
 
 #speed {
     height: 145px;
-    width: 145px;
+    width: 149px;
     font-size: 18px;
     background: transparent;
     position: fixed;
@@ -62,6 +62,32 @@ h6 {
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
     cursor: default;
 }
+
+.slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 25px;
+  margin: 12px 0px;
+  background: #ffffff;
+  outline: none;
+  opacity: 0.9;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+.slider:hover {
+  opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  background: rgb(202, 47, 47);
+  cursor: pointer;
+}
+
 
 #slow, #medium, #fast {
     margin: 1em;
@@ -79,10 +105,10 @@ h6 {
     color: orangered;
 }
 
-#button4,#button5,#button6 {
+/* #button4,#button5,#button6 {
     font-size: 20px;
     width: 115px;
-    /* font-family: Didact Gothic; */
+    font-family: Didact Gothic;
 }
 
 #button4 {
@@ -98,19 +124,19 @@ h6 {
 #button6 {
     color: red;
     background-color: black;
-}
+} */
 
-#obstacles {
-    height: 0px;
-    width: 115px;
-    background: transparent;
-    position: fixed;
+#maze {
+    /* height: 0px; */
+    width: 159px;
+    /* background: transparent; */
+    /* position: fixed; */
     /* padding: 20px; */
     /* background-color: rgba(0, 0, 0, 0.6); */
     /* color: #fff; */
     /* border-radius: 1px; */
-    /* box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5); */
-    cursor: default;
+    /* box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5); 
+    cursor: default; */
 }
 
 .finder_section {
@@ -119,9 +145,9 @@ h6 {
 }
 
 
-/* .navbar-inverse {
+.navbar-inverse {
     height: 30px;
-} */
+}
 
 #brand {
     font-family: Julius Sans One;
@@ -133,7 +159,7 @@ h6 {
 
 .header_title {
     font-size: large;
-    color: yellow;
+    color: #FFFDBD;
     font-weight: bold;
     font-family: Didact Gothic;
     /* padding-bottom: 5px; */
@@ -272,7 +298,7 @@ footer {
 
 .spinner {
     width: 2em;
-    color: black;
+    color: black;   
 }
 
 .weight {
