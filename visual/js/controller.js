@@ -572,9 +572,12 @@ $.extend(Controller, {
             node.y==gridY
         );
     console.log(ind);
-    if (ind!=-1)
+    if (ind!=-1){
     this.checkpoints.splice(ind,1);
+    }
     this.setWalkableAt(gridX,gridY,true);
+    if (this.endstatus == 1)
+        this.findPath(1);
     },
     clearAll: function () {
         this.clearFootprints();
@@ -588,7 +591,7 @@ $.extend(Controller, {
             gridX = coord[0],
             gridY = coord[1],
             grid = this.grid;
-         if ((event.ctrlKey) && this.isCheckPoint(gridX,gridY)!=-1){
+         if (event.ctrlKey && this.isCheckPoint(gridX,gridY)!=-1){
             console.log("Remove checkpoint!");
             this.clearCheckPoint(gridX,gridY);
             return;
