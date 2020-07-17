@@ -261,7 +261,7 @@ $.extend(Controller, {
             enabled: false,
         }, {
             id: 3,
-            text: 'Clear Walls',
+            text: 'Clear Obstacles',
             enabled: true,
             callback: $.proxy(this.reset, this),
         }, {

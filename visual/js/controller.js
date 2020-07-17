@@ -311,7 +311,7 @@ $.extend(Controller, {
             enabled: false,
         }, {
             id: 3,
-            text: 'Clear Walls',
+            text: 'Clear Obstacles',
             enabled: true,
             callback: $.proxy(this.reset, this),
         }, {
@@ -787,7 +787,13 @@ $.extend(Controller, {
     },
     setButtonStates: function () {
         $.each(arguments, function (i, opt) {
-            var $button = Controller.$buttons.eq(opt.id - 1);
+
+            var optid = opt.id;
+            if (opt.id == 7) {
+                optid = 0;
+            }
+            
+            var $button = Controller.$buttons.eq(optid);
             if (opt.text) {
                 $button.text(opt.text);
             }
