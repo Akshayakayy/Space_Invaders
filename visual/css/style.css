@@ -49,19 +49,19 @@ h6 {
     background: transparent;
 }
 
-#speed {
+/* #speed {
     height: 145px;
     width: 149px;
     font-size: 18px;
     background: transparent;
     position: fixed;
-    /* padding: 20px; */
+    
     background-color: rgba(0, 0, 0, 0.6);
     color: #fff;
     border-radius: 1px;
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
     cursor: default;
-}
+} */
 
 .slider {
   -webkit-appearance: none;

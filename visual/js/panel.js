@@ -98,7 +98,8 @@ var Panel = {
     },
 
     getSpeed: function () {
-        var speed = $('input[name=speed]:checked').val();
+        var speed = $('input[name=speed]').val();
+        console.log('speeeeeeed');
         console.log(speed);
         return speed;
     },
