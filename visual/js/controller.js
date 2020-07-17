@@ -123,6 +123,7 @@ $.extend(Controller, {
     endstatus: 0,
     currCheckpoint: -1,
     mousemoveflag: 0,
+    checkPointsleft: 4,
     /**
      * Asynchronous transition from `none` state to `ready` state.
      */
@@ -144,7 +145,8 @@ $.extend(Controller, {
         });
 
         this.$buttons = $('.control_button');
-
+        this.$maze_buttons = $('.maze_button');
+        console.log(this.$maze_buttons)
         // this.hookPathFinding();
 
         return StateMachine.ASYNC;
@@ -317,7 +319,7 @@ $.extend(Controller, {
             Controller.buildNewGrid();
         }, View.nodeColorizeEffect.duration * 1.2);
         this.setButtonStates({
-            id: 4,
+            id: 3,
             enabled: true,
         });
         // => ready
@@ -326,45 +328,59 @@ $.extend(Controller, {
     /**
      * The following functions are called on entering states.
      */
-
+    initmaze: function(mazetype){
+        this.mazetype = mazetype;
+        this.startMaze();
+    },
     onready: function () {
         console.log('=> ready');
         this.setButtonStates({
-            id: 1,
+            id: 0,
             text: 'Start Search',
             enabled: true,
             callback: $.proxy(this.start, this),
         }, {
-            id: 2,
+            id: 1,
             text: 'Pause Search',
             enabled: false,
         }, {
-            id: 3,
+            id: 2,
             text: 'Clear Obstacles',
             enabled: true,
             callback: $.proxy(this.reset, this),
         }, {
-            id: 4,
+            id: 3,
             text: 'Add Pit',
             enabled: true,
             callback: $.proxy(this.addPit, this)
         }, {
-            id: 5,
+            id: 4,
             text: 'Add Ice',
             enabled: true,
             callback: $.proxy(this.addIce, this)
         }, {
-            id: 6,
+            id: 5,
             text: 'Add Bomb',
             enabled: true,
             callback: $.proxy(this.addBomb, this)
 
-        }, {
-            id: 7,
-            text: 'Random Maze',
-            enabled: true,
-            callback: $.proxy(this.startMaze, this),
         });
+        this.setButtonStatesMaze({
+            id: 0,
+            text: 'Random maze',
+            enabled: true,
+            callback: $.proxy(this.initmaze, this, 'random'),
+        }, {
+            id: 1,
+            text: 'Recursive maze',
+            enabled: true,
+            callback: $.proxy(this.initmaze, this, 'recursive'),
+        }, {
+            id: 2,
+            text: 'Stair maze',
+            enabled: true,
+            callback: $.proxy(this.initmaze, this, 'stair'),
+        })
         // => [starting, draggingStart, draggingEnd, draggingPit drawingStart, drawingEnd]
     },
     createMazeWall: function (event, x, y) {
@@ -390,29 +406,54 @@ $.extend(Controller, {
     onstartMaze: function (event, from, to) {
         //this.mazeWalls = []
         this.endstatus = 0;
+        var mazetype = this.mazetype
         Controller.clearOperations();
         Controller.clearAll();
         Controller.buildNewGrid();
         this.setButtonStates({
-            id: 4,
+            id: 3,
             enabled: true,
         });
         this.setButtonStates({
-            id: 7,
+            id: 6,
             enabled: false,
         });
         console.log(this.gridSize[0], this.gridSize[1]);
         var rows = this.gridSize[0];
         var cols = this.gridSize[1];
-        maze = new PF.RecDivMaze({
-            xlim: rows,
-            ylim: cols,
-            startX: this.startX,
-            startY: this.startY,
-            endX: this.endX,
-            endY: this.endY,
-            controller: this
-        });
+        if(mazetype == 'random'){
+            maze = new PF.RandomMaze({
+                xlim: rows,
+                ylim: cols,
+                startX: this.startX,
+                startY: this.startY,
+                endX: this.endX,
+                endY: this.endY,
+                controller: this
+            });
+        }
+        else if(mazetype == 'recursive'){
+            maze = new PF.RecDivMaze({
+                xlim: rows,
+                ylim: cols,
+                startX: this.startX,
+                startY: this.startY,
+                endX: this.endX,
+                endY: this.endY,
+                controller: this
+            });
+        }
+        else if(mazetype == 'stair'){
+            maze = new PF.StairMaze({
+                xlim: rows,
+                ylim: cols,
+                startX: this.startX,
+                startY: this.startY,
+                endX: this.endX,
+                endY: this.endY,
+                controller: this
+            });
+        }
         console.log(maze);
         var mazewall = maze.findmaze();
         for (let i = 0; i < mazewall.length; i++) {
@@ -445,7 +486,7 @@ $.extend(Controller, {
         // Clears any existing search progress
         this.clearFootprints();
         this.setButtonStates({
-            id: 2,
+            id: 1,
             enabled: true,
         });
         this.search();
@@ -455,12 +496,12 @@ $.extend(Controller, {
 
         console.log('=> searching');
         this.setButtonStates({
-            id: 1,
+            id: 0,
             text: 'Restart Search',
             enabled: true,
             callback: $.proxy(this.restart, this),
         }, {
-            id: 2,
+            id: 1,
             text: 'Pause Search',
             enabled: true,
             callback: $.proxy(this.pause, this),
@@ -470,12 +511,12 @@ $.extend(Controller, {
     onpaused: function () {
         console.log('=> paused');
         this.setButtonStates({
-            id: 1,
+            id: 0,
             text: 'Resume Search',
             enabled: true,
             callback: $.proxy(this.resume, this),
         }, {
-            id: 2,
+            id: 1,
             text: 'Cancel Search',
             enabled: true,
             callback: $.proxy(this.cancel, this),
@@ -485,12 +526,12 @@ $.extend(Controller, {
     onfinished: function () {
         console.log('=> finished');
         this.setButtonStates({
-            id: 1,
+            id: 0,
             text: 'Restart Search',
             enabled: true,
             callback: $.proxy(this.restart, this),
         }, {
-            id: 2,
+            id: 1,
             text: 'Clear Path',
             enabled: true,
             callback: $.proxy(this.clear, this),
@@ -499,12 +540,12 @@ $.extend(Controller, {
     onmodified: function () {
         console.log('=> modified');
         this.setButtonStates({
-            id: 1,
+            id: 0,
             text: 'Start Search',
             enabled: true,
             callback: $.proxy(this.start, this),
         }, {
-            id: 2,
+            id: 1,
             text: 'Clear Path',
             enabled: true,
             callback: $.proxy(this.clear, this),
@@ -628,10 +669,14 @@ $.extend(Controller, {
         if ((event.ctrlKey) && this.isCheckPoint(gridX, gridY) != -1) {
             console.log("Remove checkpoint!");
             this.clearCheckPoint(gridX, gridY);
+            this.checkPointsleft++;
             return;
         }
-        else if (event.ctrlKey && !this.isStartOrEndPos(gridX, gridY) && grid.isWalkableAt(gridX,gridY)) {
-            this.setCheckPoint(gridX, gridY);
+        else if (event.ctrlKey) {
+            if (!this.isStartOrEndPos(gridX, gridY) && grid.isWalkableAt(gridX, gridY) && this.checkPointsleft > 0) {
+                this.setCheckPoint(gridX, gridY);
+                this.checkPointsleft--;
+            }
         }
         else {
             if (this.can('dragStart') && this.isStartPos(gridX, gridY)) {
@@ -730,7 +775,7 @@ $.extend(Controller, {
             var res = this.finder.findPath(
                 originX, originY, destX, destY, grid
             );
-            console.log("path:",res['path'])
+            console.log("path:", res['path'])
             if (!res['path'] || res['path'].length == 1) {
                 this.pathfound = 0
                 console.log("path not")
@@ -845,13 +890,36 @@ $.extend(Controller, {
     },
     setButtonStates: function () {
         $.each(arguments, function (i, opt) {
-
+            console.log("Button id:", opt.id)
             var optid = opt.id;
-            if (opt.id == 7) {
-                optid = 0;
-            }
+            // if (opt.id == 7) {
+            //     optid = 0;
+            // }
 
             var $button = Controller.$buttons.eq(optid);
+            if (opt.text) {
+                $button.text(opt.text);
+            }
+            if (opt.callback) {
+                $button
+                    .unbind('click')
+                    .click(opt.callback);
+            }
+            if (opt.enabled === undefined) {
+                return;
+            } else if (opt.enabled) {
+                $button.removeAttr('disabled');
+            } else {
+                $button.attr({ disabled: 'disabled' });
+            }
+        });
+    },
+    setButtonStatesMaze: function () {
+        $.each(arguments, function (i, opt) {
+
+            var optid = opt.id;
+            console.log(opt)
+            var $button = Controller.$maze_buttons.eq(optid);
             if (opt.text) {
                 $button.text(opt.text);
             }
