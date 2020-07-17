@@ -593,7 +593,7 @@ $.extend(Controller, {
             this.clearCheckPoint(gridX,gridY);
             return;
         }
-        else if (event.ctrlKey) {
+        else if (event.ctrlKey && grid.isWalkableAt(gridX,gridY)) {
             this.setCheckPoint(gridX, gridY);
         }
         else {
