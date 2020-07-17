@@ -483,7 +483,7 @@ $.extend(Controller, {
     loop: function() {
 
         speed = Panel.getSpeed();
-        var operationsPerSecond = speed*10;
+        var operationsPerSecond = speed*9;
 
         var interval = 1000 / operationsPerSecond;
         (function loop() {
