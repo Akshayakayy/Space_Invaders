@@ -232,7 +232,7 @@ $.extend(Controller, {
             callback: $.proxy(this.reset, this),
         }, {
             id: 4,
-            text: 'Start maze',
+            text: 'Random Maze',
             enabled: true,
             callback: $.proxy(this.startMaze, this),
         });
