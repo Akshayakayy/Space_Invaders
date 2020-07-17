@@ -53,7 +53,7 @@ var View = {
             'stroke-opacity': 0.2,
         },
         tested: {
-            fill: '#e5e5e5',
+            fill: '#000066',
             'stroke-opacity': 0.2,
         },
         checkpoint: {
@@ -72,7 +72,7 @@ var View = {
     },
     pathStyle: {
         stroke: '#FFFDBD',
-        'stroke-width': 5,
+        'stroke-width': 7,
     },
     supportedOperations: ['opened', 'closed', 'tested'],
     init: function (opts) {
@@ -426,21 +426,29 @@ var View = {
 
         $('#stats').show().html(texts.join('<br>'));
         const Toast = Swal.mixin({
-            toast: true,
-            position: 'top-end',
+            toast : true,
+            position: 'bottom-end',
             showConfirmButton: false,
-            timer: 3000,
+            timer: 10000,
             timerProgressBar: true,
-            onOpen: (toast) => {
-                toast.addEventListener('mouseenter', Swal.stopTimer)
-                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            onOpen: (to) => {
+                to.addEventListener('mouseenter', Swal.stopTimer)
+                to.addEventListener('mouseleave', Swal.resumeTimer)
             }
         })
-
         Toast.fire({
             icon: 'success',
             html: texts.join('<br>')
         })
+        // Swal.fire({
+        //     position: 'top-end',
+        //     icon: 'success',
+        //     title: 'Your work has been saved',
+        //     showConfirmButton: false,
+        //     timer: 10000,
+        //     timerProgressBar: true
+        //   })
+          
     },
     setCoordDirty: function (gridX, gridY, isDirty) {
         var x, y,

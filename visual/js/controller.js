@@ -593,7 +593,7 @@ $.extend(Controller, {
             this.clearCheckPoint(gridX,gridY);
             return;
         }
-        else if (event.ctrlKey) {
+        else if (event.ctrlKey && !this.isStartOrEndPos(gridX, gridY)) {
             this.setCheckPoint(gridX, gridY);
         }
         else {
@@ -770,21 +770,21 @@ $.extend(Controller, {
                 gridY = coord[1];
             switch (state) {
                 case 'draggingStart':
-                    if (grid.isWalkableAt(gridX, gridY)) {
+                    if (grid.isWalkableAt(gridX, gridY) && !this.isEndPos(gridX, gridY) && this.isCheckPoint(gridX, gridY)==-1) {
                         this.setStartPos(gridX, gridY);
                         if (this.endstatus == 1)
                             this.findPath(1)
                     }
                     break;
                 case 'draggingEnd':
-                    if (grid.isWalkableAt(gridX, gridY)) {
+                    if (grid.isWalkableAt(gridX, gridY) && !this.isStartPos(gridX, gridY) && this.isCheckPoint(gridX, gridY)==-1) {
                         this.setEndPos(gridX, gridY);
                         if (this.endstatus == 1)
                             this.findPath(1)
                     }
                     break;
                 case 'draggingCheckpoint':
-                    if (grid.isWalkableAt(gridX, gridY)) {
+                    if (grid.isWalkableAt(gridX, gridY) && !this.isStartOrEndPos(gridX, gridY)) {
                         View.setCheckPoint(gridX, gridY, this.checkpoints[this.currCheckpoint].x, this.checkpoints[this.currCheckpoint].y)
                         this.checkpoints[this.currCheckpoint].x = gridX;
                         this.checkpoints[this.currCheckpoint].y = gridY;
