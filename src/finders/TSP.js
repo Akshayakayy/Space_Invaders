@@ -26,6 +26,7 @@ TSP.prototype.onTSP = function () {
     let perms = this.permfinder(this.checkpoints);
     var mindist = 999999;
     var minperm = [];
+    // this.pathfound = 1
     for (let i = 0; i < perms.length; i = i + 1) {
         var totaldist = 0;
         for (let j = -1; j < (perms[i].length); j = j + 1) {
@@ -51,6 +52,10 @@ TSP.prototype.onTSP = function () {
             var res = this.finder.findPath(
                 originX, originY, destX, destY, grid
             );
+            if (!res['path'] || res['path'].length == 1) {
+                console.log("path not")
+                return this.checkpoints, 0;
+            }
             totaldist += PF.Util.pathLength(res['path']);
         }
         if (totaldist < mindist) {
@@ -59,7 +64,7 @@ TSP.prototype.onTSP = function () {
         }
     }
     this.checkpoints = minperm;
-    return minperm;
+    return minperm, this.pathfound, 1;
 };
 
 

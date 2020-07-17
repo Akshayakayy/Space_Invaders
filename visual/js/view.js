@@ -423,8 +423,6 @@ var View = {
             '<b>Time: </b>' + opts.timeSpent + 'ms',
             '<b>Operations: </b>' + opts.operationCount
         ];
-
-        $('#stats').show().html(texts.join('<br>'));
         const Toast = Swal.mixin({
             toast : true,
             position: 'bottom-end',
