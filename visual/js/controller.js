@@ -367,7 +367,7 @@ $.extend(Controller, {
         console.log(this.gridSize[0], this.gridSize[1]);
         var rows = this.gridSize[0];
         var cols = this.gridSize[1];
-        maze = new PF.RandomMaze({
+        maze = new PF.RecDivMaze({
             xlim: rows,
             ylim: cols,
             startX: this.startX,
@@ -566,6 +566,16 @@ $.extend(Controller, {
         View.clearFootprints();
         View.clearPath();
     },
+    clearCheckPoint: function (gridX,gridY) {
+    const ind = this.checkpoints.findIndex(node=>
+            node.x==gridX &&
+            node.y==gridY
+        );
+    console.log(ind);
+    if (ind!=-1)
+    this.checkpoints.splice(ind,1);
+    this.setWalkableAt(gridX,gridY,true);
+    },
     clearAll: function () {
         this.clearFootprints();
         View.clearBlockedNodes();
@@ -578,9 +588,15 @@ $.extend(Controller, {
             gridX = coord[0],
             gridY = coord[1],
             grid = this.grid;
-        if (event.ctrlKey) {
+         if ((event.ctrlKey) && this.isCheckPoint(gridX,gridY)!=-1){
+            console.log("Remove checkpoint!");
+            this.clearCheckPoint(gridX,gridY);
+            return;
+        }
+        else if (event.ctrlKey) {
             this.setCheckPoint(gridX, gridY);
-        } else {
+        }
+        else {
             if (this.can('dragStart') && this.isStartPos(gridX, gridY)) {
                 this.dragStart();
                 return;
