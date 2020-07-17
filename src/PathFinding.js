@@ -18,5 +18,7 @@ module.exports = {
     'IDAStarFinder': require('./finders/IDAStarFinder'),
     'JumpPointFinder': require('./finders/JumpPointFinder'),
     'RandomMaze':require('./mazes/random'),
+    'RecDivMaze':require('./mazes/RecdivMaze'),
+    'StairMaze':require('./mazes/StairMaze'),
     'TSP':require('./finders/TSP')
 };
