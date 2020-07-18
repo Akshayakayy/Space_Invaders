@@ -124,6 +124,9 @@ $.extend(Controller, {
     currCheckpoint: -1,
     mousemoveflag: 0,
     checkPointsleft: 4,
+    numice: 0,
+    numpit: 0,
+    numbomb: 0,
     /**
      * Asynchronous transition from `none` state to `ready` state.
      */
@@ -981,12 +984,16 @@ $.extend(Controller, {
         View.setCheckPoint(gridX, gridY, -1, -1)
     },
     setPitAt: function(gridX, gridY, walkable) {
-        this.grid.setWalkableAt(gridX, gridY, walkable);
-        View.setAttributeAt(gridX, gridY, 'walkable', walkable, "pit");
-        this.setPitArea(gridX - 1, gridY, walkable);
-        this.setPitArea(gridX - 2, gridY, walkable);
-        this.setPitArea(gridX + 1, gridY, walkable);
-        this.setPitArea(gridX + 2, gridY, walkable);
+        if (this.numpit < 5) {
+            this.grid.setWalkableAt(gridX, gridY, walkable);
+            View.setAttributeAt(gridX, gridY, 'walkable', walkable, "pit");
+            this.setPitArea(gridX - 1, gridY, walkable);
+            this.setPitArea(gridX - 2, gridY, walkable);
+            this.setPitArea(gridX + 1, gridY, walkable);
+            this.setPitArea(gridX + 2, gridY, walkable);
+            this.numpit += 1;
+        }
+
 
     },
     setPitArea: function(gridX, gridY, walkable) {
@@ -994,10 +1001,15 @@ $.extend(Controller, {
         View.setAttributeAt(gridX, gridY, 'walkable', walkable, "pitarea");
     },
     setIceAt: function(gridX, gridY, walkable) {
-        this.grid.setWalkableAt(gridX, gridY, walkable);
-        View.setAttributeAt(gridX, gridY, 'walkable', walkable, "ice");
-        this.setIceArea(gridX - 1, gridY + 1, walkable);
-        this.setIceArea(gridX + 1, gridY + 1, walkable);
+        if (this.numice < 5) {
+            this.grid.setWalkableAt(gridX, gridY, walkable);
+            View.setAttributeAt(gridX, gridY, 'walkable', walkable, "ice");
+            this.setIceArea(gridX - 1, gridY + 1, walkable);
+            this.setIceArea(gridX + 1, gridY + 1, walkable);
+            this.numice += 1;
+
+        }
+
 
     },
     setIceArea: function(gridX, gridY, walkable) {
@@ -1005,12 +1017,17 @@ $.extend(Controller, {
         View.setAttributeAt(gridX, gridY, 'walkable', walkable, "icearea");
     },
     setBombAt: function(gridX, gridY, walkable) {
-        this.grid.setWalkableAt(gridX, gridY, walkable);
-        View.setAttributeAt(gridX, gridY, 'walkable', walkable, "bomb");
-        this.setBombArea(gridX - 1, gridY, walkable);
-        this.setBombArea(gridX, gridY - 1, walkable);
-        this.setBombArea(gridX + 1, gridY, walkable);
-        this.setBombArea(gridX, gridY + 1, walkable);
+        if (this.numbomb < 5) {
+            this.grid.setWalkableAt(gridX, gridY, walkable);
+            View.setAttributeAt(gridX, gridY, 'walkable', walkable, "bomb");
+            this.setBombArea(gridX - 1, gridY, walkable);
+            this.setBombArea(gridX, gridY - 1, walkable);
+            this.setBombArea(gridX + 1, gridY, walkable);
+            this.setBombArea(gridX, gridY + 1, walkable);
+            this.numbomb += 1;
+        }
+
+
 
     },
     setBombArea: function(gridX, gridY, walkable) {
