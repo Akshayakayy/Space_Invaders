@@ -1,86 +1,26 @@
 /**
  * The control panel.
  */
-const steps = ['1', '2', '3']
-const swalQueueStep = Swal.mixin({
-    confirmButtonText: 'Next &rarr;',
-    cancelButtonText: 'Back',
-    progressSteps: steps,
-    inputAttributes: {
-        required: true
-    },
-    reverseButtons: true,
-    backdrop: `
-    rgba(0,0,123,0.6)
-    url("https://i.gifer.com/ZDci.gif")
-    left top
-    no-repeat
-    `
-})
-async function backAndForth() {
-    const values = []
-    let currentStep
-    var title = ""
-    var text = ""
-    for (currentStep = 0; currentStep < steps.length;) {
-        switch(currentStep){
-            case 0:
-                title = "Welcome to Space invaders!"
-                text = "Click Next! to view the guide"
-                break;
-            case 1:
-                title = "Draw walls"
-                text = "Click and drag to draw walls"
-                break;
-            case 2:
-                title = "Draw checkpoint"
-                text = "Ctrl + Click to place checkpoints"
-                break;
-        }
-        const result = await swalQueueStep.fire({
-            title: title,
-            text: text,
-            showCancelButton: currentStep > 0,
-            currentProgressStep: currentStep
-        })
-
-        if (result.value) {
-            values[currentStep] = result.value
-            currentStep++
-        } else if (result.dismiss === 'cancel') {
-            currentStep--
-        } else {
-            break
-        }
-    }
-}
-
 var Panel = {
-    init: function () {
+    init: function() {
         var $algo = $('#algorithm_panel');
         $('.panel').draggable();
         $('.accordion').accordion({
             collapsible: false,
         });
-        $('.option_label').click(function () {
+        $('.option_label').click(function() {
             $(this).prev().click();
         });
-        $('#hide_instructions').click(function () {
+        $('#hide_instructions').click(function() {
             $('#instructions_panel').slideUp();
         });
         $('#play_dropdown').css({
             top: 30,
             left: 300,
         });
-        $(document).ready(function () {
-            backAndForth()
-            // Swal.fire({
-            //     title: 'Welcome to Space Invaders! Let\'s move forwards towards the base',
-            //     text: '',
-            //     confirmButtonText: 'Cool'
-            //   })
-            // alert("Welcome to Space Invaders! Let's move forwards towards the base");
-            $('.dropdown-submenu a.test').on("click", function (e) {
+        $(document).ready(function() {
+            alert("Welcome to Space Invaders! Let's move forwards towards the base");
+            $('.dropdown-submenu a.test').on("click", function(e) {
                 $(this).next('ul').toggle();
                 e.stopPropagation();
                 e.preventDefault();
@@ -97,16 +37,15 @@ var Panel = {
         $('#button2').attr('disabled', 'disabled');
     },
 
-    getSpeed: function () {
-        var speed = $('input[name=speed]').val();
-        console.log('speeeeeeed');
+    getSpeed: function() {
+        var speed = $('input[name=speed]:checked').val();
         console.log(speed);
         return speed;
     },
     /**
      * Get the user selected path-finder.
      */
-    getFinder: function () {
+    getFinder: function() {
         var finder, selected_header, heuristic, allowDiagonal, biDirectional, dontCrossCorners, weight, trackRecursion, timeLimit;
         selected_header = $(
             '#algorithm_panel ' +
