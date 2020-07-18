@@ -75,9 +75,7 @@ var View = {
         transform: 's1.2', // scale by 1.2x
         transformBack: 's1.0',
     },
-    moveRover: {
 
-    },
     pathStyle: {
         stroke: '#FFFDBD',
         'stroke-width': 7,
@@ -385,12 +383,12 @@ var View = {
         var svgPath = this.buildSvgPath(path);
         console.log(svgPath);
         this.path = this.paper.path(svgPath).attr(this.pathStyle);
-        var res = svgPath.split(" ");
-        var yp = parseInt(res[res.length - 1]);
-        var xpr = res[res.length - 2];
-        var xp = parseInt(xpr.split("L")[1]);
-        console.log(yp, xp);
-        this.startNode.attr({ x: xp - 15, y: yp - 15 });
+        // var res = svgPath.split(" ");
+        // var yp = parseInt(res[res.length - 1]);
+        // var xpr = res[res.length - 2];
+        // var xp = parseInt(xpr.split("L")[1]);
+        // console.log(yp, xp);
+        // this.startNode.attr({ x: xp - 15, y: yp - 15 });
         // this.endNode.style.visibility("hidden");
     },
 
