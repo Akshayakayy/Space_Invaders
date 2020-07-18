@@ -207,7 +207,9 @@ $.extend(Controller, {
             grid: this.grid,
             finder: this.finder
         })
-        this.checkpoints, this.pathfound = TSP.onTSP()
+        res = TSP.onTSP()
+        this.checkpoints = res[0]
+        this.pathfound = res[1]
         for (var i = -1; i < this.checkpoints.length; i++) {
             if (i == -1) {
                 var originX = this.startX;
