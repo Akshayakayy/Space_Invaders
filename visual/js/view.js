@@ -33,7 +33,7 @@ var View = {
             'stroke-opacity': 0.2,
         },
         start: {
-            fill: 'url("images/moon-rover.png")',
+            fill: 'url("images/rover.jpeg")',
             'stroke-opacity': 0.2,
         },
         end: {
