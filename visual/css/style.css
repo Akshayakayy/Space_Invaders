@@ -56,6 +56,16 @@ h6 {
     font-family: Dosis;
 }
 
+#button1, #button2, #button3 {
+    color: rgb(255, 255, 255);
+    opacity: 0.8;
+}
+
+#button1:hover, #button2:hover, #button3:hover {
+    color: rgb(255, 255, 255);
+    opacity: 1;
+}
+
 #speed {
     font-size: large;
     color: #FFFDBD;
