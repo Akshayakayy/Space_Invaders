@@ -175,6 +175,7 @@ $.extend(Controller, {
         // => addingIce
     },
     onaddBomb: function(event, from, to, gridX, gridY) {
+        this.setBombAt(gridX, gridY, false);
         console.log("adding bomb");
 
 
@@ -276,6 +277,9 @@ $.extend(Controller, {
             Controller.clearFootprints();
             Controller.start();
         }, View.nodeColorizeEffect.duration * 1.2);
+        this.numbomb = 0;
+        this.numice = 0;
+        this.numpit = 0;
         // => restarting
     },
     onpause: function(event, from, to) {
@@ -705,7 +709,7 @@ $.extend(Controller, {
             }
 
             if (this.can('addBomb') && grid.isWalkableAt(gridX, gridY)) {
-                this.addBomb(gridX, gridY);
+                this.addBomb(100, 100);
                 return;
             }
 
@@ -1009,8 +1013,6 @@ $.extend(Controller, {
             this.numice += 1;
 
         }
-
-
     },
     setIceArea: function(gridX, gridY, walkable) {
         this.grid.setWalkableAt(gridX, gridY, walkable);
@@ -1026,9 +1028,6 @@ $.extend(Controller, {
             this.setBombArea(gridX, gridY + 1, walkable);
             this.numbomb += 1;
         }
-
-
-
     },
     setBombArea: function(gridX, gridY, walkable) {
         this.grid.setWalkableAt(gridX, gridY, walkable);
