@@ -301,7 +301,8 @@ var View = {
             if (ob == "wall") {
                 // console.log("wall style");
                 this.colorizeNode(node, this.nodeStyle.blocked.fill);
-            } else if (ob == "pit") {
+            } 
+            else if (ob == "pit") {
                 console.log("pit style");
                 this.colorizeNode(node, this.nodeStyle.pitnode.fill);
             } else if (ob == "ice") {

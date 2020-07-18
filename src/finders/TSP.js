@@ -63,8 +63,9 @@ TSP.prototype.onTSP = function () {
             minperm = perms[i];
         }
     }
+    console.log(minperm)
     this.checkpoints = minperm;
-    return minperm, this.pathfound, 1;
+    return [minperm, 1];
 };
 
 
