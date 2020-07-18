@@ -983,10 +983,26 @@ $.extend(Controller, {
     setPitAt: function(gridX, gridY, walkable) {
         this.grid.setWalkableAt(gridX, gridY, walkable);
         View.setAttributeAt(gridX, gridY, 'walkable', walkable, "pit");
+        this.setPitArea(gridX - 1, gridY, walkable);
+        this.setPitArea(gridX - 2, gridY, walkable);
+        this.setPitArea(gridX + 1, gridY, walkable);
+        this.setPitArea(gridX + 2, gridY, walkable);
+
+    },
+    setPitArea: function(gridX, gridY, walkable) {
+        this.grid.setWalkableAt(gridX, gridY, walkable);
+        View.setAttributeAt(gridX, gridY, 'walkable', walkable, "pitarea");
     },
     setIceAt: function(gridX, gridY, walkable) {
         this.grid.setWalkableAt(gridX, gridY, walkable);
         View.setAttributeAt(gridX, gridY, 'walkable', walkable, "ice");
+        this.setIceArea(gridX - 1, gridY + 1, walkable);
+        this.setIceArea(gridX + 1, gridY + 1, walkable);
+
+    },
+    setIceArea: function(gridX, gridY, walkable) {
+        this.grid.setWalkableAt(gridX, gridY, walkable);
+        View.setAttributeAt(gridX, gridY, 'walkable', walkable, "icearea");
     },
     setBombAt: function(gridX, gridY, walkable) {
         this.grid.setWalkableAt(gridX, gridY, walkable);

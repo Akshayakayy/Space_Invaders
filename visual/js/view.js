@@ -17,6 +17,11 @@ var View = {
             'stroke-opacity': 0.2,
 
         },
+        pitarea: {
+            fill: 'blue',
+            "stroke-opacity": 0.1,
+
+        },
         bombnode: {
             fill: 'url("images/bomb.png")',
             "stroke-opacity": 0.2,
@@ -33,6 +38,12 @@ var View = {
             'stroke-opacity': 0.2,
 
         },
+        icearea: {
+            fill: 'url("images/icearea.png")',
+            "stroke-opacity": 0.1,
+
+        },
+
         blocked: {
             fill: '#47101E',
             'stroke-opacity': 0.2,
@@ -314,9 +325,14 @@ var View = {
                 this.colorizeNode(node, this.nodeStyle.icenode.fill);
             } else if (ob == "bomb") {
                 this.colorizeNode(node, this.nodeStyle.bombnode.fill);
-            } else {
+            } else if (ob == "bombarea") {
                 this.colorizeNode(node, this.nodeStyle.bombarea.fill);
+            } else if (ob == "icearea") {
+                this.colorizeNode(node, this.nodeStyle.icearea.fill);
+            } else if (ob == "pitarea") {
+                this.colorizeNode(node, this.nodeStyle.pitarea.fill);
             }
+
 
             this.zoomNode(node);
         }
