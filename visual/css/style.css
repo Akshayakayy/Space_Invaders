@@ -108,38 +108,48 @@ h6 {
     color: orangered;
 }
 
-/* #button4,#button5,#button6 {
-    font-size: 20px;
-    width: 115px;
+
+#maze {
+    height: 125px;
+    width: 139px;
+    text-align: center;
+    background-color: black;
+    opacity: 0.8;
+    padding-top: 10px;
+}
+
+#obstacles {
+    width: 103px;
+    height: 125px;
+    text-align: center;
+    background-color: black;
+    opacity: 0.8;
+    padding-top: 10px;
+    
+}
+
+.maze_button:hover {
+    color: rgb(218, 137, 106);
+    
+}
+
+.obstacle_button:hover {
+    color: rgb(218, 137, 106);
+    
+}
+
+.obstacle_button {
+    color: rgb(255, 255, 255);
+    font-size: medium;
+    margin: 5px;
     font-family: Didact Gothic;
 }
 
-#button4 {
-    color: rgb(221, 159, 78);
-    background-color: rgb(54, 40, 8);
-}
-
-#button5 {
-    background-color: rgb(76, 208, 212);
+.maze_button {
     color: rgb(255, 255, 255);
-}
-
-#button6 {
-    color: red;
-    background-color: black;
-} */
-
-#maze {
-    /* height: 0px; */
-    width: 159px;
-    /* background: transparent; */
-    /* position: fixed; */
-    /* padding: 20px; */
-    /* background-color: rgba(0, 0, 0, 0.6); */
-    /* color: #fff; */
-    /* border-radius: 1px; */
-    /* box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5); 
-    cursor: default; */
+    font-size: medium;
+    margin: 5px;
+    font-family: Didact Gothic;
 }
 
 .finder_section {
@@ -164,7 +174,7 @@ h6 {
     font-size: large;
     color: #FFFDBD;
     font-weight: bold;
-    font-family: Didact Gothic;
+    font-family: Dosis;
     /* padding-bottom: 5px; */
     /* margin-top: -10px; */
 }
@@ -222,6 +232,7 @@ h6 {
 
 .option_label {
     cursor: pointer;
+    font-family: Didact Gothic;
 }
 
 
