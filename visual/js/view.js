@@ -312,10 +312,11 @@ var View = {
             } else if (ob == "ice") {
                 console.log("ice style");
                 this.colorizeNode(node, this.nodeStyle.icenode.fill);
-            } else {
+            } else if (ob == "bomb") {
                 this.colorizeNode(node, this.nodeStyle.bombnode.fill);
+            } else {
+                this.colorizeNode(node, this.nodeStyle.bombarea.fill);
             }
-
 
             this.zoomNode(node);
         }
