@@ -146,6 +146,7 @@ $.extend(Controller, {
 
         this.$buttons = $('.control_button');
         this.$maze_buttons = $('.maze_button');
+        this.$obstacle_buttons = $('.obstacle_button');
         console.log(this.$maze_buttons)
         // this.hookPathFinding();
 
@@ -348,22 +349,6 @@ $.extend(Controller, {
             text: 'Clear Obstacles',
             enabled: true,
             callback: $.proxy(this.reset, this),
-        }, {
-            id: 3,
-            text: 'Add Pit',
-            enabled: true,
-            callback: $.proxy(this.addPit, this)
-        }, {
-            id: 4,
-            text: 'Add Ice',
-            enabled: true,
-            callback: $.proxy(this.addIce, this)
-        }, {
-            id: 5,
-            text: 'Add Bomb',
-            enabled: true,
-            callback: $.proxy(this.addBomb, this)
-
         });
         this.setButtonStatesMaze({
             id: 0,
@@ -380,6 +365,23 @@ $.extend(Controller, {
             text: 'Stair maze',
             enabled: true,
             callback: $.proxy(this.initmaze, this, 'stair'),
+        });
+        this.setButtonStatesObstacles({
+            id: 1,
+            text: 'Add Bomb',
+            enabled: true,
+            callback: $.proxy(this.addBomb, this)
+        }, {
+            id: 2,
+            text: 'Add Ice',
+            enabled: true,
+            callback: $.proxy(this.addIce, this)
+        }, {
+            id: 3,
+            text: 'Add Pit',
+            enabled: true,
+            callback: $.proxy(this.addPit, this)
+
         })
         // => [starting, draggingStart, draggingEnd, draggingPit drawingStart, drawingEnd]
     },
@@ -940,6 +942,30 @@ $.extend(Controller, {
             }
         });
     },
+    setButtonStatesObstacles: function () {
+        $.each(arguments, function (i, opt) {
+
+            var optid = opt.id;
+            console.log(opt)
+            var $button = Controller.$obstacle_buttons.eq(optid-1);
+            if (opt.text) {
+                $button.text(opt.text);
+            }
+            if (opt.callback) {
+                $button
+                    .unbind('click')
+                    .click(opt.callback);
+            }
+            if (opt.enabled === undefined) {
+                return;
+            } else if (opt.enabled) {
+                $button.removeAttr('disabled');
+            } else {
+                $button.attr({ disabled: 'disabled' });
+            }
+        });
+    },
+
     /**
      * When initializing, this method will be called to set the positions
      * of start node and end node.
