@@ -54,7 +54,7 @@ TSP.prototype.onTSP = function () {
             );
             if (!res['path'] || res['path'].length == 1) {
                 console.log("path not")
-                return this.checkpoints, 0;
+                return [this.checkpoints, 0];
             }
             totaldist += PF.Util.pathLength(res['path']);
         }

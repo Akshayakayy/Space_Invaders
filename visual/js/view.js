@@ -280,16 +280,6 @@ var View = {
                     node.remove();
                 }, this.nodeZoomEffect.duration);
                 blockedNodes[gridY][gridX] = null;
-            } else {
-                node = this.rects[gridY][gridX].clone();
-                console.log(this.checkpoint);
-                // this.paper.rect(
-                //     coord[0],
-                //     coord[1],
-                //     this.nodeSize,
-                //     this.nodeSize
-                // ).attr(this.nodeStyle.checkpoint)
-                //  .animate(this.nodeStyle.checkpoint, 1000)
             }
         } else {
             // draw blocked node

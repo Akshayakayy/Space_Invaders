@@ -173,8 +173,6 @@ $.extend(Controller, {
     },
     onaddBomb: function (event, from, to, gridX, gridY) {
         console.log("adding bomb");
-
-
         // => addingBomb
     },
     pathnotfound: function () {
@@ -748,7 +746,10 @@ $.extend(Controller, {
             var checkx = this.checkpoints[this.currCheckpoint].x
             var checky = this.checkpoints[this.currCheckpoint].y
         }
-        this.checkpoints, this.pathfound = TSP.onTSP()
+        res = TSP.onTSP()
+        this.checkpoints = res[0]
+        this.pathfound = res[1]
+        // this.checkpoints, this.pathfound = TSP.onTSP()
         if (this.currCheckpoint != -1) {
             for (var i = 0; i < this.checkpoints.length; i++)
                 if (checkx == this.checkpoints[i].x && checky == this.checkpoints[i].y) {
