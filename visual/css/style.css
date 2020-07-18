@@ -42,26 +42,34 @@ h6 {
 }
 
 .navbar {
-    height: 50px;
+    height: 30px;
 }
 
 #algo_panel {
     background: transparent;
 }
 
-/* #speed {
-    height: 145px;
-    width: 149px;
-    font-size: 18px;
-    background: transparent;
-    position: fixed;
-    
-    background-color: rgba(0, 0, 0, 0.6);
-    color: #fff;
-    border-radius: 1px;
-    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
-    cursor: default;
-} */
+.navbar-right {
+    font-size: large;
+    color: #FFFDBD;
+    font-weight: bold;
+    font-family: Dosis;
+}
+
+#speed {
+    font-size: large;
+    color: #FFFDBD;
+    font-weight: bold;
+    font-family: Dosis;
+    opacity: 1;
+}
+
+.navbar-right:hover {
+    font-size: large;
+    color: #FFFDBD;
+    font-weight: bold;
+    font-family: Dosis;
+}
 
 .slider {
   -webkit-appearance: none;
@@ -249,14 +257,7 @@ h6 {
     height: 45px; */
     font-weight: bold;
 
-button:hover {
-    background: rgba(32, 178, 170, 0.9);
-}
-button:active {
-  background-color: rgba(32, 178, 170, 0.9);
-  box-shadow: 0 1px #666;
-  transform: translateY(4px);
-}
+
 .finder_section {
     border: solid 1px #ddd;
     border-radius: 5px;
