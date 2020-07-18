@@ -267,6 +267,7 @@ $.extend(Controller, {
             Controller.clearFootprints();
             Controller.start();
         }, View.nodeColorizeEffect.duration * 1.2);
+        Controller.setDefaultStartEndPos();
         // => restarting
     },
     onpause: function(event, from, to) {
@@ -976,7 +977,17 @@ $.extend(Controller, {
     setBombAt: function(gridX, gridY, walkable) {
         this.grid.setWalkableAt(gridX, gridY, walkable);
         View.setAttributeAt(gridX, gridY, 'walkable', walkable, "bomb");
+        this.setBombArea(gridX - 1, gridY, walkable);
+        this.setBombArea(gridX, gridY - 1, walkable);
+        this.setBombArea(gridX + 1, gridY, walkable);
+        this.setBombArea(gridX, gridY + 1, walkable);
+
     },
+    setBombArea: function(gridX, gridY, walkable) {
+        this.grid.setWalkableAt(gridX, gridY, walkable);
+        View.setAttributeAt(gridX, gridY, 'walkable', walkable, "bombarea");
+    },
+
     isStartPos: function(gridX, gridY) {
         return gridX === this.startX && gridY === this.startY;
     },

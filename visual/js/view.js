@@ -22,6 +22,11 @@ var View = {
             "stroke-opacity": 0.2,
 
         },
+        bombarea: {
+            fill: 'url("images/bombarea.jpg")',
+            "stroke-opacity": 0.1,
+
+        },
 
         icenode: {
             fill: 'url("images/ice.jpg")',
@@ -309,8 +314,10 @@ var View = {
             } else if (ob == "ice") {
                 console.log("ice style");
                 this.colorizeNode(node, this.nodeStyle.icenode.fill);
-            } else {
+            } else if (ob == "bomb") {
                 this.colorizeNode(node, this.nodeStyle.bombnode.fill);
+            } else {
+                this.colorizeNode(node, this.nodeStyle.bombarea.fill);
             }
 
 
@@ -379,10 +386,10 @@ var View = {
         console.log(svgPath);
         this.path = this.paper.path(svgPath).attr(this.pathStyle);
         // this.moveRover(svgPath, this.startNode, this.start, 10);
-        var yp = svgPath.slice(svgPath.length - 3, svgPath.length);
-        var xp = svgPath.slice(svgPath.length - 7, svgPath.length - 3);
-        this.startNode.attr({ x: xp - 15, y: yp - 15 });
-        this.endNode.remove();
+        // var yp = svgPath.slice(svgPath.length - 3, svgPath.length);
+        // var xp = svgPath.slice(svgPath.length - 7, svgPath.length - 3);
+        // this.startNode.attr({ x: xp - 15, y: yp - 15 });
+        // this.endNode.style.visibility("hidden");
 
     },
 

@@ -108,11 +108,14 @@ var Controller = StateMachine.create({
         // },
         {
             name: 'rest',
-<<<<<<< HEAD
+            <<
+            << << < HEAD
             from: ['draggingStart', 'draggingEnd', 'drawingWall', 'erasingWall', 'addingPit', 'addingIce', 'addingBomb'],
-=======
+            ===
+            === =
             from: ['draggingStart', 'draggingEnd', 'drawingWall', 'erasingWall', 'draggingEndFinished'],
->>>>>>> [Modified] moving end after finished
+            >>>
+            >>> > [Modified] moving end after finished
             to: 'ready'
         },
         {
@@ -125,12 +128,15 @@ var Controller = StateMachine.create({
 
 $.extend(Controller, {
     gridSize: [64, 36], // number of nodes horizontally and vertically
-<<<<<<< HEAD
+    <<
+    << << < HEAD
 
-=======
+    ===
+    === =
     operationsPerSecond: 600,
     draggingEndLock: false,
->>>>>>> [Modified] moving end after finished
+    >>>
+    >>> > [Modified] moving end after finished
     /**
      * Asynchronous transition from `none` state to `ready` state.
      */
@@ -158,15 +164,9 @@ $.extend(Controller, {
         return StateMachine.ASYNC;
         // => ready
     },
-<<<<<<< HEAD
     ondrawWall: function(event, from, to, gridX, gridY) {
         console.log("drawing wall", gridX, gridY);
         this.setWalkableAt(gridX, gridY, false, "wall");
-=======
-    ondrawWall: function (event, from, to, gridX, gridY) {
-        console.log("drawWall-transition")
-        this.setWalkableAt(gridX, gridY, false);
->>>>>>> [Modified] moving end after finished
         // => drawingWall
     },
     oneraseObstacle: function(event, from, to, gridX, gridY) {
@@ -483,7 +483,7 @@ $.extend(Controller, {
     loop: function() {
 
         speed = Panel.getSpeed();
-        var operationsPerSecond = speed*5;
+        var operationsPerSecond = speed * 5;
 
         var interval = 1000 / operationsPerSecond;
         (function loop() {
@@ -587,7 +587,7 @@ $.extend(Controller, {
                 }
                 break;
             case 'draggingEndFinished':
-                if(!this.draggingEndLock){
+                if (!this.draggingEndLock) {
                     this.draggingEndLock = true
                     if (grid.isWalkableAt(gridX, gridY)) {
                         this.setEndPos(gridX, gridY);
@@ -602,15 +602,14 @@ $.extend(Controller, {
                         var operations = res['operations']
                         console.log(res['path'])
                         var op, isSupported;
-                        while(operations.length){
+                        while (operations.length) {
                             op = operations.shift();
                             View.setAttributeAt(op.x, op.y, op.attr, op.value);
                         }
                         View.drawPath(path);
                     }
                     this.draggingEndLock = false
-                }
-                else{
+                } else {
                     console.log("abcd")
                 }
                 break;

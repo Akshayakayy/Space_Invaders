@@ -463,7 +463,7 @@ $.extend(Controller, {
     loop: function() {
 
         speed = Panel.getSpeed();
-        var operationsPerSecond = speed*5;
+        var operationsPerSecond = speed * 5;
 
         var interval = 1000 / operationsPerSecond;
         (function loop() {
@@ -653,6 +653,7 @@ $.extend(Controller, {
     setBombAt: function(gridX, gridY, walkable) {
         this.grid.setWalkableAt(gridX, gridY, walkable);
         View.setAttributeAt(gridX, gridY, 'walkable', walkable, "bomb");
+
     },
     isStartPos: function(gridX, gridY) {
         return gridX === this.startX && gridY === this.startY;
