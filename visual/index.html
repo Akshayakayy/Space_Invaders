@@ -49,7 +49,10 @@
         <ul class="nav navbar-nav">
           <li  class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                <div class="header_title">Generate Maze<span class="caret"></span></div>
+
+                <div class="header_title" id="genmaze">Generate Maze<span class="caret"></span>
+                  <span class="tooltiptext" id="tooltipgenmaze">Generate mazes using different algorithms</span>
+                </div>
             </a>
             <ul class="dropdown-menu" id="algo_panel">
               <div id="algorithm_panel">
@@ -58,8 +61,7 @@
                 <li class="divider"></li>
                 <li><a id="maze2" class="maze_button">Recursive Maze</a></li>
                 <li class="divider"></li>
-                <li><a id="maze3" class="maze_button">Stair maze</a></li>
-                <!-- <li><a>Stair maze</a></li> -->
+                <li><div id="maze3" class="maze_button">Stair maze</div></li>
               </div>
               </div>
             </ul>
@@ -67,7 +69,9 @@
 
           <li  class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                <div class="header_title">Obstacles<span class="caret"></span></div>
+              <div class="header_title" id="genobs">Obstacles<span class="caret"></span>
+                <span class="tooltiptext" id="tooltipgenobs">Insert obstacles of various types</span>
+              </div>
             </a>
             <ul class="dropdown-menu" id="algo_panel">
               <div id="algorithm_panel">
@@ -84,7 +88,9 @@
           
           <li  class="dropdown">
               <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                  <div class="header_title">Algorithm<span class="caret"></span></div>
+                <div class="header_title" id="genalgo">Algorithms<span class="caret"></span>
+                  <span class="tooltiptext" id="tooltipgenalgo">Use various algorithms to find the shortest path</span>
+                </div>
               </a>
             <ul class="dropdown-menu" id="algo_panel">
               <div id="algorithm_panel">
@@ -292,22 +298,16 @@
 
     <div id="draw_area"></div>
 
-    <!-- <div id="instructions_panel" class="panel">
+    <div id="instructions_panel" class="panel">
       <header>
-        <h2 class="header_title">Instructions</h2>
+        <h2 class="instruction_title">Features Included:</h2>
         <span id="hide_instructions">hide</span>
       </header>
-      Click within the <span class="white">cream</span> grid and drag your mouse to draw obstacles. <br>
-      Drag the <span class="green">green</span> node to set the start position. <br>
-      Drag the <span class="red">red</span> node to set the end position. <br>
-      Choose an algorithm from the right-hand panel. <br>
-      Click Start Search in the lower-right corner to start the animation.
-    </div> -->
+      Click within the cream</span> grid and drag your mouse to draw obstacles. <br>
+      
+    </div>
   
     <!-- <div id="stats"></div> -->
-    <!-- <footer>
-      Project by team Space_Invaders
-    </footer> -->
 
   </body>
   <script>

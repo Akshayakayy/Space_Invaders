@@ -188,6 +188,56 @@ h6 {
     font-size: x-large;
 }
 
+.instruction_title {
+    font-size: large;
+    color: rgb(0, 0, 0);
+    font-weight: bold;
+    font-family: Dosis;
+    /* padding-bottom: 5px; */
+    /* margin-top: -10px; */
+}
+
+.tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    /* z-index: 10; */
+    top: 100%;
+    left: 50%;
+    margin-left: -60px;
+  }
+
+  .tooltiptext::after {
+    content: "";
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent rgb(255, 255, 255) transparent;
+  }
+  
+  #genmaze:hover #tooltipgenmaze {
+    visibility: visible;
+  }
+
+  #genobs:hover #tooltipgenobs {
+    visibility: visible;
+  }
+
+
+  #genalgo:hover #tooltipgenalgo {
+    visibility: visible;
+  }
+
+  
+
 .header_title {
     font-size: large;
     color: #FFFDBD;
@@ -197,16 +247,16 @@ h6 {
     /* margin-top: -10px; */
 }
 
-
-/* .panel {
+.panel {
     position: fixed;
     padding: 20px;
     background-color: rgba(0, 0, 0, 0.6);
-    color: #fff;
+    color: rgb(0, 0, 0);
     border-radius: 8px;
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
     cursor: default;
-} */
+    opacity: 0.8;
+}
 
 
 /* .right_panel {
@@ -225,7 +275,7 @@ h6 {
 }
 
 #instructions_panel {
-    top: 20px;
+    top: 60px;
     left: 20px;
     width: 550px;
 }
@@ -266,7 +316,7 @@ h6 {
     /* width: 75px;
     height: 45px; */
     font-weight: bold;
-
+}
 
 .finder_section {
     border: solid 1px #ddd;
@@ -291,23 +341,6 @@ h6 {
     border-radius: 5px;
 }
 
-a {
-    color: #33f;
-}
-
-footer {
-    color: #333;
-    font-size: 100%;
-    text-align: center;
-    position: fixed;
-    width: 200px;
-    bottom: 10px;
-    left: 50%;
-    margin-left: -100px;
-    background: rgba(255, 255, 255, 0.5);
-    padding: 5px;
-    border-radius: 5px;
-}
 
 .white {
     color: #fff;
@@ -333,3 +366,6 @@ footer {
     background-repeat: no-repeat;
     background-size: contain;
 }
+
+ 
+  
