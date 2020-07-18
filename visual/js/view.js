@@ -385,12 +385,13 @@ var View = {
         var svgPath = this.buildSvgPath(path);
         console.log(svgPath);
         this.path = this.paper.path(svgPath).attr(this.pathStyle);
-        // this.moveRover(svgPath, this.startNode, this.start, 10);
-        // var yp = svgPath.slice(svgPath.length - 3, svgPath.length);
-        // var xp = svgPath.slice(svgPath.length - 7, svgPath.length - 3);
-        // this.startNode.attr({ x: xp - 15, y: yp - 15 });
+        var res = svgPath.split(" ");
+        var yp = parseInt(res[res.length - 1]);
+        var xpr = res[res.length - 2];
+        var xp = parseInt(xpr.split("L")[1]);
+        console.log(yp, xp);
+        this.startNode.attr({ x: xp - 15, y: yp - 15 });
         // this.endNode.style.visibility("hidden");
-
     },
 
 
