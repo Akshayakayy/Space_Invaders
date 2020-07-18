@@ -70,6 +70,9 @@ var View = {
         transform: 's1.2', // scale by 1.2x
         transformBack: 's1.0',
     },
+    moveRover: {
+
+    },
     pathStyle: {
         stroke: '#FFFDBD',
         'stroke-width': 7,
@@ -373,8 +376,17 @@ var View = {
             return;
         }
         var svgPath = this.buildSvgPath(path);
+        console.log(svgPath);
         this.path = this.paper.path(svgPath).attr(this.pathStyle);
+        // this.moveRover(svgPath, this.startNode, this.start, 10);
+        var yp = svgPath.slice(svgPath.length - 3, svgPath.length);
+        var xp = svgPath.slice(svgPath.length - 7, svgPath.length - 3);
+        this.startNode.attr({ x: xp - 15, y: yp - 15 });
+        this.endNode.remove();
+
     },
+
+
     /**
      * Given a path, build its SVG represention.
      */
