@@ -7,110 +7,110 @@
 var Controller = StateMachine.create({
     initial: 'none',
     events: [{
-        name: 'init',
-        from: 'none',
-        to: 'ready'
-    },
-    {
-        name: 'search',
-        from: 'starting',
-        to: 'searching'
-    },
-    {
-        name: 'pause',
-        from: 'searching',
-        to: 'paused'
-    },
-    {
-        name: 'finish',
-        from: 'searching',
-        to: 'finished'
-    },
-    {
-        name: 'resume',
-        from: 'paused',
-        to: 'searching'
-    },
-    {
-        name: 'cancel',
-        from: 'paused',
-        to: 'ready'
-    },
-    {
-        name: 'modify',
-        from: 'finished',
-        to: 'modified'
-    },
-    {
-        name: 'reset',
-        from: '*',
-        to: 'ready'
-    },
-    {
-        name: 'clear',
-        from: ['finished', 'modified'],
-        to: 'ready'
-    },
-    {
-        name: 'start',
-        from: ['ready', 'modified', 'restarting'],
-        to: 'starting'
-    },
-    {
-        name: 'restart',
-        from: ['searching', 'finished'],
-        to: 'restarting'
-    },
-    {
-        name: 'dragStart',
-        from: ['ready', 'finished'],
-        to: 'draggingStart'
-    },
-    {
-        name: 'dragEnd',
-        from: ['ready', 'finished'],
-        to: 'draggingEnd'
-    },
-    {
-        name: 'dragCheckpoint',
-        from: ['ready', 'finished'],
-        to: 'draggingCheckpoint'
-    },
-    {
-        name: 'drawWall',
-        from: ['ready', 'finished'],
-        to: 'drawingWall'
-    },
-    {
-        name: 'eraseWall',
-        from: ['ready', 'finished'],
-        to: 'erasingWall'
-    },
-    {
-        name: 'addPit',
-        from: ['ready', 'finished'],
-        to: 'addingPit'
-    },
-    {
-        name: 'addBomb',
-        from: ['ready', 'finished'],
-        to: 'addingBomb'
-    },
-    {
-        name: 'addIce',
-        from: ['ready', 'finished'],
-        to: 'addingIce'
-    },
-    {
-        name: 'rest',
-        from: ['draggingStart', 'draggingEnd', 'drawingWall', 'erasingWall', 'addingPit', 'addingIce', 'addingBomb', 'draggingCheckpoint'],
-        to: 'ready'
-    },
-    {
-        name: 'startMaze',
-        from: 'ready',
-        to: 'ready'
-    }
+            name: 'init',
+            from: 'none',
+            to: 'ready'
+        },
+        {
+            name: 'search',
+            from: 'starting',
+            to: 'searching'
+        },
+        {
+            name: 'pause',
+            from: 'searching',
+            to: 'paused'
+        },
+        {
+            name: 'finish',
+            from: 'searching',
+            to: 'finished'
+        },
+        {
+            name: 'resume',
+            from: 'paused',
+            to: 'searching'
+        },
+        {
+            name: 'cancel',
+            from: 'paused',
+            to: 'ready'
+        },
+        {
+            name: 'modify',
+            from: 'finished',
+            to: 'modified'
+        },
+        {
+            name: 'reset',
+            from: '*',
+            to: 'ready'
+        },
+        {
+            name: 'clear',
+            from: ['finished', 'modified'],
+            to: 'ready'
+        },
+        {
+            name: 'start',
+            from: ['ready', 'modified', 'restarting'],
+            to: 'starting'
+        },
+        {
+            name: 'restart',
+            from: ['searching', 'finished'],
+            to: 'restarting'
+        },
+        {
+            name: 'dragStart',
+            from: ['ready', 'finished'],
+            to: 'draggingStart'
+        },
+        {
+            name: 'dragEnd',
+            from: ['ready', 'finished'],
+            to: 'draggingEnd'
+        },
+        {
+            name: 'dragCheckpoint',
+            from: ['ready', 'finished'],
+            to: 'draggingCheckpoint'
+        },
+        {
+            name: 'drawWall',
+            from: ['ready', 'finished'],
+            to: 'drawingWall'
+        },
+        {
+            name: 'eraseWall',
+            from: ['ready', 'finished'],
+            to: 'erasingWall'
+        },
+        {
+            name: 'addPit',
+            from: ['ready', 'finished'],
+            to: 'addingPit'
+        },
+        {
+            name: 'addBomb',
+            from: ['ready', 'finished'],
+            to: 'addingBomb'
+        },
+        {
+            name: 'addIce',
+            from: ['ready', 'finished'],
+            to: 'addingIce'
+        },
+        {
+            name: 'rest',
+            from: ['draggingStart', 'draggingEnd', 'drawingWall', 'erasingWall', 'addingPit', 'addingIce', 'addingBomb', 'draggingCheckpoint'],
+            to: 'ready'
+        },
+        {
+            name: 'startMaze',
+            from: 'ready',
+            to: 'ready'
+        }
     ],
 });
 
@@ -127,7 +127,7 @@ $.extend(Controller, {
     /**
      * Asynchronous transition from `none` state to `ready` state.
      */
-    onleavenone: function () {
+    onleavenone: function() {
         var numCols = this.gridSize[0],
             numRows = this.gridSize[1];
 
@@ -137,7 +137,7 @@ $.extend(Controller, {
             numCols: numCols,
             numRows: numRows
         });
-        View.generateGrid(function () {
+        View.generateGrid(function() {
             Controller.setDefaultStartEndPos();
             Controller.bindEvents();
             Controller.transition(); // transit to the next state (ready)
@@ -146,38 +146,35 @@ $.extend(Controller, {
 
         this.$buttons = $('.control_button');
         this.$maze_buttons = $('.maze_button');
-        console.log(this.$maze_buttons)
-        // this.hookPathFinding();
-
         return StateMachine.ASYNC;
         // => ready
     },
-    ondrawWall: function (event, from, to, gridX, gridY) {
+    ondrawWall: function(event, from, to, gridX, gridY) {
         console.log("drawing wall", gridX, gridY);
         this.setWalkableAt(gridX, gridY, false, "wall");
         // => drawingWall
     },
-    oneraseWall: function (event, from, to, gridX, gridY) {
+    oneraseWall: function(event, from, to, gridX, gridY) {
         console.log("erasing wall");
         this.setWalkableAt(gridX, gridY, true, "wall");
         // => erasingWall
     },
-    onaddPit: function (event, from, to, gridX, gridY) {
+    onaddPit: function(event, from, to, gridX, gridY) {
         console.log("adding pit");
         // => addingPit
     },
-    onaddIce: function (event, from, to, gridX, gridY) {
+    onaddIce: function(event, from, to, gridX, gridY) {
         console.log("adding ice");
 
         // => addingIce
     },
-    onaddBomb: function (event, from, to, gridX, gridY) {
+    onaddBomb: function(event, from, to, gridX, gridY) {
         console.log("adding bomb");
 
 
         // => addingBomb
     },
-    pathnotfound: function () {
+    pathnotfound: function() {
         const Toast = Swal.mixin({
             toast: true,
             position: 'bottom-end',
@@ -185,16 +182,16 @@ $.extend(Controller, {
             timer: 10000,
             timerProgressBar: true,
             onOpen: (to) => {
-                to.addEventListener('mouseenter', Swal.stopTimer)
-                to.addEventListener('mouseleave', Swal.resumeTimer)
+                to.addEventListener('mouseenter', Swal.stopTimer);
+                to.addEventListener('mouseleave', Swal.resumeTimer);
             }
-        })
+        });
         Toast.fire({
             icon: 'error',
             title: 'Path not found'
-        })
+        });
     },
-    onsearch: function (event, from, to) {
+    onsearch: function(event, from, to) {
         var grid,
             timeStart, timeEnd,
             finder = Panel.getFinder();
@@ -208,10 +205,10 @@ $.extend(Controller, {
             checkpoints: this.checkpoints,
             grid: this.grid,
             finder: this.finder
-        })
-        res = TSP.onTSP()
-        this.checkpoints = res[0]
-        this.pathfound = res[1]
+        });
+        res = TSP.onTSP();
+        this.checkpoints = res[0];
+        this.pathfound = res[1];
         for (var i = -1; i < this.checkpoints.length; i++) {
             if (i == -1) {
                 var originX = this.startX;
@@ -222,7 +219,7 @@ $.extend(Controller, {
             }
             if (i == this.checkpoints.length - 1) {
                 var destX = this.endX;
-                var destY = this.endY
+                var destY = this.endY;
             } else {
                 var destX = this.checkpoints[i + 1].x;
                 var destY = this.checkpoints[i + 1].y;
@@ -236,11 +233,8 @@ $.extend(Controller, {
             );
             this.path = this.path.concat(res['path']);
             this.operations = this.operations.concat(res['operations']);
-            console.log("Path nd operations")
-            console.log(this.path)
-            console.log(this.operations)
             if (this.path.length == 1) {
-                this.pathfound = 0
+                this.pathfound = 0;
                 break;
             }
             this.operationCount = this.operations.length;
@@ -249,9 +243,9 @@ $.extend(Controller, {
             this.loop();
             // break;
         }
-        console.log(this.current)
+
         if (!this.pathfound)
-            this.finish()
+            this.finish();
         // if(this.checkpoints.length == 0){
 
         // }
@@ -261,37 +255,36 @@ $.extend(Controller, {
         // }
         // => searching
     },
-    onrestart: function () {
+    onrestart: function() {
         // When clearing the colorized nodes, there may be
         // nodes still animating, which is an asynchronous procedure.
         // Therefore, we have to defer the `abort` routine to make sure
         // that all the animations are done by the time we clear the colors.
         // The same reason applies for the `onreset` event handler.
         this.endstatus = 0;
-        setTimeout(function () {
+        setTimeout(function() {
             Controller.clearOperations();
             Controller.clearFootprints();
             Controller.start();
         }, View.nodeColorizeEffect.duration * 1.2);
         // => restarting
     },
-    onpause: function (event, from, to) {
+    onpause: function(event, from, to) {
         // => paused
     },
-    onresume: function (event, from, to) {
+    onresume: function(event, from, to) {
         this.loop();
         // => searching
     },
-    oncancel: function (event, from, to) {
+    oncancel: function(event, from, to) {
         this.clearOperations();
         this.clearFootprints();
         // => ready
     },
-    onfinish: function (event, from, to) {
+    onfinish: function(event, from, to) {
         if (!this.pathfound) {
-            this.pathnotfound()
-        }
-        else {
+            this.pathnotfound();
+        } else {
             View.showStats({
                 pathLength: PF.Util.pathLength(this.path),
                 timeSpent: this.timeSpent,
@@ -305,17 +298,17 @@ $.extend(Controller, {
         this.operations = [];
         // => finished
     },
-    onclear: function (event, from, to) {
+    onclear: function(event, from, to) {
         this.clearOperations();
         this.clearFootprints();
         // => ready
     },
-    onmodify: function (event, from, to) {
+    onmodify: function(event, from, to) {
         // => modified
     },
-    onreset: function (event, from, to) {
+    onreset: function(event, from, to) {
         this.endstatus = 0;
-        setTimeout(function () {
+        setTimeout(function() {
             Controller.clearOperations();
             Controller.clearAll();
             Controller.buildNewGrid();
@@ -330,11 +323,11 @@ $.extend(Controller, {
     /**
      * The following functions are called on entering states.
      */
-    initmaze: function(mazetype){
+    initmaze: function(mazetype) {
         this.mazetype = mazetype;
         this.startMaze();
     },
-    onready: function () {
+    onready: function() {
         console.log('=> ready');
         this.setButtonStates({
             id: 0,
@@ -382,10 +375,10 @@ $.extend(Controller, {
             text: 'Stair maze',
             enabled: true,
             callback: $.proxy(this.initmaze, this, 'stair'),
-        })
+        });
         // => [starting, draggingStart, draggingEnd, draggingPit drawingStart, drawingEnd]
     },
-    createMazeWall: function (event, x, y) {
+    createMazeWall: function(event, x, y) {
 
         event.setWalkableAt(x, y, false);
     },
@@ -405,10 +398,10 @@ $.extend(Controller, {
     //         setTimeout(loop, interval);
     //     })();
     // },
-    onstartMaze: function (event, from, to) {
+    onstartMaze: function(event, from, to) {
         //this.mazeWalls = []
         this.endstatus = 0;
-        var mazetype = this.mazetype
+        var mazetype = this.mazetype;
         Controller.clearOperations();
         Controller.clearAll();
         Controller.buildNewGrid();
@@ -423,7 +416,7 @@ $.extend(Controller, {
         console.log(this.gridSize[0], this.gridSize[1]);
         var rows = this.gridSize[0];
         var cols = this.gridSize[1];
-        if(mazetype == 'random'){
+        if (mazetype == 'random') {
             maze = new PF.RandomMaze({
                 xlim: rows,
                 ylim: cols,
@@ -433,8 +426,7 @@ $.extend(Controller, {
                 endY: this.endY,
                 controller: this
             });
-        }
-        else if(mazetype == 'recursive'){
+        } else if (mazetype == 'recursive') {
             maze = new PF.RecDivMaze({
                 xlim: rows,
                 ylim: cols,
@@ -444,8 +436,7 @@ $.extend(Controller, {
                 endY: this.endY,
                 controller: this
             });
-        }
-        else if(mazetype == 'stair'){
+        } else if (mazetype == 'stair') {
             maze = new PF.StairMaze({
                 xlim: rows,
                 ylim: cols,
@@ -482,7 +473,7 @@ $.extend(Controller, {
         // }
         //View.clearBlockedNodes();
     },
-    onstarting: function (event, from, to) {
+    onstarting: function(event, from, to) {
         console.log('=> starting');
         this.endstatus = 0;
         // Clears any existing search progress
@@ -494,7 +485,7 @@ $.extend(Controller, {
         this.search();
         // => searching
     },
-    onsearching: function () {
+    onsearching: function() {
 
         console.log('=> searching');
         this.setButtonStates({
@@ -510,7 +501,7 @@ $.extend(Controller, {
         });
         // => [paused, finished]
     },
-    onpaused: function () {
+    onpaused: function() {
         console.log('=> paused');
         this.setButtonStates({
             id: 0,
@@ -525,7 +516,7 @@ $.extend(Controller, {
         });
         // => [searching, ready]
     },
-    onfinished: function () {
+    onfinished: function() {
         console.log('=> finished');
         this.setButtonStates({
             id: 0,
@@ -539,7 +530,7 @@ $.extend(Controller, {
             callback: $.proxy(this.clear, this),
         });
     },
-    onmodified: function () {
+    onmodified: function() {
         console.log('=> modified');
         this.setButtonStates({
             id: 0,
@@ -558,7 +549,7 @@ $.extend(Controller, {
      * Define setters and getters of PF.Node, then we can get the operations
      * of the pathfinding.
      */
-    hookPathFinding: function () {
+    hookPathFinding: function() {
 
         //     PF.Node.prototype = {
         //         get opened() {
@@ -601,13 +592,13 @@ $.extend(Controller, {
 
         this.operations = [];
     },
-    bindEvents: function () {
+    bindEvents: function() {
         $('#draw_area').mousedown($.proxy(this.mousedown, this));
         $(window)
             .mousemove($.proxy(this.mousemove, this))
             .mouseup($.proxy(this.mouseup, this));
     },
-    loop: function () {
+    loop: function() {
 
         speed = Panel.getSpeed();
         var operationsPerSecond = speed * 5;
@@ -622,7 +613,7 @@ $.extend(Controller, {
             setTimeout(loop, interval);
         })();
     },
-    step: function () {
+    step: function() {
         var operations = this.operations,
             op, isSupported;
 
@@ -638,15 +629,15 @@ $.extend(Controller, {
 
         View.setAttributeAt(op.x, op.y, op.attr, op.value, false);
     },
-    clearOperations: function () {
+    clearOperations: function() {
         this.operations = [];
-        this.path = []
+        this.path = [];
     },
-    clearFootprints: function () {
+    clearFootprints: function() {
         View.clearFootprints();
         View.clearPath();
     },
-    clearCheckPoint: function (gridX, gridY) {
+    clearCheckPoint: function(gridX, gridY) {
         const ind = this.checkpoints.findIndex(node =>
             node.x == gridX &&
             node.y == gridY
@@ -656,14 +647,14 @@ $.extend(Controller, {
             this.checkpoints.splice(ind, 1);
         this.setWalkableAt(gridX, gridY, true);
     },
-    clearAll: function () {
+    clearAll: function() {
         this.clearFootprints();
         View.clearBlockedNodes();
     },
-    buildNewGrid: function () {
+    buildNewGrid: function() {
         this.grid = new PF.Grid(this.gridSize[0], this.gridSize[1]);
     },
-    mousedown: function (event) {
+    mousedown: function(event) {
         var coord = View.toGridCoordinate(event.pageX, event.pageY),
             gridX = coord[0],
             gridY = coord[1],
@@ -673,14 +664,12 @@ $.extend(Controller, {
             this.clearCheckPoint(gridX, gridY);
             this.checkPointsleft++;
             return;
-        }
-        else if (event.ctrlKey) {
+        } else if (event.ctrlKey) {
             if (!this.isStartOrEndPos(gridX, gridY) && grid.isWalkableAt(gridX, gridY) && this.checkPointsleft > 0) {
                 this.setCheckPoint(gridX, gridY);
                 this.checkPointsleft--;
             }
-        }
-        else {
+        } else {
             if (this.can('dragStart') && this.isStartPos(gridX, gridY)) {
                 this.dragStart();
                 return;
@@ -690,7 +679,7 @@ $.extend(Controller, {
                 return;
             }
             if (this.can('dragCheckpoint') && this.isCheckPoint(gridX, gridY) != -1) {
-                this.currCheckpoint = this.isCheckPoint(gridX, gridY)
+                this.currCheckpoint = this.isCheckPoint(gridX, gridY);
                 this.dragCheckpoint();
                 return;
             }
@@ -730,7 +719,7 @@ $.extend(Controller, {
         }
 
     },
-    findPath: function (viewoperations) {
+    findPath: function(viewoperations) {
         this.clearOperations();
         this.clearFootprints();
         var path = [];
@@ -743,12 +732,12 @@ $.extend(Controller, {
             checkpoints: this.checkpoints,
             grid: this.grid,
             finder: this.finder
-        })
+        });
         if (this.currCheckpoint != -1) {
-            var checkx = this.checkpoints[this.currCheckpoint].x
-            var checky = this.checkpoints[this.currCheckpoint].y
+            var checkx = this.checkpoints[this.currCheckpoint].x;
+            var checky = this.checkpoints[this.currCheckpoint].y;
         }
-        this.checkpoints, this.pathfound = TSP.onTSP()
+        this.checkpoints, this.pathfound = TSP.onTSP();
         if (this.currCheckpoint != -1) {
             for (var i = 0; i < this.checkpoints.length; i++)
                 if (checkx == this.checkpoints[i].x && checky == this.checkpoints[i].y) {
@@ -768,7 +757,7 @@ $.extend(Controller, {
             }
             if (i == this.checkpoints.length - 1) {
                 var destX = this.endX;
-                var destY = this.endY
+                var destY = this.endY;
             } else {
                 var destX = this.checkpoints[i + 1].x;
                 var destY = this.checkpoints[i + 1].y;
@@ -777,20 +766,17 @@ $.extend(Controller, {
             var res = this.finder.findPath(
                 originX, originY, destX, destY, grid
             );
-            console.log("path:", res['path'])
             if (!res['path'] || res['path'].length == 1) {
-                this.pathfound = 0
-                console.log("path not")
+                this.pathfound = 0;
                 break;
             }
-            path = path.concat(res['path'])
-            operations = operations.concat(res['operations'])
+            path = path.concat(res['path']);
+            operations = operations.concat(res['operations']);
         }
         // console.log(res['path'])
         if (this.pathfound) {
             var op, isSupported;
             if (viewoperations) {
-                console.log(operations)
                 while (operations.length) {
                     op = operations.shift();
                     View.setAttributeAt(op.x, op.y, op.attr, op.value);
@@ -799,7 +785,7 @@ $.extend(Controller, {
             View.drawPath(path);
         }
     },
-    mousemove: function (event) {
+    mousemove: function(event) {
         var coord = View.toGridCoordinate(event.pageX, event.pageY),
             grid = this.grid,
             gridX = coord[0],
@@ -812,28 +798,28 @@ $.extend(Controller, {
         switch (this.current) {
             case 'draggingStart':
                 if (grid.isWalkableAt(gridX, gridY)) {
-                    this.mousemoveflag = 1
+                    this.mousemoveflag = 1;
                     this.setStartPos(gridX, gridY);
                     if (this.endstatus == 1)
-                        this.findPath(0)
+                        this.findPath(0);
                 }
                 break;
             case 'draggingEnd':
                 if (grid.isWalkableAt(gridX, gridY)) {
-                    this.mousemoveflag = 1
+                    this.mousemoveflag = 1;
                     this.setEndPos(gridX, gridY);
                     if (this.endstatus == 1)
-                        this.findPath(0)
+                        this.findPath(0);
                 }
                 break;
             case 'draggingCheckpoint':
                 if (grid.isWalkableAt(gridX, gridY)) {
-                    this.mousemoveflag = 1
-                    View.setCheckPoint(gridX, gridY, this.checkpoints[this.currCheckpoint].x, this.checkpoints[this.currCheckpoint].y)
+                    this.mousemoveflag = 1;
+                    View.setCheckPoint(gridX, gridY, this.checkpoints[this.currCheckpoint].x, this.checkpoints[this.currCheckpoint].y);
                     this.checkpoints[this.currCheckpoint].x = gridX;
                     this.checkpoints[this.currCheckpoint].y = gridY;
                     if (this.endstatus == 1) {
-                        this.findPath(0)
+                        this.findPath(0);
                     }
                 }
                 break;
@@ -854,7 +840,7 @@ $.extend(Controller, {
                 break;
         }
     },
-    mouseup: function (event) {
+    mouseup: function(event) {
         if (Controller.can('rest')) {
             var state = this.current;
             Controller.rest();
@@ -867,37 +853,32 @@ $.extend(Controller, {
                     if (grid.isWalkableAt(gridX, gridY) && !this.isEndPos(gridX, gridY) && this.isCheckPoint(gridX, gridY) == -1) {
                         this.setStartPos(gridX, gridY);
                         if (this.endstatus == 1)
-                            this.findPath(1)
+                            this.findPath(1);
                     }
                     break;
                 case 'draggingEnd':
                     if (grid.isWalkableAt(gridX, gridY) && !this.isStartPos(gridX, gridY) && this.isCheckPoint(gridX, gridY) == -1) {
                         this.setEndPos(gridX, gridY);
                         if (this.endstatus == 1)
-                            this.findPath(1)
+                            this.findPath(1);
                     }
                     break;
                 case 'draggingCheckpoint':
                     if (grid.isWalkableAt(gridX, gridY) && !this.isStartOrEndPos(gridX, gridY)) {
-                        View.setCheckPoint(gridX, gridY, this.checkpoints[this.currCheckpoint].x, this.checkpoints[this.currCheckpoint].y)
+                        View.setCheckPoint(gridX, gridY, this.checkpoints[this.currCheckpoint].x, this.checkpoints[this.currCheckpoint].y);
                         this.checkpoints[this.currCheckpoint].x = gridX;
                         this.checkpoints[this.currCheckpoint].y = gridY;
                         if (this.endstatus == 1) {
-                            this.findPath(1)
+                            this.findPath(1);
                         }
                     }
                     break;
             }
         }
     },
-    setButtonStates: function () {
-        $.each(arguments, function (i, opt) {
-            console.log("Button id:", opt.id)
+    setButtonStates: function() {
+        $.each(arguments, function(i, opt) {
             var optid = opt.id;
-            // if (opt.id == 7) {
-            //     optid = 0;
-            // }
-
             var $button = Controller.$buttons.eq(optid);
             if (opt.text) {
                 $button.text(opt.text);
@@ -916,11 +897,10 @@ $.extend(Controller, {
             }
         });
     },
-    setButtonStatesMaze: function () {
-        $.each(arguments, function (i, opt) {
+    setButtonStatesMaze: function() {
+        $.each(arguments, function(i, opt) {
 
             var optid = opt.id;
-            console.log(opt)
             var $button = Controller.$maze_buttons.eq(optid);
             if (opt.text) {
                 $button.text(opt.text);
@@ -944,7 +924,7 @@ $.extend(Controller, {
      * of start node and end node.
      * It will detect user's display size, and compute the best positions.
      */
-    setDefaultStartEndPos: function () {
+    setDefaultStartEndPos: function() {
         var width, height,
             marginRight, availWidth,
             centerX, centerY,
@@ -963,50 +943,50 @@ $.extend(Controller, {
         this.setStartPos(centerX - 5, centerY);
         this.setEndPos(centerX + 5, centerY);
     },
-    setStartPos: function (gridX, gridY) {
+    setStartPos: function(gridX, gridY) {
         this.startX = gridX;
         this.startY = gridY;
         View.setStartPos(gridX, gridY);
     },
-    setEndPos: function (gridX, gridY) {
+    setEndPos: function(gridX, gridY) {
         this.endX = gridX;
         this.endY = gridY;
         View.setEndPos(gridX, gridY);
     },
-    setWalkableAt: function (gridX, gridY, walkable, pit) {
+    setWalkableAt: function(gridX, gridY, walkable, pit) {
         this.grid.setWalkableAt(gridX, gridY, walkable, pit);
         View.setAttributeAt(gridX, gridY, 'walkable', walkable, "wall");
     },
-    setCheckPoint: function (gridX, gridY) {
+    setCheckPoint: function(gridX, gridY) {
         this.checkpoints.push({
             x: gridX,
             y: gridY
-        })
+        });
         // View.setAttributeAt(gridX, gridY, 'checkpoint', true);
-        View.setCheckPoint(gridX, gridY, -1, -1)
+        View.setCheckPoint(gridX, gridY, -1, -1);
     },
-    setPitAt: function (gridX, gridY, walkable) {
+    setPitAt: function(gridX, gridY, walkable) {
         this.grid.setWalkableAt(gridX, gridY, walkable);
         View.setAttributeAt(gridX, gridY, 'walkable', walkable, "pit");
     },
-    setIceAt: function (gridX, gridY, walkable) {
+    setIceAt: function(gridX, gridY, walkable) {
         this.grid.setWalkableAt(gridX, gridY, walkable);
         View.setAttributeAt(gridX, gridY, 'walkable', walkable, "ice");
     },
-    setBombAt: function (gridX, gridY, walkable) {
+    setBombAt: function(gridX, gridY, walkable) {
         this.grid.setWalkableAt(gridX, gridY, walkable);
         View.setAttributeAt(gridX, gridY, 'walkable', walkable, "bomb");
     },
-    isStartPos: function (gridX, gridY) {
+    isStartPos: function(gridX, gridY) {
         return gridX === this.startX && gridY === this.startY;
     },
-    isEndPos: function (gridX, gridY) {
+    isEndPos: function(gridX, gridY) {
         return gridX === this.endX && gridY === this.endY;
     },
-    isCheckPoint: function (gridX, gridY) {
+    isCheckPoint: function(gridX, gridY) {
         return this.checkpoints.findIndex(node => node.x == gridX && node.y == gridY);
     },
-    isStartOrEndPos: function (gridX, gridY) {
+    isStartOrEndPos: function(gridX, gridY) {
         return this.isStartPos(gridX, gridY) || this.isEndPos(gridX, gridY);
     },
 

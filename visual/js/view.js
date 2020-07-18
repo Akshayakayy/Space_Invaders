@@ -156,7 +156,6 @@ var View = {
     },
     setCheckPoint: function(gridX, gridY, oldX, oldY) {
         var coord = this.toPageCoordinate(gridX, gridY);
-        console.log(this.checkpoint)
         if (this.checkpoint.findIndex(node => node.x == oldX && node.y == oldY) == -1) {
             this.checkpoint.push({
                 x: gridX,
@@ -168,7 +167,7 @@ var View = {
                         this.nodeSize
                     ).attr(this.nodeStyle.checkpoint)
                     .animate(this.nodeStyle.checkpoint, 1000)
-            })
+            });
         } else {
             checkindex = this.checkpoint.findIndex(node => node.x == oldX && node.y == oldY);
             this.checkpoint[checkindex].x = gridX;
@@ -374,7 +373,6 @@ var View = {
             return;
         }
         var svgPath = this.buildSvgPath(path);
-        console.log(svgPath)
         this.path = this.paper.path(svgPath).attr(this.pathStyle);
     },
     /**
@@ -430,22 +428,14 @@ var View = {
             timer: 10000,
             timerProgressBar: true,
             onOpen: (to) => {
-                to.addEventListener('mouseenter', Swal.stopTimer)
-                to.addEventListener('mouseleave', Swal.resumeTimer)
+                to.addEventListener('mouseenter', Swal.stopTimer);
+                to.addEventListener('mouseleave', Swal.resumeTimer);
             }
-        })
+        });
         Toast.fire({
-                icon: 'success',
-                html: texts.join('<br>')
-            })
-            // Swal.fire({
-            //     position: 'top-end',
-            //     icon: 'success',
-            //     title: 'Your work has been saved',
-            //     showConfirmButton: false,
-            //     timer: 10000,
-            //     timerProgressBar: true
-            //   })
+            icon: 'success',
+            html: texts.join('<br>')
+        });
 
     },
     setCoordDirty: function(gridX, gridY, isDirty) {
