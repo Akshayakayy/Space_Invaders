@@ -1,6 +1,60 @@
 /**
  * The control panel.
  */
+const steps = ['1', '2', '3']
+const swalQueueStep = Swal.mixin({
+    confirmButtonText: 'Next &rarr;',
+    cancelButtonText: 'Back',
+    progressSteps: steps,
+    inputAttributes: {
+        required: true
+    },
+    reverseButtons: true,
+    backdrop: `
+    rgba(0,0,123,0.6)
+    url("https://i.gifer.com/ZDci.gif")
+    left top
+    no-repeat
+    `
+})
+async function backAndForth() {
+    const values = []
+    let currentStep
+    var title = ""
+    var text = ""
+    for (currentStep = 0; currentStep < steps.length;) {
+        switch (currentStep) {
+            case 0:
+                title = "Welcome to Space invaders!"
+                text = "Click Next! to view the guide"
+                break;
+            case 1:
+                title = "Draw walls"
+                text = "Click and drag to draw walls"
+                break;
+            case 2:
+                title = "Draw checkpoint"
+                text = "Ctrl + Click to place checkpoints"
+                break;
+        }
+        const result = await swalQueueStep.fire({
+            title: title,
+            text: text,
+            showCancelButton: currentStep > 0,
+            currentProgressStep: currentStep
+        })
+
+        if (result.value) {
+            values[currentStep] = result.value
+            currentStep++
+        } else if (result.dismiss === 'cancel') {
+            currentStep--
+        } else {
+            break
+        }
+    }
+}
+
 var Panel = {
     init: function() {
         var $algo = $('#algorithm_panel');
@@ -19,7 +73,13 @@ var Panel = {
             left: 300,
         });
         $(document).ready(function() {
-            alert("Welcome to Space Invaders! Let's move forwards towards the base");
+            backAndForth()
+                // Swal.fire({
+                //     title: 'Welcome to Space Invaders! Let\'s move forwards towards the base',
+                //     text: '',
+                //     confirmButtonText: 'Cool'
+                //   })
+                // alert("Welcome to Space Invaders! Let's move forwards towards the base");
             $('.dropdown-submenu a.test').on("click", function(e) {
                 $(this).next('ul').toggle();
                 e.stopPropagation();
