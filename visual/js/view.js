@@ -13,7 +13,7 @@ var View = {
         },
         pitnode: {
 
-            fill: 'url("images/pit.png")',
+            fill: 'url("images/pit.jpeg")',
             'stroke-opacity': 0.2,
 
         },
@@ -24,7 +24,7 @@ var View = {
         },
 
         icenode: {
-            fill: '#88ECF6',
+            fill: 'url("images/ice.jpg")',
             'stroke-opacity': 0.2,
 
         },
