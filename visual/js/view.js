@@ -18,7 +18,7 @@ var View = {
 
         },
         pitarea: {
-            fill: 'blue',
+            fill: '#004C70',
             "stroke-opacity": 0.1,
 
         },
