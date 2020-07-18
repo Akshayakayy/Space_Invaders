@@ -1,4 +1,4 @@
-body {
+    body {
     padding: 0px;
     margin: 0px;
     overflow: hidden;
@@ -49,6 +49,7 @@ h6 {
     background: transparent;
 }
 
+
 /* #speed {
     height: 145px;
     width: 149px;
@@ -64,35 +65,132 @@ h6 {
 } */
 
 .slider {
-  -webkit-appearance: none;
-  width: 100%;
-  height: 15px;
-  margin: 17px 0px;
-  background: #ffffff;
-  border-radius: 5px;
-  outline: none;
-  opacity: 0.9;
-  -webkit-transition: .2s;
-  transition: opacity .2s;
+    -webkit-appearance: none;
+    width: 100%;
+    height: 15px;
+    margin: 17px 0px;
+    background: #ffffff;
+    border-radius: 5px;
+    outline: none;
+    opacity: 0.9;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+}
+
+input[type=range] {
+    -webkit-appearance: none;
+    margin: 18px 0;
+    width: 100%;
+}
+
+input[type=range]:focus {
+    outline: none;
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 8.4px;
+    cursor: pointer;
+    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+    background: #3071a9;
+    border-radius: 1.3px;
+    border: 0.2px solid #010101;
+}
+
+input[type=range]::-webkit-slider-thumb {
+    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+    border: 1px solid #000000;
+    height: 36px;
+    width: 16px;
+    border-radius: 1px;
+    background: #e74c4c;
+    cursor: pointer;
+    -webkit-appearance: none;
+    margin-top: -14px;
+}
+
+input[type=range]:focus::-webkit-slider-runnable-track {
+    background: #367ebd;
+}
+
+input[type=range]::-moz-range-track {
+    width: 100%;
+    height: 8.4px;
+    cursor: pointer;
+    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+    background: #3071a9;
+    border-radius: 1.3px;
+    border: 0.2px solid #010101;
+}
+
+input[type=range]::-moz-range-thumb {
+    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+    border: 1px solid #000000;
+    height: 36px;
+    width: 16px;
+    border-radius: 1px;
+    background: #e96464;
+    cursor: pointer;
+}
+
+input[type=range]::-ms-track {
+    width: 100%;
+    height: 8.4px;
+    cursor: pointer;
+    background: transparent;
+    border-color: transparent;
+    border-width: 16px 0;
+    color: transparent;
+}
+
+input[type=range]::-ms-fill-lower {
+    background: #2a6495;
+    border: 0.2px solid #010101;
+    border-radius: 2.6px;
+    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+}
+
+input[type=range]::-ms-fill-upper {
+    background: #3071a9;
+    border: 0.2px solid #010101;
+    border-radius: 2.6px;
+    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+}
+
+input[type=range]::-ms-thumb {
+    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+    border: 1px solid #000000;
+    height: 36px;
+    width: 16px;
+    cursor: pointer;
+}
+
+input[type=range]:focus::-ms-fill-lower {
+    background: #3071a9;
+}
+
+input[type=range]:focus::-ms-fill-upper {
+    background: #e23939;
 }
 
 .slider:hover {
-  opacity: 1;
+    opacity: 1;
 }
 
 .slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 30px;
-  height: 35px;
-  /* background: rgb(202, 47, 47); */
-  cursor: pointer;
-  background: url("https://cdn1.iconfinder.com/data/icons/natural-world/360/fire-flame_16-512.png");
-  background-size: 35px 35px;
+    -webkit-appearance: none;
+    appearance: none;
+    width: 30px;
+    height: 35px;
+    /* background: rgb(202, 47, 47); */
+    cursor: pointer;
+    background: url("https://cdn1.iconfinder.com/data/icons/natural-world/360/fire-flame_16-512.png");
+    background-size: 35px 35px;
 }
 
-
-#slow, #medium, #fast {
+#slow,
+#medium,
+#fast {
     margin: 1em;
 }
 
@@ -107,6 +205,7 @@ h6 {
 #fa {
     color: orangered;
 }
+
 
 /* #button4,#button5,#button6 {
     font-size: 20px;
@@ -146,7 +245,6 @@ h6 {
     height: 400px;
     width: 300px;
 }
-
 
 .navbar-inverse {
     height: 30px;
@@ -224,7 +322,6 @@ h6 {
     cursor: pointer;
 }
 
-
 .control_button {
     border: red;
     /* background: rgba(255, 255, 255, 0.7); */
@@ -237,77 +334,67 @@ h6 {
     /* width: 75px;
     height: 45px; */
     font-weight: bold;
-
-button:hover {
-    background: rgba(32, 178, 170, 0.9);
-}
-button:active {
-  background-color: rgba(32, 178, 170, 0.9);
-  box-shadow: 0 1px #666;
-  transform: translateY(4px);
-}
-.finder_section {
-    border: solid 1px #ddd;
-    border-radius: 5px;
-    margin: 5px;
-}
-
-.sub_options {
-    padding: 2px;
-    font-size: 14px;
-    margin: 2px 30px 0;
-}
-
-#stats {
-    position: fixed;
-    bottom: 40px;
-    left: 35px;
-    color: #0a0;
-    font-size: 85%;
-    padding: 5px;
-    background: rgba(255, 255, 255, 0.5);
-    border-radius: 5px;
-}
-
-a {
-    color: #33f;
-}
-
-footer {
-    color: #333;
-    font-size: 100%;
-    text-align: center;
-    position: fixed;
-    width: 200px;
-    bottom: 10px;
-    left: 50%;
-    margin-left: -100px;
-    background: rgba(255, 255, 255, 0.5);
-    padding: 5px;
-    border-radius: 5px;
-}
-
-.white {
-    color: #fff;
-}
-
-.green {
-    color: #0d0;
-}
-
-.red {
-    color: #ff9166;
-}
-
-.spinner {
-    width: 2em;
-    color: black;   
-}
-
-.weight {
-    background-color: rgb(255, 254, 106);
-    background-image: url(weight.svg);
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: contain;
-}
+    button:hover {
+        background: rgba(32, 178, 170, 0.9);
+    }
+    button:active {
+        background-color: rgba(32, 178, 170, 0.9);
+        box-shadow: 0 1px #666;
+        transform: translateY(4px);
+    }
+    .finder_section {
+        border: solid 1px #ddd;
+        border-radius: 5px;
+        margin: 5px;
+    }
+    .sub_options {
+        padding: 2px;
+        font-size: 14px;
+        margin: 2px 30px 0;
+    }
+    #stats {
+        position: fixed;
+        bottom: 40px;
+        left: 35px;
+        color: #0a0;
+        font-size: 85%;
+        padding: 5px;
+        background: rgba(255, 255, 255, 0.5);
+        border-radius: 5px;
+    }
+    a {
+        color: #33f;
+    }
+    footer {
+        color: #333;
+        font-size: 100%;
+        text-align: center;
+        position: fixed;
+        width: 200px;
+        bottom: 10px;
+        left: 50%;
+        margin-left: -100px;
+        background: rgba(255, 255, 255, 0.5);
+        padding: 5px;
+        border-radius: 5px;
+    }
+    .white {
+        color: #fff;
+    }
+    .green {
+        color: #0d0;
+    }
+    .red {
+        color: #ff9166;
+    }
+    .spinner {
+        width: 2em;
+        color: black;
+    }
+    .weight {
+        background-color: rgb(255, 254, 106);
+        background-image: url(weight.svg);
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: contain;
+    }
