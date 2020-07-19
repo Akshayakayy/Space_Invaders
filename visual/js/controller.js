@@ -149,6 +149,7 @@ $.extend(Controller, {
 
         this.$buttons = $('.control_button');
         this.$maze_buttons = $('.maze_button');
+        this.$obstacle_buttons = $('.obstacle_button');
         console.log(this.$maze_buttons)
             // this.hookPathFinding();
 
@@ -177,8 +178,6 @@ $.extend(Controller, {
     onaddBomb: function(event, from, to, gridX, gridY) {
         this.setBombAt(gridX, gridY, false);
         console.log("adding bomb");
-
-
         // => addingBomb
     },
     pathnotfound: function() {
@@ -356,38 +355,39 @@ $.extend(Controller, {
             text: 'Clear Obstacles',
             enabled: true,
             callback: $.proxy(this.reset, this),
-        }, {
-            id: 3,
-            text: 'Add Pit',
-            enabled: true,
-            callback: $.proxy(this.addPit, this)
-        }, {
-            id: 4,
-            text: 'Add Ice',
-            enabled: true,
-            callback: $.proxy(this.addIce, this)
-        }, {
-            id: 5,
-            text: 'Add Bomb',
-            enabled: true,
-            callback: $.proxy(this.addBomb, this)
-
         });
         this.setButtonStatesMaze({
-                id: 0,
-                text: 'Random maze',
-                enabled: true,
-                callback: $.proxy(this.initmaze, this, 'random'),
-            }, {
+            id: 0,
+            text: 'Random maze',
+            enabled: true,
+            callback: $.proxy(this.initmaze, this, 'random'),
+        }, {
+            id: 1,
+            text: 'Recursive maze',
+            enabled: true,
+            callback: $.proxy(this.initmaze, this, 'recursive'),
+        }, {
+            id: 2,
+            text: 'Stair maze',
+            enabled: true,
+            callback: $.proxy(this.initmaze, this, 'stair'),
+        });
+        this.setButtonStatesObstacles({
                 id: 1,
-                text: 'Recursive maze',
+                text: 'Add Bomb',
                 enabled: true,
-                callback: $.proxy(this.initmaze, this, 'recursive'),
+                callback: $.proxy(this.addBomb, this)
             }, {
                 id: 2,
-                text: 'Stair maze',
+                text: 'Add Ice',
                 enabled: true,
-                callback: $.proxy(this.initmaze, this, 'stair'),
+                callback: $.proxy(this.addIce, this)
+            }, {
+                id: 3,
+                text: 'Add Pit',
+                enabled: true,
+                callback: $.proxy(this.addPit, this)
+
             })
             // => [starting, draggingStart, draggingEnd, draggingPit drawingStart, drawingEnd]
     },
@@ -750,7 +750,10 @@ $.extend(Controller, {
             var checkx = this.checkpoints[this.currCheckpoint].x
             var checky = this.checkpoints[this.currCheckpoint].y
         }
-        this.checkpoints, this.pathfound = TSP.onTSP()
+        res = TSP.onTSP()
+        this.checkpoints = res[0]
+        this.pathfound = res[1]
+            // this.checkpoints, this.pathfound = TSP.onTSP()
         if (this.currCheckpoint != -1) {
             for (var i = 0; i < this.checkpoints.length; i++)
                 if (checkx == this.checkpoints[i].x && checky == this.checkpoints[i].y) {
@@ -941,6 +944,30 @@ $.extend(Controller, {
             }
         });
     },
+    setButtonStatesObstacles: function() {
+        $.each(arguments, function(i, opt) {
+
+            var optid = opt.id;
+            console.log(opt)
+            var $button = Controller.$obstacle_buttons.eq(optid - 1);
+            if (opt.text) {
+                $button.text(opt.text);
+            }
+            if (opt.callback) {
+                $button
+                    .unbind('click')
+                    .click(opt.callback);
+            }
+            if (opt.enabled === undefined) {
+                return;
+            } else if (opt.enabled) {
+                $button.removeAttr('disabled');
+            } else {
+                $button.attr({ disabled: 'disabled' });
+            }
+        });
+    },
+
     /**
      * When initializing, this method will be called to set the positions
      * of start node and end node.
