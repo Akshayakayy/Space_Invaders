@@ -330,6 +330,9 @@ $.extend(Controller, {
             id: 3,
             enabled: true,
         });
+        this.numbomb = 0;
+        this.numice = 0;
+        this.numpit = 0;
         // => ready
     },
 
