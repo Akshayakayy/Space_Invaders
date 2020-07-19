@@ -669,6 +669,7 @@ $.extend(Controller, {
         if (ind!=-1){
         this.checkpoints.splice(ind,1);
         }
+        this.checkPointsleft++;
         this.setWalkableAt(gridX,gridY,true);
         if (this.endstatus == 1)
             this.findPath(1);
