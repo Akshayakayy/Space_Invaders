@@ -154,26 +154,45 @@ var View = {
         }
         // console.log(this.checkpoint)
     },
-    setCheckPoint: function (gridX, gridY, oldX, oldY) {
+    setCheckPoint: function (gridX, gridY, oldX, oldY, value) {
         var coord = this.toPageCoordinate(gridX, gridY);
         console.log(this.checkpoint)
-        if (this.checkpoint.findIndex(node => node.x == oldX && node.y == oldY) == -1) {
-            this.checkpoint.push({
-                x: gridX,
-                y: gridY,
-                paper_el: this.paper.rect(
-                    coord[0],
-                    coord[1],
-                    this.nodeSize,
-                    this.nodeSize
-                ).attr(this.nodeStyle.checkpoint)
-                    .animate(this.nodeStyle.checkpoint, 1000)
-            })
-        } else {
-            checkindex = this.checkpoint.findIndex(node => node.x == oldX && node.y == oldY);
-            this.checkpoint[checkindex].x = gridX;
-            this.checkpoint[checkindex].y = gridY;
-            this.checkpoint[checkindex].paper_el.attr({ x: coord[0], y: coord[1] }).toFront();
+        if (value) {
+            if (this.checkpoint.findIndex(node => node.x == oldX && node.y == oldY) == -1) {
+                this.checkpoint.push({
+                    x: gridX,
+                    y: gridY,
+                    paper_el: this.paper.rect(
+                        coord[0],
+                        coord[1],
+                        this.nodeSize,
+                        this.nodeSize
+                    ).attr(this.nodeStyle.checkpoint)
+                        .animate(this.nodeStyle.checkpoint, 1000)
+                })
+            } else {
+                checkindex = this.checkpoint.findIndex(node => node.x == oldX && node.y == oldY);
+                this.checkpoint[checkindex].x = gridX;
+                this.checkpoint[checkindex].y = gridY;
+                this.checkpoint[checkindex].paper_el.attr({ x: coord[0], y: coord[1] }).toFront();
+            }
+        }
+        else {
+            if (this.checkpoint.findIndex(node => node.x == gridX && node.y == gridY) != -1) {
+                checkindex = this.checkpoint.findIndex(node => node.x == gridX && node.y == gridY);
+                console.log("Check", checkindex, this.rects[gridY][gridX])
+                node = this.rects[gridY][gridX].clone()
+                this.rects[gridY][gridX].remove()
+                node.attr(this.nodeStyle.normal)
+                this.rects[gridY][gridX] = node
+                // this.colorizeNode(node, node.attr(this.nodeStyle.normal));
+                // this.zoomNode(node);
+                // setTimeout(function () {
+                //     node.remove();
+                // }, this.nodeZoomEffect.duration);
+                // // blockedNodes[gridY][gridX] = null;
+                this.checkpoint.splice(checkindex, 1);
+            }
         }
         // if (this.checkpoint) {
 
@@ -273,13 +292,19 @@ var View = {
         if (value) {
             // clear blocked node
             if (node) {
-                // console.log(node)
+                console.log(node)
+
                 this.colorizeNode(node, this.rects[gridY][gridX].attr('fill'));
                 this.zoomNode(node);
                 setTimeout(function () {
                     node.remove();
                 }, this.nodeZoomEffect.duration);
                 blockedNodes[gridY][gridX] = null;
+            }
+            else {
+                // node = this.rects[gridY][gridX].clone();
+                // console.log(this.checkpoint);
+
             }
         } else {
             // draw blocked node
@@ -291,7 +316,7 @@ var View = {
             if (ob == "wall") {
                 // console.log("wall style");
                 this.colorizeNode(node, this.nodeStyle.blocked.fill);
-            } 
+            }
             else if (ob == "pit") {
                 console.log("pit style");
                 this.colorizeNode(node, this.nodeStyle.pitnode.fill);
@@ -415,7 +440,7 @@ var View = {
             '<b>Operations: </b>' + opts.operationCount
         ];
         const Toast = Swal.mixin({
-            toast : true,
+            toast: true,
             position: 'bottom-end',
             showConfirmButton: false,
             timer: 10000,
@@ -437,7 +462,7 @@ var View = {
         //     timer: 10000,
         //     timerProgressBar: true
         //   })
-          
+
     },
     setCoordDirty: function (gridX, gridY, isDirty) {
         var x, y,
