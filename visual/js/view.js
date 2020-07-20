@@ -13,27 +13,43 @@ var View = {
         },
         pitnode: {
 
-            fill: '#800000',
+            fill: 'url("images/pit.jpeg")',
             'stroke-opacity': 0.2,
 
         },
+        pitarea: {
+            fill: '#004C70',
+            "stroke-opacity": 0.1,
+
+        },
         bombnode: {
-            fill: "#0A0202",
+            fill: 'url("images/bomb.png")',
             "stroke-opacity": 0.2,
+
+        },
+        bombarea: {
+            fill: 'url("images/bombarea.jpg")',
+            "stroke-opacity": 0.1,
 
         },
 
         icenode: {
-            fill: '#88ECF6',
+            fill: 'url("images/ice.jpg")',
             'stroke-opacity': 0.2,
 
         },
+        icearea: {
+            fill: 'url("images/icearea.png")',
+            "stroke-opacity": 0.1,
+
+        },
+
         blocked: {
             fill: '#47101E',
             'stroke-opacity': 0.2,
         },
         start: {
-            fill: 'url("images/moon-rover.png")',
+            fill: 'url("images/marsrover.png")',
             'stroke-opacity': 0.2,
         },
         end: {
@@ -75,7 +91,7 @@ var View = {
         'stroke-width': 7,
     },
     supportedOperations: ['opened', 'closed', 'tested'],
-    init: function (opts) {
+    init: function(opts) {
         this.numCols = opts.numCols;
         this.numRows = opts.numRows;
         this.paper = Raphael('draw_area');
@@ -87,7 +103,7 @@ var View = {
      * Therefore, in order to not to block the rendering of browser ui,
      * I decomposed the task into smaller ones. Each will only generate a row.
      */
-    generateGrid: function (callback) {
+    generateGrid: function(callback) {
         var i, j, x, y,
             rect,
             normalStyle, nodeSize,
@@ -102,8 +118,8 @@ var View = {
 
         paper.setSize(numCols * nodeSize, numRows * nodeSize);
 
-        createRowTask = function (rowId) {
-            return function (done) {
+        createRowTask = function(rowId) {
+            return function(done) {
                 rects[rowId] = [];
                 for (j = 0; j < numCols; ++j) {
                     x = j * nodeSize;
@@ -121,8 +137,8 @@ var View = {
             };
         };
 
-        sleep = function (done) {
-            setTimeout(function () {
+        sleep = function(done) {
+            setTimeout(function() {
                 done(null);
             }, 0);
         };
@@ -133,28 +149,28 @@ var View = {
             tasks.push(sleep);
         }
 
-        async.series(tasks, function () {
+        async.series(tasks, function() {
             if (callback) {
                 callback();
             }
         });
     },
-    setStartPos: function (gridX, gridY) {
+    setStartPos: function(gridX, gridY) {
         var coord = this.toPageCoordinate(gridX, gridY);
         if (!this.startNode) {
             this.startNode = this.paper.rect(
-                coord[0],
-                coord[1],
-                this.nodeSize,
-                this.nodeSize
-            ).attr(this.nodeStyle.normal)
+                    coord[0],
+                    coord[1],
+                    this.nodeSize,
+                    this.nodeSize
+                ).attr(this.nodeStyle.normal)
                 .animate(this.nodeStyle.start, 1000);
         } else {
             this.startNode.attr({ x: coord[0], y: coord[1] }).toFront();
         }
         // console.log(this.checkpoint)
     },
-    setCheckPoint: function (gridX, gridY, oldX, oldY, value) {
+    setCheckPoint: function(gridX, gridY, oldX, oldY, value) {
         var coord = this.toPageCoordinate(gridX, gridY);
         console.log(this.checkpoint)
         if (value) {
@@ -163,11 +179,11 @@ var View = {
                     x: gridX,
                     y: gridY,
                     paper_el: this.paper.rect(
-                        coord[0],
-                        coord[1],
-                        this.nodeSize,
-                        this.nodeSize
-                    ).attr(this.nodeStyle.checkpoint)
+                            coord[0],
+                            coord[1],
+                            this.nodeSize,
+                            this.nodeSize
+                        ).attr(this.nodeStyle.checkpoint)
                         .animate(this.nodeStyle.checkpoint, 1000)
                 })
             } else {
@@ -176,8 +192,7 @@ var View = {
                 this.checkpoint[checkindex].y = gridY;
                 this.checkpoint[checkindex].paper_el.attr({ x: coord[0], y: coord[1] }).toFront();
             }
-        }
-        else {
+        } else {
             if (this.checkpoint.findIndex(node => node.x == gridX && node.y == gridY) != -1) {
                 checkindex = this.checkpoint.findIndex(node => node.x == gridX && node.y == gridY);
                 console.log("Check", checkindex, this.rects[gridY][gridX])
@@ -185,12 +200,12 @@ var View = {
                 this.rects[gridY][gridX].remove()
                 node.attr(this.nodeStyle.normal)
                 this.rects[gridY][gridX] = node
-                // this.colorizeNode(node, node.attr(this.nodeStyle.normal));
-                // this.zoomNode(node);
-                // setTimeout(function () {
-                //     node.remove();
-                // }, this.nodeZoomEffect.duration);
-                // // blockedNodes[gridY][gridX] = null;
+                    // this.colorizeNode(node, node.attr(this.nodeStyle.normal));
+                    // this.zoomNode(node);
+                    // setTimeout(function () {
+                    //     node.remove();
+                    // }, this.nodeZoomEffect.duration);
+                    // // blockedNodes[gridY][gridX] = null;
                 this.checkpoint.splice(checkindex, 1);
             }
         }
@@ -207,29 +222,29 @@ var View = {
         //     this.startNode.attr({ x: coord[0], y: coord[1] }).toFront();
         // }
     },
-    setBombPos: function (gridX, gridY) {
+    setBombPos: function(gridX, gridY) {
         var coord = this.toPageCoordinate(gridX, gridY);
         if (!this.bombNode) {
             this.bombNode = this.paper.ui - icon - circle - minus(
-                coord[0],
-                coord[1],
-                this.nodeSize,
-                this.nodeSize
-            ).attr(circle(320, 240, 60))
+                    coord[0],
+                    coord[1],
+                    this.nodeSize,
+                    this.nodeSize
+                ).attr(circle(320, 240, 60))
                 .animate(this.nodeStyle.start, 1000);
         } else {
             this.pitNode.attr({ x: coord[0] + 120, y: coord[1] + 120 }).toFront();
         }
     },
-    setEndPos: function (gridX, gridY) {
+    setEndPos: function(gridX, gridY) {
         var coord = this.toPageCoordinate(gridX, gridY);
         if (!this.endNode) {
             this.endNode = this.paper.rect(
-                coord[0],
-                coord[1],
-                this.nodeSize,
-                this.nodeSize
-            ).attr(this.nodeStyle.normal)
+                    coord[0],
+                    coord[1],
+                    this.nodeSize,
+                    this.nodeSize
+                ).attr(this.nodeStyle.normal)
                 .animate(this.nodeStyle.end, 1000);
         } else {
             this.endNode.attr({ x: coord[0], y: coord[1] }).toFront();
@@ -238,7 +253,7 @@ var View = {
     /**
      * Set the attribute of the node at the given coordinate.
      */
-    setAttributeAt: function (gridX, gridY, attr, value, ob) {
+    setAttributeAt: function(gridX, gridY, attr, value, ob) {
         var color, nodeStyle = this.nodeStyle;
         switch (attr) {
             case 'walkable':
@@ -267,20 +282,20 @@ var View = {
                 return;
         }
     },
-    colorizeNode: function (node, color) {
+    colorizeNode: function(node, color) {
         node.animate({
             fill: color
         }, this.nodeColorizeEffect.duration);
     },
 
-    zoomNode: function (node) {
+    zoomNode: function(node) {
         node.toFront().attr({
             transform: this.nodeZoomEffect.transform,
         }).animate({
             transform: this.nodeZoomEffect.transformBack,
         }, this.nodeZoomEffect.duration);
     },
-    setWalkableAt: function (gridX, gridY, value, ob) {
+    setWalkableAt: function(gridX, gridY, value, ob) {
         var node, i, blockedNodes = this.blockedNodes;
         if (!blockedNodes) {
             blockedNodes = this.blockedNodes = new Array(this.numRows);
@@ -296,12 +311,11 @@ var View = {
 
                 this.colorizeNode(node, this.rects[gridY][gridX].attr('fill'));
                 this.zoomNode(node);
-                setTimeout(function () {
+                setTimeout(function() {
                     node.remove();
                 }, this.nodeZoomEffect.duration);
                 blockedNodes[gridY][gridX] = null;
-            }
-            else {
+            } else {
                 // node = this.rects[gridY][gridX].clone();
                 // console.log(this.checkpoint);
 
@@ -316,22 +330,27 @@ var View = {
             if (ob == "wall") {
                 // console.log("wall style");
                 this.colorizeNode(node, this.nodeStyle.blocked.fill);
-            }
-            else if (ob == "pit") {
+            } else if (ob == "pit") {
                 console.log("pit style");
                 this.colorizeNode(node, this.nodeStyle.pitnode.fill);
             } else if (ob == "ice") {
                 console.log("ice style");
                 this.colorizeNode(node, this.nodeStyle.icenode.fill);
-            } else {
+            } else if (ob == "bomb") {
                 this.colorizeNode(node, this.nodeStyle.bombnode.fill);
+            } else if (ob == "bombarea") {
+                this.colorizeNode(node, this.nodeStyle.bombarea.fill);
+            } else if (ob == "icearea") {
+                this.colorizeNode(node, this.nodeStyle.icearea.fill);
+            } else if (ob == "pitarea") {
+                this.colorizeNode(node, this.nodeStyle.pitarea.fill);
             }
 
 
             this.zoomNode(node);
         }
     },
-    setPitAt: function (gridX, gridY, value) {
+    setPitAt: function(gridX, gridY, value) {
         var node, i, blockedNodes = this.blockedNodes;
         if (!blockedNodes) {
             blockedNodes = this.blockedNodes = new Array(this.numRows);
@@ -345,7 +364,7 @@ var View = {
             if (node) {
                 this.colorizeNode(node, this.rects[gridY][gridX].attr('fill'));
                 this.zoomNode(node);
-                setTimeout(function () {
+                setTimeout(function() {
                     node.remove();
                 }, this.nodeZoomEffect.duration);
                 blockedNodes[gridY][gridX] = null;
@@ -361,7 +380,7 @@ var View = {
         }
     },
 
-    clearFootprints: function () {
+    clearFootprints: function() {
         var i, x, y, coord, coords = this.getDirtyCoords();
         for (i = 0; i < coords.length; ++i) {
             coord = coords[i];
@@ -371,7 +390,7 @@ var View = {
             this.setCoordDirty(x, y, false);
         }
     },
-    clearBlockedNodes: function () {
+    clearBlockedNodes: function() {
         var i, j, blockedNodes = this.blockedNodes;
         if (!blockedNodes) {
             return;
@@ -385,7 +404,7 @@ var View = {
             }
         }
     },
-    drawPath: function (path) {
+    drawPath: function(path) {
         if (!path.length) {
             return;
         }
@@ -396,7 +415,7 @@ var View = {
     /**
      * Given a path, build its SVG represention.
      */
-    buildSvgPath: function (path) {
+    buildSvgPath: function(path) {
         var i, strs = [],
             size = this.nodeSize;
 
@@ -409,7 +428,7 @@ var View = {
 
         return strs.join('');
     },
-    clearPath: function () {
+    clearPath: function() {
         if (this.path) {
             this.path.remove();
         }
@@ -417,7 +436,7 @@ var View = {
     /**
      * Helper function to convert the page coordinate to grid coordinate
      */
-    toGridCoordinate: function (pageX, pageY) {
+    toGridCoordinate: function(pageX, pageY) {
         return [
             Math.floor(pageX / this.nodeSize),
             Math.floor(pageY / this.nodeSize)
@@ -426,13 +445,13 @@ var View = {
     /**
      * helper function to convert the grid coordinate to page coordinate
      */
-    toPageCoordinate: function (gridX, gridY) {
+    toPageCoordinate: function(gridX, gridY) {
         return [
             gridX * this.nodeSize,
             gridY * this.nodeSize
         ];
     },
-    showStats: function (opts) {
+    showStats: function(opts) {
         var texts = [
 
             '<b>Length: </b>' + Math.round(opts.pathLength * 100) / 100,
@@ -451,20 +470,20 @@ var View = {
             }
         })
         Toast.fire({
-            icon: 'success',
-            html: texts.join('<br>')
-        })
-        // Swal.fire({
-        //     position: 'top-end',
-        //     icon: 'success',
-        //     title: 'Your work has been saved',
-        //     showConfirmButton: false,
-        //     timer: 10000,
-        //     timerProgressBar: true
-        //   })
+                icon: 'success',
+                html: texts.join('<br>')
+            })
+            // Swal.fire({
+            //     position: 'top-end',
+            //     icon: 'success',
+            //     title: 'Your work has been saved',
+            //     showConfirmButton: false,
+            //     timer: 10000,
+            //     timerProgressBar: true
+            //   })
 
     },
-    setCoordDirty: function (gridX, gridY, isDirty) {
+    setCoordDirty: function(gridX, gridY, isDirty) {
         var x, y,
             numRows = this.numRows,
             numCols = this.numCols,
@@ -482,7 +501,7 @@ var View = {
 
         this.coordDirty[gridY][gridX] = isDirty;
     },
-    getDirtyCoords: function () {
+    getDirtyCoords: function() {
         var x, y,
             numRows = this.numRows,
             numCols = this.numCols,
