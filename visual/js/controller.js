@@ -158,6 +158,7 @@ $.extend(Controller, {
     },
     ondrawWall: function(event, from, to, gridX, gridY) {
         console.log("drawing wall", gridX, gridY);
+        console.log(gridX)
         this.setWalkableAt(gridX, gridY, false, "wall");
         // => drawingWall
     },
@@ -168,6 +169,21 @@ $.extend(Controller, {
     },
     onaddPit: function(event, from, to, gridX, gridY) {
         console.log("adding pit");
+        // var width, height,
+        //     marginRight, availWidth,
+        //     centerX, centerY,
+        //     endX, endY,
+        //     nodeSize = View.nodeSize;
+
+        // width = $(window).width();
+        // height = $(window).height();
+
+        // marginRight = $('#algorithm_panel').width();
+        // availWidth = width - marginRight;
+
+        // centerX = Math.ceil(availWidth / 2 / nodeSize);
+        // centerY = Math.floor(height / 2 / nodeSize);
+        // setPitAt(gridX + 10, girdY - 10, false);
         // => addingPit
     },
     onaddIce: function(event, from, to, gridX, gridY) {
@@ -208,6 +224,8 @@ $.extend(Controller, {
             startY: this.startY,
             endX: this.endX,
             endY: this.endY,
+            pitX: this.pitX,
+            pitY: this.pitY,
             checkpoints: this.checkpoints,
             grid: this.grid,
             finder: this.finder
@@ -721,6 +739,10 @@ $.extend(Controller, {
                 this.dragCheckpoint();
                 return;
             }
+            // if (this.can('dragPit') && this.isPitPos(gridX, gridY)) {
+            //     this.dragPit();
+            //     return;
+            // }
             // if (this.can('dragEndFinished') && this.isEndPos(gridX, gridY)) {
             //     this.dragEndFinished();
             //     return;
@@ -867,6 +889,14 @@ $.extend(Controller, {
                     }
                 }
                 break;
+            case 'draggingPit':
+                if (grid.isWalkableAt(gridX, gridY)) {
+                    this.mousemoveflag = 1
+                    this.setPitPos(gridX, gridY);
+                    if (this.endstatus == 1)
+                        this.findPath(0)
+                }
+                break;
             case 'drawingWall':
                 this.setWalkableAt(gridX, gridY, false, "wall");
                 break;
@@ -874,8 +904,9 @@ $.extend(Controller, {
                 this.setWalkableAt(gridX, gridY, true, "wall");
                 break;
             case 'addingPit':
-                this.setPitAt(gridX, gridY, false);
+                this.setPitAt(gridX + 10, gridY + 10, false);
                 break;
+
             case 'addingBomb':
                 this.setBombAt(gridX, gridY, false);
                 break;
@@ -1027,6 +1058,11 @@ $.extend(Controller, {
         this.endY = gridY;
         View.setEndPos(gridX, gridY);
     },
+    setPitPos: function(gridX, gridY) {
+        this.pitX = gridX;
+        this.pitY = gridY;
+        View.setPitPos(gridX, gridY);
+    },
     setWalkableAt: function(gridX, gridY, walkable, pit) {
         this.grid.setWalkableAt(gridX, gridY, walkable, pit);
         View.setAttributeAt(gridX, gridY, 'walkable', walkable, "wall");
@@ -1040,7 +1076,7 @@ $.extend(Controller, {
         View.setCheckPoint(gridX, gridY, -1, -1, true)
     },
     setPitAt: function(gridX, gridY, walkable) {
-        if (this.numpit < 5) {
+        if (this.numpit < 2) {
             this.grid.setWalkableAt(gridX, gridY, walkable);
             View.setAttributeAt(gridX, gridY, 'walkable', walkable, "pit");
             this.setPitArea(gridX - 1, gridY, walkable);
@@ -1088,9 +1124,13 @@ $.extend(Controller, {
     isStartPos: function(gridX, gridY) {
         return gridX === this.startX && gridY === this.startY;
     },
+    // isPitPos: function(gridX, gridY) {
+    //     return gridX === this.pitX && gridY === this.pitY;
+    // },
     isEndPos: function(gridX, gridY) {
         return gridX === this.endX && gridY === this.endY;
     },
+
     isCheckPoint: function(gridX, gridY) {
         return this.checkpoints.findIndex(node => node.x == gridX && node.y == gridY);
     },

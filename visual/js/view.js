@@ -222,18 +222,18 @@ var View = {
         //     this.startNode.attr({ x: coord[0], y: coord[1] }).toFront();
         // }
     },
-    setBombPos: function(gridX, gridY) {
+    setPitPos: function(gridX, gridY) {
         var coord = this.toPageCoordinate(gridX, gridY);
-        if (!this.bombNode) {
-            this.bombNode = this.paper.ui - icon - circle - minus(
+        if (!this.pitNode) {
+            this.pitNode = this.paper.rect(
                     coord[0],
                     coord[1],
                     this.nodeSize,
                     this.nodeSize
-                ).attr(circle(320, 240, 60))
+                ).attr(this.nodeStyle.normal)
                 .animate(this.nodeStyle.start, 1000);
         } else {
-            this.pitNode.attr({ x: coord[0] + 120, y: coord[1] + 120 }).toFront();
+            this.pitNode.attr({ x: coord[0], y: coord[1] }).toFront();
         }
     },
     setEndPos: function(gridX, gridY) {
