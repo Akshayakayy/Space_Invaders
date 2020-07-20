@@ -1,3 +1,13 @@
+/**
+ * Random maze generator. It goes through all the grids and assigns it as a wall with prob 0.2.
+ * @param {Object} opt
+ * @param {number} opt.xlim Width of the grid
+ * @param {number} opt.ylim Height of the grid
+ * @param {number} opt.startX x co-ordinate of the source
+ * @param {number} opt.starty y co-ordinate of the source
+ * @param {number} opt.endX x co-ordinate of the destination
+ * @param {number} opt.endY y co-ordinate of the destination
+ */
 function TSP(opt) {
     opt = opt || {};
     this.startX = opt.startX;
@@ -8,6 +18,10 @@ function TSP(opt) {
     this.grid = opt.grid;
     this.finder = opt.finder;
 };
+/** 
+ * This creates the random maze
+ * @return {Array<number>} Returns the mazewalls
+ */
 TSP.prototype.permfinder = function (checkpoints) {
     let perms = [];
     for (let i = 0; i < checkpoints.length; i = i + 1) {
@@ -22,6 +36,10 @@ TSP.prototype.permfinder = function (checkpoints) {
     }
     return perms;
 };
+/** 
+ * This creates the random maze
+ * @return {Array<number>} Returns the mazewalls
+ */
 TSP.prototype.onTSP = function () {
     let perms = this.permfinder(this.checkpoints);
     var mindist = 999999;
@@ -54,7 +72,7 @@ TSP.prototype.onTSP = function () {
             );
             if (!res['path'] || res['path'].length == 1) {
                 console.log("path not")
-                return this.checkpoints, 0;
+                return [this.checkpoints, 0];
             }
             totaldist += PF.Util.pathLength(res['path']);
         }

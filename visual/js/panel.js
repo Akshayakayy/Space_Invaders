@@ -1,7 +1,7 @@
 /**
  * The control panel.
  */
-const steps = ['1', '2', '3']
+const steps = ['1', '2', '3', '4']
 const swalQueueStep = Swal.mixin({
     confirmButtonText: 'Next &rarr;',
     cancelButtonText: 'Back',
@@ -23,7 +23,7 @@ async function backAndForth() {
     var title = ""
     var text = ""
     for (currentStep = 0; currentStep < steps.length;) {
-        switch(currentStep){
+        switch (currentStep) {
             case 0:
                 title = "Welcome to Space invaders!"
                 text = "Click Next! to view the guide"
@@ -33,6 +33,10 @@ async function backAndForth() {
                 text = "Click and drag to draw walls"
                 break;
             case 2:
+                title = "Drag endpoints"
+                text = "Drag endpoints and checkpoints to visualize changes in path"
+                break;
+            case 3:
                 title = "Draw checkpoint"
                 text = "Ctrl + Click to place checkpoints"
                 break;
@@ -56,31 +60,31 @@ async function backAndForth() {
 }
 
 var Panel = {
-    init: function () {
+    init: function() {
         var $algo = $('#algorithm_panel');
         $('.panel').draggable();
         $('.accordion').accordion({
             collapsible: false,
         });
-        $('.option_label').click(function () {
+        $('.option_label').click(function() {
             $(this).prev().click();
         });
-        $('#hide_instructions').click(function () {
+        $('#hide_instructions').click(function() {
             $('#instructions_panel').slideUp();
         });
         $('#play_dropdown').css({
             top: 30,
             left: 300,
         });
-        $(document).ready(function () {
+        $(document).ready(function() {
             backAndForth()
-            // Swal.fire({
-            //     title: 'Welcome to Space Invaders! Let\'s move forwards towards the base',
-            //     text: '',
-            //     confirmButtonText: 'Cool'
-            //   })
-            // alert("Welcome to Space Invaders! Let's move forwards towards the base");
-            $('.dropdown-submenu a.test').on("click", function (e) {
+                // Swal.fire({
+                //     title: 'Welcome to Space Invaders! Let\'s move forwards towards the base',
+                //     text: '',
+                //     confirmButtonText: 'Cool'
+                //   })
+                // alert("Welcome to Space Invaders! Let's move forwards towards the base");
+            $('.dropdown-submenu a.test').on("click", function(e) {
                 $(this).next('ul').toggle();
                 e.stopPropagation();
                 e.preventDefault();
@@ -97,7 +101,7 @@ var Panel = {
         $('#button2').attr('disabled', 'disabled');
     },
 
-    getSpeed: function () {
+    getSpeed: function() {
         var speed = $('input[name=speed]').val();
         console.log('speeeeeeed');
         console.log(speed);
@@ -106,7 +110,7 @@ var Panel = {
     /**
      * Get the user selected path-finder.
      */
-    getFinder: function () {
+    getFinder: function() {
         var finder, selected_header, heuristic, allowDiagonal, biDirectional, dontCrossCorners, weight, trackRecursion, timeLimit;
         selected_header = $(
             '#algorithm_panel ' +
