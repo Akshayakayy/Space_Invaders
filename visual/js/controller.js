@@ -678,7 +678,7 @@ $.extend(Controller, {
         if (ind != -1) {
             this.checkpoints.splice(ind, 1);
         }
-        this.checkPointsleft++;
+        //this.checkPointsleft++;
         this.grid.setWalkableAt(gridX, gridY, true, "");
         View.setCheckPoint(gridX, gridY, -1, -1, false);
         // this.setWalkableAt(gridX, gridY, true, "wall");
