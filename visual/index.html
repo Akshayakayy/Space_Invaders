@@ -291,7 +291,7 @@
 
         <ul class="nav navbar-nav navbar-right">
           
-          <li class="b1"><a id="button1" class="control_button">Start Search</a></li>
+          <li><a id="button1" class="control_button">Start Search</a></li>
           <li><a id="button2" class="control_button">Pause Search</a></li>
           <li><a id="button3" class="control_button">Clear Obstacles</a></li>
           <li><a id="button4" class="control_button">Clear Checkpoints</a></li>
@@ -302,23 +302,13 @@
 
     <div id="draw_area"></div>
 
-    <!-- <div id="intro_panel" class="panel">
+    <div id="instructions_panel" class="panel">
       <header>
-        <h2 class="intro_title">Features Included:</h2>
-        <span id="hide_intro">hide</span>
+        <h2 class="instruction_title">Features Included:</h2>
+        <span id="hide_instructions">hide</span>
       </header>
-      Click within the cream grid and drag your mouse to draw obstacles. <br>
+      Click within the cream</span> grid and drag your mouse to draw obstacles. <br>
       
-    </div> -->
-
-    <div id="bot_panel" class="panel">
-      <header>
-        <h2 class="bot_title">MESSAGE BOT</h2>
-        <span id="hide_bot"> X </span>
-      </header>
-      <div class="bot_content">
-        <div id="bot_msg">Welcome to Mars Rover Pathfinder!</id>
-      </div>
     </div>
   
     <!-- <div id="stats"></div> -->
@@ -340,25 +330,6 @@
         top: $('.dropdown').offset().top
       }).detach());
     });
-
-    var botpan=document.getElementById('bot_panel');
-    var botmsg=document.getElementById('bot_msg');
-
-    botmsg.innerHTML = 'Welcome! <br><br> Click within the grey grid and drag your mouse to draw obstacles. <br><br> Add and remove checkpoints using Ctrl+Click';
-    msgs = 0;
-
-    $('.b1').on('click', function(event) {
-      botmsg.innerHTML = 'Search started!';
-      botpan.style.visibility = 'visible';
-      botmsg.style.visibility = 'visible';
-
-      setTimeout(function(){
-        if(botmsg.innerHTML == 'Search started!') {
-          botpan.style.visibility = 'hidden';
-          botmsg.style.visibility = 'hidden';
-        }
-              },4000)
-      })
 
   </script>
 </html>
