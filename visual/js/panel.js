@@ -69,8 +69,9 @@ var Panel = {
         $('.option_label').click(function() {
             $(this).prev().click();
         });
-        $('#hide_instructions').click(function() {
-            $('#instructions_panel').slideUp();
+        $('#hide_bot').click(function() {
+            botpan.style.visibility = 'hidden';
+            botmsg.style.visibility = 'hidden';
         });
         $('#play_dropdown').css({
             top: 30,
@@ -78,12 +79,6 @@ var Panel = {
         });
         $(document).ready(function() {
             backAndForth()
-                // Swal.fire({
-                //     title: 'Welcome to Space Invaders! Let\'s move forwards towards the base',
-                //     text: '',
-                //     confirmButtonText: 'Cool'
-                //   })
-                // alert("Welcome to Space Invaders! Let's move forwards towards the base");
             $('.dropdown-submenu a.test').on("click", function(e) {
                 $(this).next('ul').toggle();
                 e.stopPropagation();

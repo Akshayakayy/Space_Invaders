@@ -200,27 +200,10 @@ var View = {
                 this.rects[gridY][gridX].remove()
                 node.attr(this.nodeStyle.normal)
                 this.rects[gridY][gridX] = node
-                    // this.colorizeNode(node, node.attr(this.nodeStyle.normal));
-                    // this.zoomNode(node);
-                    // setTimeout(function () {
-                    //     node.remove();
-                    // }, this.nodeZoomEffect.duration);
-                    // // blockedNodes[gridY][gridX] = null;
+
                 this.checkpoint.splice(checkindex, 1);
             }
         }
-        // if (this.checkpoint) {
-
-        //     // this.startNode = this.paper.rect(
-        //     //     coord[0],
-        //     //     coord[1],
-        //     //     this.nodeSize,
-        //     //     this.nodeSize
-        //     // ).attr(this.nodeStyle.normal)
-        //     //  .animate(this.nodeStyle.checkpoint, 1000);
-        // } else {
-        //     this.startNode.attr({ x: coord[0], y: coord[1] }).toFront();
-        // }
     },
     setPitPos: function(gridX, gridY) {
         var coord = this.toPageCoordinate(gridX, gridY);
@@ -272,10 +255,6 @@ var View = {
                 color = (value === true) ? nodeStyle.tested.fill : nodeStyle.normal.fill;
                 this.colorizeNode(this.rects[gridY][gridX], color);
                 this.setCoordDirty(gridX, gridY, true);
-                break;
-            case 'parent':
-                // XXX: Maybe draw a line from this node to its parent?
-                // This would be expensive.
                 break;
             default:
                 console.error('unsupported operation: ' + attr + ':' + value);
