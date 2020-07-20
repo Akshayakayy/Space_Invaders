@@ -346,6 +346,7 @@ $.extend(Controller, {
         this.checkpoints.splice(0, this.checkpoints.length);
         console.log("leftover checkpoints:", this.checkpoints);
         this.checkPointsleft = 4;
+        this.currCheckpoint = -1;
         if (this.endstatus == 1)
             this.findPath(1);
     },
@@ -678,7 +679,8 @@ $.extend(Controller, {
         if (ind != -1) {
             this.checkpoints.splice(ind, 1);
         }
-        //this.checkPointsleft++;
+        this.currCheckpoint = -1;
+        this.checkPointsleft++;
         this.grid.setWalkableAt(gridX, gridY, true, "");
         View.setCheckPoint(gridX, gridY, -1, -1, false);
         // this.setWalkableAt(gridX, gridY, true, "wall");
