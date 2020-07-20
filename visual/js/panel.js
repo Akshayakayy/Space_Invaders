@@ -1,7 +1,7 @@
 /**
  * The control panel.
  */
-const steps = ['1', '2', '3']
+const steps = ['1', '2', '3', '4']
 const swalQueueStep = Swal.mixin({
     confirmButtonText: 'Next &rarr;',
     cancelButtonText: 'Back',
@@ -33,6 +33,10 @@ async function backAndForth() {
                 text = "Click and drag to draw walls"
                 break;
             case 2:
+                title = "Drag endpoints"
+                text = "Drag endpoints and checkpoints to visualize changes in path"
+                break;
+            case 3:
                 title = "Draw checkpoint"
                 text = "Ctrl + Click to place checkpoints"
                 break;
