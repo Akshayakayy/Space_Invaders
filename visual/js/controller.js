@@ -303,7 +303,6 @@ $.extend(Controller, {
                 operationCount: this.operationCount,
             });
             View.drawPath(this.path);
-            // alert("Congratulations, base found! Click ok to render, you can also drag the start, end, checkpoints, obstacles to see dynamically rendered path!");
 
             var botpan=document.getElementById('bot_panel');
             var botmsg=document.getElementById('bot_msg');
