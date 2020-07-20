@@ -1,10 +1,10 @@
 /**
- * Random maze generator. It goes through all the grids and assigns it as a wall with prob 0.2.
+ * Random maze generator. It goes through all the grid and assigns it as a wall with prob 0.2.
  * @param {Object} opt
  * @param {number} opt.xlim Width of the grid
  * @param {number} opt.ylim Height of the grid
  * @param {number} opt.startX x co-ordinate of the source
- * @param {number} opt.starty y co-ordinate of the source
+ * @param {number} opt.startY y co-ordinate of the source
  * @param {number} opt.endX x co-ordinate of the destination
  * @param {number} opt.endY y co-ordinate of the destination
  */
@@ -25,7 +25,6 @@ function RandomMaze(opt) {
  */
 
 RandomMaze.prototype.createMaze = function () {
-	console.log("I am in randommaze");
 	var x = 0,
 		y = 0;
 	while (x < this.xlim) {

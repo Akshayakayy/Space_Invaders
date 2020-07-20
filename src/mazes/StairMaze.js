@@ -4,7 +4,7 @@
  * @param {number} opt.xlim Width of the grid
  * @param {number} opt.ylim Height of the grid
  * @param {number} opt.startX x co-ordinate of the source
- * @param {number} opt.starty y co-ordinate of the source
+ * @param {number} opt.startY y co-ordinate of the source
  * @param {number} opt.endX x co-ordinate of the destination
  * @param {number} opt.endY y co-ordinate of the destination
  */
@@ -19,17 +19,17 @@ function StairMaze(opt) {
 	this.endY = opt.endY;
 }
 /** 
-* This creates the random maze
-* @return {Array<Object>} Returns the mazewalls
-*/
+ * This creates the random maze
+ * @return {Array<Object>} Returns the mazewalls
+ */
 StairMaze.prototype.createMaze = function () {
-	console.log("I am in stairmaze");
 	var y = Math.floor(Math.random() * this.ylim / 2),
 		x = 0;
-	var start_pos = y;
+	var startPos = y;
 	for (let i = 0; i < 5; i++) {
-		var bound1x = (i == 0) ? this.xlim / 3 : this.xlim;
-		while (y < this.ylim * 2 / 3 && x < bound1x) {
+		var downward_boundx = (i == 0) ? this.xlim / 3 : this.xlim;
+		//Construct downward stair
+		while (y < this.ylim * 2 / 3 && x < downward_boundx) {
 			if ((x == this.startX && y == this.startY) || (x == this.endX && y == this.endY)) {} else {
 				this.mazeWalls.push({
 					x: x,
@@ -42,8 +42,9 @@ StairMaze.prototype.createMaze = function () {
 		}
 		x++;
 		y++;
-		var bound2x = (i == 0) ? this.xlim * 2 / 3 : this.xlim;
-		while (x < bound2x && y > start_pos) {
+		var upward_boundx = (i == 0) ? this.xlim * 2 / 3 : this.xlim;
+		//Construct upward stair
+		while (x < upward_boundx && y > startPos) {
 			if ((x == this.startX && y == this.startY) || (x == this.endX && y == this.endY)) {} else {
 				this.mazeWalls.push({
 					x: x,

@@ -1,12 +1,15 @@
 /**
- * Random maze generator. It goes through all the grids and assigns it as a wall with prob 0.2.
+ * Travelling Salesman optimizer. It gives the permutation of checkpoints that gives minimum total distance travelled.
  * @param {Object} opt
  * @param {number} opt.xlim Width of the grid
  * @param {number} opt.ylim Height of the grid
  * @param {number} opt.startX x co-ordinate of the source
- * @param {number} opt.starty y co-ordinate of the source
+ * @param {number} opt.startY y co-ordinate of the source
  * @param {number} opt.endX x co-ordinate of the destination
  * @param {number} opt.endY y co-ordinate of the destination
+ * @param {Array<Object>} opt.checkpoints array of checkpoints on the grid
+ * @param {Array<Array<Object>} opt.grid Grid object
+ * @param {Object} opt.finder Finder object
  */
 function TSP(opt) {
     opt = opt || {};
@@ -19,71 +22,69 @@ function TSP(opt) {
     this.finder = opt.finder;
 };
 /** 
- * This creates the random maze
- * @return {Array<number>} Returns the mazewalls
+ * This finds all possible permutations of the checkpoints
+ * @param {Array<Object>} checkpoints array of checkpoints on the grid
+ * @return {Array<Array<Object>>} Returns all possible permutations of checkpoints
  */
-TSP.prototype.permfinder = function (checkpoints) {
-    let perms = [];
+TSP.prototype.permutationFinder = function (checkpoints) {
+    let permutations = [];
     for (let i = 0; i < checkpoints.length; i = i + 1) {
-        let rest = this.permfinder(checkpoints.slice(0, i).concat(checkpoints.slice(i + 1)));
+        let rest = this.permutationFinder(checkpoints.slice(0, i).concat(checkpoints.slice(i + 1)));
         if (!rest.length) {
-            perms.push([checkpoints[i]]);
+            permutations.push([checkpoints[i]]);
         } else {
             for (let j = 0; j < rest.length; j = j + 1) {
-                perms.push([checkpoints[i]].concat(rest[j]));
+                permutations.push([checkpoints[i]].concat(rest[j]));
             }
         }
     }
-    return perms;
+    return permutations;
 };
 /** 
- * This creates the random maze
- * @return {Array<number>} Returns the mazewalls
+ * This performs the Travelling Salesman optimisation on the Graph formed
+ * by the checkpoints, start and destination nodes
+ * @param {Array<Object>} checkpoints array of checkpoints on the grid
+ * @return {Array<Object>} Returns the permutation of checkpoints giving minimum total distance
  */
 TSP.prototype.onTSP = function () {
-    let perms = this.permfinder(this.checkpoints);
-    var mindist = 999999;
-    var minperm = [];
-    // this.pathfound = 1
-    for (let i = 0; i < perms.length; i = i + 1) {
-        var totaldist = 0;
-        for (let j = -1; j < (perms[i].length); j = j + 1) {
+    let permutations = this.permutationFinder(this.checkpoints);
+    var minDistance = 999999;
+    var minPermutation = [];
+    for (let i = 0; i < permutations.length; i = i + 1) {
+        var totalDistance = 0;
+        for (let j = -1; j < (permutations[i].length); j = j + 1) {
             if (j == -1) {
                 var originX = this.startX;
                 var originY = this.startY;
             } else {
-                var originX = perms[i][j].x;
-                var originY = perms[i][j].y;
+                var originX = permutations[i][j].x;
+                var originY = permutations[i][j].y;
             }
             if (j == this.checkpoints.length - 1) {
                 var destX = this.endX;
                 var destY = this.endY;
             } else {
-                var destX = perms[i][j + 1].x;
-                var destY = perms[i][j + 1].y;
+                var destX = permutations[i][j + 1].x;
+                var destY = permutations[i][j + 1].y;
             }
-            // var originX = perms[i][j].x;
-            // var originY = perms[i][j].y;
-            // var destX = perms[i][j + 1].x;
-            // var destY = perms[i][j + 1].y;
             var grid = this.grid.clone();
-            var res = this.finder.findPath(
+            var possiblePath = this.finder.findPath(
                 originX, originY, destX, destY, grid
             );
-            if (!res['path'] || res['path'].length == 1) {
-                console.log("path not")
+            if (!possiblePath['path'] || possiblePath['path'].length == 1) {
+                //console.log("path not")
                 return [this.checkpoints, 0];
             }
-            totaldist += PF.Util.pathLength(res['path']);
+            totalDistance += PF.Util.pathLength(possiblePath['path']);
         }
-        if (totaldist < mindist) {
-            mindist = totaldist;
-            minperm = perms[i];
+        if (totalDistance < minDistance) {
+            minDistance = totalDistance;
+            minPermutation = permutations[i];
         }
     }
-    console.log(minperm)
-    this.checkpoints = minperm;
-    return [minperm, 1];
+    //console.log(minPermutation)
+    this.checkpoints = minPermutation;
+    return [minPermutation, 1];
 };
 
 
