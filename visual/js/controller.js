@@ -329,7 +329,18 @@ $.extend(Controller, {
     /**
      * The following functions are called on entering states.
      */
-    initmaze: function(mazetype){
+    clearAllCheckPoints: function () {
+        console.log("Clearing all checkpoints!");
+        for (let i = 0; i < this.checkpoints.length; i++)
+            View.setCheckPoint(this.checkpoints[i].x, this.checkpoints[i].y, -1, -1, false);
+            // this.setWalkableAt(this.checkpoints[i].x, this.checkpoints[i].y, true, "wall");
+        this.checkpoints.splice(0, this.checkpoints.length);
+        console.log("leftover checkpoints:", this.checkpoints);
+        this.checkPointsleft = 4;
+        if (this.endstatus == 1)
+            this.findPath(1);
+    },
+    initmaze: function (mazetype) {
         this.mazetype = mazetype;
         this.startMaze();
     },
@@ -349,6 +360,11 @@ $.extend(Controller, {
             text: 'Clear Obstacles',
             enabled: true,
             callback: $.proxy(this.reset, this),
+        }, {
+            id: 3,
+            text: 'Clear checkpoints',
+            enabled: true,
+            callback: $.proxy(this.clearAllCheckPoints, this),
         });
         this.setButtonStatesMaze({
             id: 0,
@@ -423,7 +439,7 @@ $.extend(Controller, {
         console.log(this.gridSize[0], this.gridSize[1]);
         var rows = this.gridSize[0];
         var cols = this.gridSize[1];
-        if(mazetype == 'random'){
+        if (mazetype == 'random') {
             maze = new PF.RandomMaze({
                 xlim: rows,
                 ylim: cols,
@@ -434,7 +450,7 @@ $.extend(Controller, {
                 controller: this
             });
         }
-        else if(mazetype == 'recursive'){
+        else if (mazetype == 'recursive') {
             maze = new PF.RecDivMaze({
                 xlim: rows,
                 ylim: cols,
@@ -445,7 +461,7 @@ $.extend(Controller, {
                 controller: this
             });
         }
-        else if(mazetype == 'stair'){
+        else if (mazetype == 'stair') {
             maze = new PF.StairMaze({
                 xlim: rows,
                 ylim: cols,
@@ -652,9 +668,15 @@ $.extend(Controller, {
             node.y == gridY
         );
         console.log(ind);
-        if (ind != -1)
+        if (ind != -1) {
             this.checkpoints.splice(ind, 1);
-        this.setWalkableAt(gridX, gridY, true);
+        }
+        this.checkPointsleft++;
+        this.grid.setWalkableAt(gridX, gridY, true, "");
+        View.setCheckPoint(gridX, gridY, -1, -1, false);
+        // this.setWalkableAt(gridX, gridY, true, "wall");
+        if (this.endstatus == 1)
+            this.findPath(1);
     },
     clearAll: function () {
         this.clearFootprints();
@@ -676,7 +698,7 @@ $.extend(Controller, {
         }
         else if (event.ctrlKey) {
             if (!this.isStartOrEndPos(gridX, gridY) && grid.isWalkableAt(gridX, gridY) && this.checkPointsleft > 0) {
-                this.setCheckPoint(gridX, gridY);
+                this.setCheckPoint(gridX, gridY, true);
                 this.checkPointsleft--;
             }
         }
@@ -832,7 +854,7 @@ $.extend(Controller, {
             case 'draggingCheckpoint':
                 if (grid.isWalkableAt(gridX, gridY)) {
                     this.mousemoveflag = 1
-                    View.setCheckPoint(gridX, gridY, this.checkpoints[this.currCheckpoint].x, this.checkpoints[this.currCheckpoint].y)
+                    View.setCheckPoint(gridX, gridY, this.checkpoints[this.currCheckpoint].x, this.checkpoints[this.currCheckpoint].y, true)
                     this.checkpoints[this.currCheckpoint].x = gridX;
                     this.checkpoints[this.currCheckpoint].y = gridY;
                     if (this.endstatus == 1) {
@@ -882,7 +904,7 @@ $.extend(Controller, {
                     break;
                 case 'draggingCheckpoint':
                     if (grid.isWalkableAt(gridX, gridY) && !this.isStartOrEndPos(gridX, gridY)) {
-                        View.setCheckPoint(gridX, gridY, this.checkpoints[this.currCheckpoint].x, this.checkpoints[this.currCheckpoint].y)
+                        View.setCheckPoint(gridX, gridY, this.checkpoints[this.currCheckpoint].x, this.checkpoints[this.currCheckpoint].y, true)
                         this.checkpoints[this.currCheckpoint].x = gridX;
                         this.checkpoints[this.currCheckpoint].y = gridY;
                         if (this.endstatus == 1) {
@@ -947,7 +969,7 @@ $.extend(Controller, {
 
             var optid = opt.id;
             console.log(opt)
-            var $button = Controller.$obstacle_buttons.eq(optid-1);
+            var $button = Controller.$obstacle_buttons.eq(optid - 1);
             if (opt.text) {
                 $button.text(opt.text);
             }
@@ -1010,7 +1032,7 @@ $.extend(Controller, {
             y: gridY
         })
         // View.setAttributeAt(gridX, gridY, 'checkpoint', true);
-        View.setCheckPoint(gridX, gridY, -1, -1)
+        View.setCheckPoint(gridX, gridY, -1, -1, true)
     },
     setPitAt: function (gridX, gridY, walkable) {
         this.grid.setWalkableAt(gridX, gridY, walkable);
