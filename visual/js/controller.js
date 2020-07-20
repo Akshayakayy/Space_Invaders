@@ -926,14 +926,14 @@ $.extend(Controller, {
                 this.setWalkableAt(gridX, gridY, true, "wall");
                 break;
             case 'addingPit':
-                this.setPitAt(this.centerX + 3, this.centerY + 1, false);
+                this.setPitAt(this.centerX + 3, this.centerY + 6, false);
                 break;
 
             case 'addingBomb':
-                this.setBombAt(this.centerX + 8, this.centerY + 3, false);
+                this.setBombAt(this.centerX + 12, this.centerY + 10, false);
                 break;
             case 'addingIce':
-                this.setIceAt(this.centerX - 2, this.centerY - 3, false);
+                this.setIceAt(this.centerX, this.centerY - 1, false);
                 break;
         }
     },
@@ -1068,7 +1068,7 @@ $.extend(Controller, {
         this.centerY = Math.floor(height / 2 / nodeSize);
 
         this.setStartPos(this.centerX - 5, this.centerY);
-        this.setEndPos(this.centerX + 5, this.centerY);
+        this.setEndPos(this.centerX + 15, this.centerY + 10);
     },
     setStartPos: function(gridX, gridY) {
         this.startX = gridX;
