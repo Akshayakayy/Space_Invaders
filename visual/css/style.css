@@ -3,7 +3,7 @@
         margin: 0px;
         overflow: hidden;
     }
-    
+
     #stats {
         position: fixed;
         color: rgb(0, 0, 0);
@@ -12,7 +12,7 @@
         background: rgba(255, 255, 255, 0.5);
         border-radius: 100%;
     }
-    
+
     #timer {
         position: fixed;
         color: rgb(0, 0, 0);
@@ -21,15 +21,15 @@
         background: rgba(255, 255, 255, 0.5);
         border-radius: 5px;
     }
-    
+
     #ul_top_hypers li {
         float: right;
     }
-    
+
     input {
         cursor: pointer;
     }
-    
+
     h1,
     h2,
     h3,
@@ -40,36 +40,36 @@
         padding: 0px;
         font-weight: normal;
     }
-    
+
     .navbar {
         height: 30px;
     }
-    
+
     #algo_panel {
         background: transparent;
     }
-    
+
     .navbar-right {
         font-size: large;
         color: #FFFDBD;
         font-weight: bold;
         font-family: Dosis;
     }
-    
+
     #button1,
     #button2,
     #button3 {
         color: rgb(255, 255, 255);
         opacity: 0.8;
     }
-    
+
     #button1:hover,
     #button2:hover,
     #button3:hover {
         color: rgb(255, 255, 255);
         opacity: 1;
     }
-    
+
     #speed {
         font-size: large;
         color: #FFFDBD;
@@ -77,14 +77,14 @@
         font-family: Dosis;
         opacity: 1;
     }
-    
+
     .navbar-right:hover {
         font-size: large;
         color: #FFFDBD;
         font-weight: bold;
         font-family: Dosis;
     }
-    
+
     .slider {
         -webkit-appearance: none;
         width: 100%;
@@ -97,17 +97,32 @@
         -webkit-transition: .2s;
         transition: opacity .2s;
     }
-    
-    input[type=range] {
+
+    .slider:hover {
+        opacity: 1;
+    }
+
+    .slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 30px;
+        height: 35px;
+        /* background: rgb(202, 47, 47); */
+        cursor: pointer;
+        background: url("https://cdn1.iconfinder.com/data/icons/natural-world/360/fire-flame_16-512.png");
+        background-size: 35px 35px;
+    }
+
+    /* input[type=range] {
         -webkit-appearance: none;
         margin: 18px 0;
         width: 100%;
     }
-    
+
     input[type=range]:focus {
         outline: none;
     }
-    
+
     input[type=range]::-webkit-slider-runnable-track {
         width: 100%;
         height: 8.4px;
@@ -117,7 +132,7 @@
         border-radius: 1.3px;
         border: 0.2px solid #010101;
     }
-    
+
     input[type=range]::-webkit-slider-thumb {
         box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
         border: 1px solid #000000;
@@ -129,11 +144,11 @@
         -webkit-appearance: none;
         margin-top: -14px;
     }
-    
+
     input[type=range]:focus::-webkit-slider-runnable-track {
         background: #367ebd;
     }
-    
+
     input[type=range]::-moz-range-track {
         width: 100%;
         height: 8.4px;
@@ -143,7 +158,7 @@
         border-radius: 1.3px;
         border: 0.2px solid #010101;
     }
-    
+
     input[type=range]::-moz-range-thumb {
         box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
         border: 1px solid #000000;
@@ -153,7 +168,7 @@
         background: #e96464;
         cursor: pointer;
     }
-    
+
     input[type=range]::-ms-track {
         width: 100%;
         height: 8.4px;
@@ -163,21 +178,21 @@
         border-width: 16px 0;
         color: transparent;
     }
-    
+
     input[type=range]::-ms-fill-lower {
         background: #2a6495;
         border: 0.2px solid #010101;
         border-radius: 2.6px;
         box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
     }
-    
+
     input[type=range]::-ms-fill-upper {
         background: #3071a9;
         border: 0.2px solid #010101;
         border-radius: 2.6px;
         box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
     }
-    
+
     input[type=range]::-ms-thumb {
         box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
         border: 1px solid #000000;
@@ -185,48 +200,33 @@
         width: 16px;
         cursor: pointer;
     }
-    
+
     input[type=range]:focus::-ms-fill-lower {
         background: #3071a9;
     }
-    
+
     input[type=range]:focus::-ms-fill-upper {
         background: #e23939;
-    }
-    
-    .slider:hover {
-        opacity: 1;
-    }
-    
-    .slider::-webkit-slider-thumb {
-        -webkit-appearance: none;
-        appearance: none;
-        width: 30px;
-        height: 35px;
-        /* background: rgb(202, 47, 47); */
-        cursor: pointer;
-        background: url("https://cdn1.iconfinder.com/data/icons/natural-world/360/fire-flame_16-512.png");
-        background-size: 35px 35px;
-    }
-    
+    } */
+
     #slow,
     #medium,
     #fast {
         margin: 1em;
     }
-    
+
     #sl {
         color: rgb(255, 238, 0);
     }
-    
+
     #me {
         color: orange;
     }
-    
+
     #fa {
         color: orangered;
     }
-    
+
     #maze {
         height: 125px;
         width: 139px;
@@ -235,7 +235,7 @@
         opacity: 0.8;
         padding-top: 10px;
     }
-    
+
     #obstacles {
         width: 103px;
         height: 125px;
@@ -244,38 +244,38 @@
         opacity: 0.8;
         padding-top: 10px;
     }
-    
+
     .maze_button:hover {
         color: rgb(218, 137, 106);
     }
-    
+
     .obstacle_button:hover {
         color: rgb(218, 137, 106);
     }
-    
+
     .obstacle_button {
         color: rgb(255, 255, 255);
         font-size: medium;
         margin: 5px;
         font-family: Didact Gothic;
     }
-    
+
     .maze_button {
         color: rgb(255, 255, 255);
         font-size: medium;
         margin: 5px;
         font-family: Didact Gothic;
     }
-    
+
     .finder_section {
         height: 400px;
         width: 300px;
     }
-    
+
     .navbar-inverse {
         height: 30px;
     }
-    
+
     #brand {
         font-family: Julius Sans One;
         background-color: black;
@@ -283,7 +283,7 @@
         color: red;
         font-size: x-large;
     }
-    
+
     .instruction_title {
         font-size: large;
         color: rgb(0, 0, 0);
@@ -292,7 +292,7 @@
         /* padding-bottom: 5px; */
         /* margin-top: -10px; */
     }
-    
+
     .tooltiptext {
         visibility: hidden;
         width: 120px;
@@ -307,7 +307,7 @@
         left: 50%;
         margin-left: -60px;
     }
-    
+
     .tooltiptext::after {
         content: "";
         position: absolute;
@@ -318,19 +318,19 @@
         border-style: solid;
         border-color: transparent transparent rgb(255, 255, 255) transparent;
     }
-    
+
     #genmaze:hover #tooltipgenmaze {
         visibility: visible;
     }
-    
+
     #genobs:hover #tooltipgenobs {
         visibility: visible;
     }
-    
+
     #genalgo:hover #tooltipgenalgo {
         visibility: visible;
     }
-    
+
     .header_title {
         font-size: large;
         color: #FFFDBD;
@@ -339,7 +339,7 @@
         /* padding-bottom: 5px; */
         /* margin-top: -10px; */
     }
-    
+
     .panel {
         position: fixed;
         padding: 20px;
@@ -350,11 +350,12 @@
         cursor: default;
         opacity: 0.8;
     }
+
     /* .right_panel {
     width: 250px;
     right: 20px;
 } */
-    
+
     #algorithm_panel {
         position: fixed;
         /* padding: 20px; */
@@ -364,13 +365,13 @@
         box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
         cursor: default;
     }
-    
+
     #instructions_panel {
         top: 60px;
         left: 20px;
         width: 550px;
     }
-    
+
     #hide_instructions {
         position: absolute;
         right: 25px;
@@ -378,22 +379,22 @@
         font-size: 90%;
         cursor: pointer;
     }
-    
+
     #hide_instruction:hover {
         color: #fff;
         text-decoration: underline;
     }
-    
+
     .option_header {
         font-size: 80%;
         margin-left: 20px;
     }
-    
+
     .option_label {
         cursor: pointer;
         font-family: Didact Gothic;
     }
-    
+
     .control_button {
         border: red;
         /* background: rgba(255, 255, 255, 0.7); */
@@ -407,19 +408,19 @@
     height: 45px; */
         font-weight: bold;
     }
-    
+
     .finder_section {
         border: solid 1px #ddd;
         border-radius: 5px;
         margin: 5px;
     }
-    
+
     .sub_options {
         padding: 2px;
         font-size: 14px;
         margin: 2px 30px 0;
     }
-    
+
     #stats {
         position: fixed;
         bottom: 40px;
@@ -430,24 +431,24 @@
         background: rgba(255, 255, 255, 0.5);
         border-radius: 5px;
     }
-    
+
     .white {
         color: #fff;
     }
-    
+
     .green {
         color: #0d0;
     }
-    
+
     .red {
         color: #ff9166;
     }
-    
+
     .spinner {
         width: 2em;
         color: black;
     }
-    
+
     .weight {
         background-color: rgb(255, 254, 106);
         background-image: url(weight.svg);
