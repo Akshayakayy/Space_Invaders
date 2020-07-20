@@ -558,46 +558,6 @@ $.extend(Controller, {
      * of the pathfinding.
      */
     hookPathFinding: function () {
-
-        //     PF.Node.prototype = {
-        //         get opened() {
-        //             return this._opened;
-        //         },
-        //         set opened(v) {
-        //             this._opened = v;
-        //             Controller.operations.push({
-        //                 x: this.x,
-        //                 y: this.y,
-        //                 attr: 'opened',
-        //                 value: v
-        //             });
-        //         },
-        //         get closed() {
-        //             return this._closed;
-        //         },
-        //         set closed(v) {
-        //             this._closed = v;
-        //             Controller.operations.push({
-        //                 x: this.x,
-        //                 y: this.y,
-        //                 attr: 'closed',
-        //                 value: v
-        //             });
-        //         },
-        //         get tested() {
-        //             return this._tested;
-        //         },
-        //         set tested(v) {
-        //             this._tested = v;
-        //             Controller.operations.push({
-        //                 x: this.x,
-        //                 y: this.y,
-        //                 attr: 'tested',
-        //                 value: v
-        //             });
-        //         },
-        //     };
-
         this.operations = [];
     },
     bindEvents: function () {
@@ -655,10 +615,8 @@ $.extend(Controller, {
             this.checkpoints.splice(ind, 1);
         }
         this.currCheckpoint = -1;
-        this.checkPointsleft++;
         this.grid.setWalkableAt(gridX, gridY, true, "");
         View.setCheckPoint(gridX, gridY, -1, -1, false);
-        // this.setWalkableAt(gridX, gridY, true, "wall");
         if (this.endstatus == 1)
             this.findPath(1);
     },
