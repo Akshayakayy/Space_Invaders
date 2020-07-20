@@ -1,7 +1,7 @@
 /**
  * The control panel.
  */
-const steps = ['1', '2', '3', '4']
+const steps = ['1', '2', '3', '4', '5', '6', '7', '8']
 const swalQueueStep = Swal.mixin({
     confirmButtonText: 'Next &rarr;',
     cancelButtonText: 'Back',
@@ -33,13 +33,30 @@ async function backAndForth() {
                 text = "Click and drag to draw walls"
                 break;
             case 2:
+                title = "Draw checkpoint"
+                text = "Ctrl + Click to place checkpoints. The path must go through all checkpoints"
+                break;
+            case 3:
+                title = "Adjust speed"
+                text = "Drag slider to choose your desired speed"
+                break;
+            case 4:
+                title = "Explore Mazes"
+                text = "Generate mazes of various patterns for your rover to avoid"
+                break;
+            case 5:
+                title = "Choose algorithm"
+                text = "Use various algorithms to find the shortest path"
+                break;
+            case 6:
                 title = "Drag endpoints"
                 text = "Drag endpoints and checkpoints to visualize changes in path"
                 break;
-            case 3:
-                title = "Draw checkpoint"
-                text = "Ctrl + Click to place checkpoints"
+            case 7:
+                title = "Clear checkpoints and obstacles"
+                text = "Ctrl + Click on checkpoints to clear them or clear all obstacles and checkpoints from the navbar above"
                 break;
+        
         }
         const result = await swalQueueStep.fire({
             title: title,
@@ -60,31 +77,31 @@ async function backAndForth() {
 }
 
 var Panel = {
-    init: function() {
+    init: function () {
         var $algo = $('#algorithm_panel');
         $('.panel').draggable();
         $('.accordion').accordion({
             collapsible: false,
         });
-        $('.option_label').click(function() {
+        $('.option_label').click(function () {
             $(this).prev().click();
         });
-        $('#hide_instructions').click(function() {
+        $('#hide_instructions').click(function () {
             $('#instructions_panel').slideUp();
         });
         $('#play_dropdown').css({
             top: 30,
             left: 300,
         });
-        $(document).ready(function() {
+        $(document).ready(function () {
             backAndForth()
-                // Swal.fire({
-                //     title: 'Welcome to Space Invaders! Let\'s move forwards towards the base',
-                //     text: '',
-                //     confirmButtonText: 'Cool'
-                //   })
-                // alert("Welcome to Space Invaders! Let's move forwards towards the base");
-            $('.dropdown-submenu a.test').on("click", function(e) {
+            // Swal.fire({
+            //     title: 'Welcome to Space Invaders! Let\'s move forwards towards the base',
+            //     text: '',
+            //     confirmButtonText: 'Cool'
+            //   })
+            // alert("Welcome to Space Invaders! Let's move forwards towards the base");
+            $('.dropdown-submenu a.test').on("click", function (e) {
                 $(this).next('ul').toggle();
                 e.stopPropagation();
                 e.preventDefault();
@@ -101,7 +118,7 @@ var Panel = {
         $('#button2').attr('disabled', 'disabled');
     },
 
-    getSpeed: function() {
+    getSpeed: function () {
         var speed = $('input[name=speed]').val();
         console.log('speeeeeeed');
         console.log(speed);
@@ -110,7 +127,7 @@ var Panel = {
     /**
      * Get the user selected path-finder.
      */
-    getFinder: function() {
+    getFinder: function () {
         var finder, selected_header, heuristic, allowDiagonal, biDirectional, dontCrossCorners, weight, trackRecursion, timeLimit;
         selected_header = $(
             '#algorithm_panel ' +
