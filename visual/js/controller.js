@@ -76,6 +76,7 @@ var Controller = StateMachine.create({
             from: ['ready', 'finished'],
             to: 'draggingCheckpoint'
         },
+
         {
             name: 'drawWall',
             from: ['ready', 'finished'],
@@ -164,6 +165,19 @@ $.extend(Controller, {
     },
     oneraseWall: function(event, from, to, gridX, gridY) {
         console.log("erasing wall");
+        if (this.pitX == gridX && this.pitY == gridY) {
+            this.numpit = 0;
+            console.log("pit num reset");
+        }
+        if (this.bombX == gridX && this.bombY == gridY) {
+            this.numbomb = 0;
+            console.log("bomb num reset");
+        }
+        if (this.iceX == gridX && this.iceY == gridY) {
+            this.numice = 0;
+            console.log("ice num reset");
+        }
+
         this.setWalkableAt(gridX, gridY, true, "wall");
         // => erasingWall
     },
@@ -226,13 +240,19 @@ $.extend(Controller, {
             endY: this.endY,
             pitX: this.pitX,
             pitY: this.pitY,
+            iceX: this.iceX,
+            iceY: this.iceY,
+            bombX: this.bombX,
+            bombY: this.bombY,
+            centerX: this.centerX,
+            centerY: this.centerY,
             checkpoints: this.checkpoints,
             grid: this.grid,
             finder: this.finder
         })
-        res = TSP.onTSP()
-        this.checkpoints = res[0]
-        this.pathfound = res[1]
+        res = TSP.onTSP();
+        this.checkpoints = res[0];
+        this.pathfound = res[1];
         for (var i = -1; i < this.checkpoints.length; i++) {
             if (i == -1) {
                 var originX = this.startX;
@@ -891,14 +911,14 @@ $.extend(Controller, {
                     }
                 }
                 break;
-            case 'draggingPit':
-                if (grid.isWalkableAt(gridX, gridY)) {
-                    this.mousemoveflag = 1
-                    this.setPitPos(gridX, gridY);
-                    if (this.endstatus == 1)
-                        this.findPath(0)
-                }
-                break;
+                // case 'draggingPit':
+                //     if (grid.isWalkableAt(gridX, gridY)) {
+                //         this.mousemoveflag = 1
+                //         this.setPitPos(gridX, gridY);
+                //         if (this.endstatus == 1)
+                //             this.findPath(0)
+                //     }
+                //     break;
             case 'drawingWall':
                 this.setWalkableAt(gridX, gridY, false, "wall");
                 break;
@@ -906,14 +926,14 @@ $.extend(Controller, {
                 this.setWalkableAt(gridX, gridY, true, "wall");
                 break;
             case 'addingPit':
-                this.setPitAt(gridX + 10, gridY + 10, false);
+                this.setPitAt(this.centerX + 3, this.centerY + 1, false);
                 break;
 
             case 'addingBomb':
-                this.setBombAt(gridX + 5, gridY + 8, false);
+                this.setBombAt(this.centerX + 8, this.centerY + 3, false);
                 break;
             case 'addingIce':
-                this.setIceAt(gridX + 12, gridY + 14, false);
+                this.setIceAt(this.centerX - 2, this.centerY - 3, false);
                 break;
         }
     },
@@ -1044,11 +1064,11 @@ $.extend(Controller, {
         marginRight = $('#algorithm_panel').width();
         availWidth = width - marginRight;
 
-        centerX = Math.ceil(availWidth / 2 / nodeSize);
-        centerY = Math.floor(height / 2 / nodeSize);
+        this.centerX = Math.ceil(availWidth / 2 / nodeSize);
+        this.centerY = Math.floor(height / 2 / nodeSize);
 
-        this.setStartPos(centerX - 5, centerY);
-        this.setEndPos(centerX + 5, centerY);
+        this.setStartPos(this.centerX - 5, this.centerY);
+        this.setEndPos(this.centerX + 5, this.centerY);
     },
     setStartPos: function(gridX, gridY) {
         this.startX = gridX;
@@ -1063,7 +1083,7 @@ $.extend(Controller, {
     setPitPos: function(gridX, gridY) {
         this.pitX = gridX;
         this.pitY = gridY;
-        View.setPitPos(gridX, gridY);
+        View.setPitPos(this.centerX, this.centerY);
     },
     setWalkableAt: function(gridX, gridY, walkable, pit) {
         this.grid.setWalkableAt(gridX, gridY, walkable, pit);
@@ -1086,6 +1106,8 @@ $.extend(Controller, {
             this.setPitArea(gridX + 1, gridY, walkable);
             this.setPitArea(gridX + 2, gridY, walkable);
             this.numpit += 1;
+            this.pitX = gridX;
+            this.pitY = gridY;
         }
 
 
@@ -1101,6 +1123,8 @@ $.extend(Controller, {
             this.setIceArea(gridX - 1, gridY + 1, walkable);
             this.setIceArea(gridX + 1, gridY + 1, walkable);
             this.numice += 1;
+            this.iceX = gridX;
+            this.iceY = gridY;
 
         }
     },
@@ -1117,6 +1141,8 @@ $.extend(Controller, {
             this.setBombArea(gridX + 1, gridY, walkable);
             this.setBombArea(gridX, gridY + 1, walkable);
             this.numbomb += 1;
+            this.bombX = gridX;
+            this.bombY = gridY;
         }
     },
     setBombArea: function(gridX, gridY, walkable) {
@@ -1126,9 +1152,9 @@ $.extend(Controller, {
     isStartPos: function(gridX, gridY) {
         return gridX === this.startX && gridY === this.startY;
     },
-    // isPitPos: function(gridX, gridY) {
-    //     return gridX === this.pitX && gridY === this.pitY;
-    // },
+    isPitPos: function(gridX, gridY) {
+        return gridX === this.pitX && gridY === this.pitY;
+    },
     isEndPos: function(gridX, gridY) {
         return gridX === this.endX && gridY === this.endY;
     },
