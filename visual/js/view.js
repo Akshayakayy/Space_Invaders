@@ -49,7 +49,7 @@ var View = {
             'stroke-opacity': 0.2,
         },
         start: {
-            fill: 'url("images/marsrover.png")',
+            fill: 'url("images/moon-rover.png")',
             'stroke-opacity': 0.2,
         },
         end: {
