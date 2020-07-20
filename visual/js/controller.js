@@ -341,25 +341,8 @@ $.extend(Controller, {
                 operationCount: this.operationCount,
             });
             View.drawPath(this.path);
-
-            var botpan=document.getElementById('bot_panel');
-            var botmsg=document.getElementById('bot_msg');
-
-            msgid = 1;
-            msgs += 1;
-            botmsg.innerHTML = 'Congratulations! Base Found!<br><br> Try moving the rover/ base to render path in real time!<br><br> Try adding checkpoints (Ctrl+Click) as well';
-            botpan.style.visibility = 'visible';
-            botmsg.style.visibility = 'visible';
-
-            setTimeout(function() {
-                if((botmsg.innerHTML == 'Congratulations! Base Found!<br><br> Try moving the rover/ base to render path in real time!<br><br> Try adding checkpoints (Ctrl+Click) as well') && (msgs==msgid)) {
-                    botpan.style.visibility = 'hidden';
-                    botmsg.style.visibility = 'hidden';
-                    }
-                msgs -= 1;
-              },10000)
-            }
-
+            alert("Congratulations, base found! Click ok to render, you can also drag the start, end, checkpoints, obstacles to see dynamically rendered path!");
+        }
         this.endstatus = 1;
         this.path = [];
         this.operations = [];
