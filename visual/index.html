@@ -13,6 +13,7 @@
     <link href='https://fonts.googleapis.com/css?family=Julius%20Sans%20One' rel='stylesheet'>
     <link href='https://fonts.googleapis.com/css?family=Dosis' rel='stylesheet'>
     <link href='https://fonts.googleapis.com/css?family=Didact%20Gothic' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Mono' rel='stylesheet'>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-bulma@3.2.0/bulma.css">
@@ -37,8 +38,8 @@
 
     <script type="text/javascript" src="./js/view.js"></script>
     <script type="text/javascript" src="./js/controller.js"></script>
-    <script type="text/javascript" src="./js/panel.js"></script>
     <script type="text/javascript" src="./js/guide.js"></script>
+    <script type="text/javascript" src="./js/panel.js"></script>
     <script type="text/javascript" src="./js/main.js"></script>
 
     <audio id="playMusic" autoplay="autoplay">
@@ -51,7 +52,7 @@
       <div class="container-fluid">
         <div class="navbar-header">
           <img src="https://www.ripplesnigeria.com/wp-content/uploads/2018/10/Planet-Mars.jpg" alt="mars_pic" width="90" height="50">
-          <a class="navbar-brand" id="brand">Mars Rover Pathfinder</a>
+          <a class="navbar-brand" id="brand">Mars Pathfinder</a>
         </div>
         <ul class="nav navbar-nav">
           <li  class="dropdown">
@@ -307,7 +308,7 @@
 
     <div id="bot_panel" class="panel">
       <header>
-        <h2 class="bot_title">MESSAGE BOT</h2>
+        <h2 class="bot_title">TARS</h2>
         <span id="hide_bot"> X </span>
       </header>
       <div class="bot_content">
@@ -318,40 +319,28 @@
   </body>
 
   <script>
-    $('.dropdown-toggle').on('click', function (e) {
-      $(this).next().toggle();
-    });
 
-    $('li.dropdown.mega-dropdown a').on('click', function (event) {
-      $(this).parent().toggleClass('open');
-    });
+$('.dropdown-toggle').on('click', function (e) {
+    $(this).next().toggle();
+  });
 
-    $('.dropdown').on('show.bs.dropdown', function() {
-      $('body').append($('.dropdown').css({
-        position: 'absolute',
-        left: $('.dropdown').offset().left,
-        top: $('.dropdown').offset().top
-      }).detach());
-    });
+  $('li.dropdown.mega-dropdown a').on('click', function (event) {
+    $(this).parent().toggleClass('open');
+  });
 
-    var botpan=document.getElementById('bot_panel');
-    var botmsg=document.getElementById('bot_msg');
+  $('.dropdown').on('show.bs.dropdown', function() {
+    $('body').append($('.dropdown').css({
+      position: 'absolute',
+      left: $('.dropdown').offset().left,
+      top: $('.dropdown').offset().top
+    }).detach());
+  });
+    
+    var botpan = document.getElementById('bot_panel');
+  var botmsg = document.getElementById('bot_msg');
 
-    botmsg.innerHTML = 'Welcome! <br><br> Click within the grey grid and drag your mouse to draw obstacles. <br><br> Add and remove checkpoints using Ctrl+Click';
-    msgs = 0;
-
-    $('.b1').on('click', function(event) {
-      botmsg.innerHTML = 'Search started!';
-      botpan.style.visibility = 'visible';
-      botmsg.style.visibility = 'visible';
-
-      setTimeout(function(){
-        if(botmsg.innerHTML == 'Search started!') {
-          botpan.style.visibility = 'hidden';
-          botmsg.style.visibility = 'hidden';
-        }
-              },4000)
-      })
+  botmsg.innerHTML = 'Welcome! <br><br> Click within the grey grid and drag your mouse to draw obstacles. <br><br> Add and remove checkpoints using Ctrl+Click';
+  msgs = 0;
 
   </script>
 </html>

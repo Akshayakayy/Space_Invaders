@@ -37,6 +37,7 @@ var Panel = {
             top: 30,
             left: 300,
         });
+
         $(document).ready(function () {
             backAndForth()
             $('.dropdown-submenu a.test').on("click", function (e) {
@@ -58,8 +59,6 @@ var Panel = {
 
     getSpeed: function () {
         var speed = $('input[name=speed]').val();
-        console.log('speeeeeeed');
-        console.log(speed);
         return speed;
     },
     /**

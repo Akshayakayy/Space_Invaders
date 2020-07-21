@@ -58,14 +58,16 @@ h6 {
 
 #button1,
 #button2,
-#button3 {
+#button3,
+#button4 {
     color: rgb(255, 255, 255);
     opacity: 0.8;
 }
 
 #button1:hover,
 #button2:hover,
-#button3:hover {
+#button3:hover,
+#button4:hover {
     color: rgb(255, 255, 255);
     opacity: 1;
 }
@@ -280,7 +282,7 @@ h6 {
     font-size: large;
     color: rgb(103, 158, 0);
     font-weight: bold;
-    font-family: Julius Sans One;
+    font-family: Roboto Mono;
     text-align: center;
 }
 
@@ -296,7 +298,7 @@ h6 {
     border-style: dashed;
     border-color: rgb(99, 153, 0);
     color: rgb(252, 252, 252);
-    font-family: Didact Gothic;
+    font-family: Roboto Mono;
     font-size: medium;
     padding: 15px;
 }

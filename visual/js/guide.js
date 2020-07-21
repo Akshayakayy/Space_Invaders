@@ -1,3 +1,6 @@
+/**
+ * The initial guide/tutorial using sweetalert.
+ */
 async function backAndForth() {
     const values = []
     let currentStep
@@ -87,3 +90,4 @@ async function backAndForth() {
         }
     }
 }
+
