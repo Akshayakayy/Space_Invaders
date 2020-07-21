@@ -109,7 +109,7 @@ var Controller = StateMachine.create({
         },
         {
             name: 'startMaze',
-            from: 'ready',
+            from:  ['ready', 'finished'],
             to: 'ready'
         }
     ],
