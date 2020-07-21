@@ -11,4 +11,5 @@ $(document).ready(function() {
     // initialize visualization
     Panel.init();
     Controller.init();
+    // Bot.init();
 });

@@ -147,7 +147,7 @@ $.extend(Controller, {
             Controller.transition(); // transit to the next state (ready)
 
         });
-
+        Bot.init();
         this.$buttons = $('.control_button');
         this.$maze_buttons = $('.maze_button');
         this.$obstacle_buttons = $('.obstacle_button');
@@ -289,6 +289,7 @@ $.extend(Controller, {
         }
                 },4000)
     },
+    
     onrestart: function () {
         // When clearing the colorized nodes, there may be
         // nodes still animating, which is an asynchronous procedure.
@@ -320,16 +321,7 @@ $.extend(Controller, {
     },
     onpause: function (event, from, to) {
         // => paused
-        botmsg.innerHTML = 'Search Paused! <br><br> You can come back anytime to resume, or cancel search.';
-        botpan.style.visibility = 'visible';
-        botmsg.style.visibility = 'visible';
-
-        setTimeout(function(){
-        if(botmsg.innerHTML == 'Search Paused! <br><br> You can come back anytime to resume, or cancel search.') {
-            botpan.style.visibility = 'hidden';
-            botmsg.style.visibility = 'hidden';
-        }
-                },4000)
+        Bot.botState(0);
     },
     onresume: function (event, from, to) {
         this.loop();
