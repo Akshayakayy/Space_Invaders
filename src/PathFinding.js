@@ -3,7 +3,6 @@ module.exports = {
     'Node': require('./core/Node'),
     'Grid': require('./core/Grid'),
     'Util': require('./core/Util'),
-    //'TSP': require('./core/TSP'),
     'DiagonalMovement': require('./core/DiagonalMovement'),
     'Heuristic': require('./core/Heuristic'),
     'AStarFinder': require('./finders/AStarFinder'),
@@ -17,8 +16,8 @@ module.exports = {
     'BiDijkstraFinder': require('./finders/BiDijkstraFinder'),
     'IDAStarFinder': require('./finders/IDAStarFinder'),
     'JumpPointFinder': require('./finders/JumpPointFinder'),
-    'RandomMaze':require('./mazes/random'),
-    'RecDivMaze':require('./mazes/RecdivMaze'),
+    'RandomMaze':require('./mazes/RandomMaze'),
+    'RecDivMaze':require('./mazes/RecursiveDivisionMaze'),
     'StairMaze':require('./mazes/StairMaze'),
     'TSP':require('./finders/TSP')
 };

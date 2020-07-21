@@ -170,7 +170,7 @@ var View = {
         }
         // console.log(this.checkpoint)
     },
-    setCheckPoint: function(gridX, gridY, oldX, oldY, value) {
+    setCheckPoint: function (gridX, gridY, oldX, oldY, value) {
         var coord = this.toPageCoordinate(gridX, gridY);
         console.log(this.checkpoint)
         if (value) {
@@ -179,11 +179,11 @@ var View = {
                     x: gridX,
                     y: gridY,
                     paper_el: this.paper.rect(
-                            coord[0],
-                            coord[1],
-                            this.nodeSize,
-                            this.nodeSize
-                        ).attr(this.nodeStyle.checkpoint)
+                        coord[0],
+                        coord[1],
+                        this.nodeSize,
+                        this.nodeSize
+                    ).attr(this.nodeStyle.checkpoint)
                         .animate(this.nodeStyle.checkpoint, 1000)
                 })
             } else {
@@ -200,12 +200,12 @@ var View = {
                 this.rects[gridY][gridX].remove()
                 node.attr(this.nodeStyle.normal)
                 this.rects[gridY][gridX] = node
-                    // this.colorizeNode(node, node.attr(this.nodeStyle.normal));
-                    // this.zoomNode(node);
-                    // setTimeout(function () {
-                    //     node.remove();
-                    // }, this.nodeZoomEffect.duration);
-                    // // blockedNodes[gridY][gridX] = null;
+                // this.colorizeNode(node, node.attr(this.nodeStyle.normal));
+                // this.zoomNode(node);
+                // setTimeout(function () {
+                //     node.remove();
+                // }, this.nodeZoomEffect.duration);
+                // // blockedNodes[gridY][gridX] = null;
                 this.checkpoint.splice(checkindex, 1);
             }
         }
@@ -330,7 +330,8 @@ var View = {
             if (ob == "wall") {
                 // console.log("wall style");
                 this.colorizeNode(node, this.nodeStyle.blocked.fill);
-            } else if (ob == "pit") {
+            } 
+            else if (ob == "pit") {
                 console.log("pit style");
                 this.colorizeNode(node, this.nodeStyle.pitnode.fill);
             } else if (ob == "ice") {
@@ -470,17 +471,17 @@ var View = {
             }
         })
         Toast.fire({
-                icon: 'success',
-                html: texts.join('<br>')
-            })
-            // Swal.fire({
-            //     position: 'top-end',
-            //     icon: 'success',
-            //     title: 'Your work has been saved',
-            //     showConfirmButton: false,
-            //     timer: 10000,
-            //     timerProgressBar: true
-            //   })
+            icon: 'success',
+            html: texts.join('<br>')
+        })
+        // Swal.fire({
+        //     position: 'top-end',
+        //     icon: 'success',
+        //     title: 'Your work has been saved',
+        //     showConfirmButton: false,
+        //     timer: 10000,
+        //     timerProgressBar: true
+        //   })
 
     },
     setCoordDirty: function(gridX, gridY, isDirty) {

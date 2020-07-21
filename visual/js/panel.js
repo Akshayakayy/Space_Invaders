@@ -1,11 +1,12 @@
 /**
  * The control panel.
  */
-const steps = ['1', '2', '3', '4']
+const steps = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
 const swalQueueStep = Swal.mixin({
     confirmButtonText: 'Next &rarr;',
     cancelButtonText: 'Back',
     progressSteps: steps,
+    width: 800,
     inputAttributes: {
         required: true
     },
@@ -26,24 +27,72 @@ async function backAndForth() {
         switch (currentStep) {
             case 0:
                 title = "Welcome to Space invaders!"
-                text = "Click Next! to view the guide"
+                text = "Navigate the Mars Rover to reach its base \
+                avoiding various types of ridges, mazes and detouring through pitstops for maintenance along\
+                the way! Click Next to view the guide."
+                imageUrl = "images/gifs/mars.gif"
                 break;
             case 1:
-                title = "Draw walls"
-                text = "Click and drag to draw walls"
+                title = "Draw Ridges"
+                text = "You are the Chief Engineer with the map of the Mars environment. You need to program the\
+                map into the rover! Click and drag to draw ridges for your rover to avoid."
+                imageUrl = "images/gifs/walls.gif"
                 break;
             case 2:
-                title = "Drag endpoints"
-                text = "Drag endpoints and checkpoints to visualize changes in path"
+                title = "Insert and Clear Pitstops"
+                text = "Ctrl + Click to place upto 4 pitstops for the rover to undergo maintenance\
+                en route to its base! Ctrl + Click on existing pitstops clears them."
+                imageUrl = "images/gifs/checkpoints.gif"
                 break;
             case 3:
-                title = "Draw checkpoint"
-                text = "Ctrl + Click to place checkpoints"
+                title = "Adjust speed"
+                text = "Drag slider to adjust the speed controls for the rover."
+                imageUrl = "images/gifs/speed.gif"
                 break;
+            case 4:
+                title = "Explore Mazes"
+                text = "Oh no! There are mazes of so many patterns along the way! Can \
+                the rover find its way in these puzzling mazes?"
+                imageUrl = "images/gifs/maze.gif"
+                break;
+            case 5:
+                title = "Choose Search Algorithm"
+                text = "As the Chief Engineer, you can choose between various state-of-the-art \
+                PathFinding algorithms to find the shortest route for the rover to reach its base. "
+                break;
+            case 6:
+                title = "Start searching for shortest route"
+                text = "The rover is all set! Base locations, pitstop locations and routing algorithms have been \
+                all programmed into the rover. Let's start searching for the shortest route!"
+                imageUrl = "images/gifs/search.gif"
+                break;
+            case 7:
+                title = "Pause and resume search"
+                text = "An engineer's brain always checks and rechecks for bugs. Why don't you calm\
+                yourself down with a pause in the search, get some coffee and check if the search is \
+                progressing as planned? You can resume the routing anytime."
+                imageUrl = "images/gifs/halt.gif"
+                break;
+            case 8:
+                title = "Drag endpoints and pitstops"
+                text = "Communication from the basestation is noisy as anything! Drag the endpoints \
+                and pitstop markers to quickly instruct the rover to reroute to new destinations and avoid\
+                duststorm affected pitstops. Saves you the trouble of reprogramming the rover for each \
+                noisy instruction! "
+                imageUrl = "images/gifs/clear.gif"
+                break;
+            case 9:
+                title = "Clear pitstops and obstacles"
+                text = "Time to explore new maps! Ctrl + Click on pitstops to clear them or clear \
+                all obstacles and pitstops at once from the control panel above."
+                imageUrl = "images/gifs/clearall.gif"
+                break;
+        
         }
         const result = await swalQueueStep.fire({
             title: title,
             text: text,
+            imageUrl: imageUrl,
             showCancelButton: currentStep > 0,
             currentProgressStep: currentStep
         })
@@ -60,13 +109,13 @@ async function backAndForth() {
 }
 
 var Panel = {
-    init: function() {
+    init: function () {
         var $algo = $('#algorithm_panel');
         $('.panel').draggable();
         $('.accordion').accordion({
             collapsible: false,
         });
-        $('.option_label').click(function() {
+        $('.option_label').click(function () {
             $(this).prev().click();
         });
         $('#hide_bot').click(function() {
@@ -77,15 +126,15 @@ var Panel = {
             top: 30,
             left: 300,
         });
-        $(document).ready(function() {
+        $(document).ready(function () {
             backAndForth()
-                // Swal.fire({
-                //     title: 'Welcome to Space Invaders! Let\'s move forwards towards the base',
-                //     text: '',
-                //     confirmButtonText: 'Cool'
-                //   })
-                // alert("Welcome to Space Invaders! Let's move forwards towards the base");
-            $('.dropdown-submenu a.test').on("click", function(e) {
+            // Swal.fire({
+            //     title: 'Welcome to Space Invaders! Let\'s move forwards towards the base',
+            //     text: '',
+            //     confirmButtonText: 'Cool'
+            //   })
+            // alert("Welcome to Space Invaders! Let's move forwards towards the base");
+            $('.dropdown-submenu a.test').on("click", function (e) {
                 $(this).next('ul').toggle();
                 e.stopPropagation();
                 e.preventDefault();
@@ -102,7 +151,7 @@ var Panel = {
         $('#button2').attr('disabled', 'disabled');
     },
 
-    getSpeed: function() {
+    getSpeed: function () {
         var speed = $('input[name=speed]').val();
         console.log('speeeeeeed');
         console.log(speed);
@@ -111,7 +160,7 @@ var Panel = {
     /**
      * Get the user selected path-finder.
      */
-    getFinder: function() {
+    getFinder: function () {
         var finder, selected_header, heuristic, allowDiagonal, biDirectional, dontCrossCorners, weight, trackRecursion, timeLimit;
         selected_header = $(
             '#algorithm_panel ' +
