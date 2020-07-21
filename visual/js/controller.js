@@ -426,6 +426,16 @@ $.extend(Controller, {
         this.numice = 0;
         this.numpit = 0;
         // => ready
+        botmsg.innerHTML = 'Obstacles cleared! <br><br> Create with a fresh map!';
+        botpan.style.visibility = 'visible';
+        botmsg.style.visibility = 'visible';
+
+        setTimeout(function(){
+        if(botmsg.innerHTML == 'Obstacles cleared! <br><br> Create with a fresh map!') {
+            botpan.style.visibility = 'hidden';
+            botmsg.style.visibility = 'hidden';
+        }
+                },4000)
     },
 
     /**
@@ -443,12 +453,12 @@ $.extend(Controller, {
         if (this.endstatus == 1)
             this.findPath(1);
 
-        botmsg.innerHTML = 'Cleared all checkpoints! <br><br> You can add '+String(this.checkPointsleft)+' checkpoints now!';
+        botmsg.innerHTML = 'Cleared all checkpoints! <br><br> You can add '+String(this.checkPointsleft)+' checkpoints now! (Ctrl+Click)';
         botpan.style.visibility = 'visible';
         botmsg.style.visibility = 'visible';
 
         setTimeout(function(){
-        if(botmsg.innerHTML == 'Cleared all checkpoints! <br><br> You can add '+String(this.checkPointsleft)+' checkpoints now!') {
+        if(botmsg.innerHTML == 'Cleared all checkpoints! <br><br> You can add '+String(4)+' checkpoints now! (Ctrl+Click)') {
             botpan.style.visibility = 'hidden';
             botmsg.style.visibility = 'hidden';
         }
