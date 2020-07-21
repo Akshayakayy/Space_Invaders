@@ -2,6 +2,23 @@
  * The initial guide/tutorial using sweetalert.
  */
 async function backAndForth() {
+    const steps = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
+    const swalQueueStep = Swal.mixin({
+        confirmButtonText: 'Next &rarr;',
+        cancelButtonText: 'Back',
+        progressSteps: steps,
+        width: 800,
+        inputAttributes: {
+            required: true
+        },
+        reverseButtons: true,
+        backdrop: `
+        rgba(0,0,123,0.6)
+        url("https://i.gifer.com/ZDci.gif")
+        left top
+        no-repeat
+        `
+    })
     const values = []
     let currentStep
     var title = ""
@@ -70,7 +87,7 @@ async function backAndForth() {
                 all obstacles and pitstops at once from the control panel above."
                 imageUrl = "images/gifs/clearall.gif"
                 break;
-        
+
         }
         const result = await swalQueueStep.fire({
             title: title,

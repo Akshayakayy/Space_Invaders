@@ -1,23 +1,7 @@
 /**
  * The control panel.
  */
-const steps = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
-const swalQueueStep = Swal.mixin({
-    confirmButtonText: 'Next &rarr;',
-    cancelButtonText: 'Back',
-    progressSteps: steps,
-    width: 800,
-    inputAttributes: {
-        required: true
-    },
-    reverseButtons: true,
-    backdrop: `
-    rgba(0,0,123,0.6)
-    url("https://i.gifer.com/ZDci.gif")
-    left top
-    no-repeat
-    `
-})
+
 
 var Panel = {
     init: function () {
