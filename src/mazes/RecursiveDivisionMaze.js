@@ -7,6 +7,7 @@
  * @param {number} opt.startY y co-ordinate of the source
  * @param {number} opt.endirectionX x co-ordinate of the destination
  * @param {number} opt.endirectionY y co-ordinate of the destination
+ * @param {Array<Object>} opt.checkpoints array of checkpoints on the grid
  */
 function RecDivMaze(opt) {
 	opt = opt || {};
@@ -17,6 +18,7 @@ function RecDivMaze(opt) {
 	this.startY = opt.startY;
 	this.endX = opt.endX;
 	this.endY = opt.endY;
+	this.checkpoints = opt.checkpoints;
 	this.horizontalFlag = 1;
 	this.verticalFlag = 2;
 	this.southFlag = 1;
@@ -59,7 +61,14 @@ RecDivMaze.prototype.divide = function (x, y, width, height, orientation) {
 	var perpDirection = horizontal ? this.southFlag : this.eastFlag;
 	for (let i = 0; i < length; i++) {
 		if (wallX != passageX || wallY != passageY) {
-			if ((wallX == this.startX && wallY == this.startY) || (wallX == this.endX && wallY == this.endY)) {} else {
+			var ind = 0;
+			for (let i = 0; i < this.checkpoints.length; i++) {
+				if (this.checkpoints[i].x == wallX && this.checkpoints[i].y == wallY) {
+					ind = -1;
+					break;
+				}
+			}
+			if ((wallX == this.startX && wallY == this.startY) || (wallX == this.endX && wallY == this.endY) || (ind == -1)) {} else {
 				this.mazeWalls.push({
 					x: wallX,
 					y: wallY

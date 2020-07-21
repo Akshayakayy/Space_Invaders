@@ -7,6 +7,7 @@
  * @param {number} opt.startY y co-ordinate of the source
  * @param {number} opt.endX x co-ordinate of the destination
  * @param {number} opt.endY y co-ordinate of the destination
+ * @param {Array<Object>} opt.checkpoints array of checkpoints on the grid
  */
 function StairMaze(opt) {
 	opt = opt || {};
@@ -17,6 +18,7 @@ function StairMaze(opt) {
 	this.startY = opt.startY;
 	this.endX = opt.endX;
 	this.endY = opt.endY;
+	this.checkpoints = opt.checkpoints;
 }
 /** 
  * This creates the random maze
@@ -30,7 +32,14 @@ StairMaze.prototype.createMaze = function () {
 		var downward_boundx = (i == 0) ? this.xlim / 3 : this.xlim;
 		//Construct downward stair
 		while (y < this.ylim * 2 / 3 && x < downward_boundx) {
-			if ((x == this.startX && y == this.startY) || (x == this.endX && y == this.endY)) {} else {
+			var ind = 0;
+			for (let i = 0; i < this.checkpoints.length; i++) {
+				if (this.checkpoints[i].x == x && this.checkpoints[i].y == y) {
+					ind = -1;
+					break;
+				}
+			}
+			if ((x == this.startX && y == this.startY) || (x == this.endX && y == this.endY) || (ind == -1)) {} else {
 				this.mazeWalls.push({
 					x: x,
 					y: y
@@ -45,7 +54,14 @@ StairMaze.prototype.createMaze = function () {
 		var upward_boundx = (i == 0) ? this.xlim * 2 / 3 : this.xlim;
 		//Construct upward stair
 		while (x < upward_boundx && y > startPos) {
-			if ((x == this.startX && y == this.startY) || (x == this.endX && y == this.endY)) {} else {
+			var ind = 0;
+			for (let i = 0; i < this.checkpoints.length; i++) {
+				if (this.checkpoints[i].x == x && this.checkpoints[i].y == y) {
+					ind = -1;
+					break;
+				}
+			}
+			if ((x == this.startX && y == this.startY) || (x == this.endX && y == this.endY) || (ind == -1)) {} else {
 				this.mazeWalls.push({
 					x: x,
 					y: y
