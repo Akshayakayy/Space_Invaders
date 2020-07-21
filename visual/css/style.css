@@ -107,107 +107,10 @@ h6 {
     appearance: none;
     width: 30px;
     height: 35px;
-    /* background: rgb(202, 47, 47); */
     cursor: pointer;
     background: url("https://cdn1.iconfinder.com/data/icons/natural-world/360/fire-flame_16-512.png");
     background-size: 35px 35px;
 }
-
-/* input[type=range] {
-    -webkit-appearance: none;
-    margin: 18px 0;
-    width: 100%;
-}
-
-input[type=range]:focus {
-    outline: none;
-}
-
-input[type=range]::-webkit-slider-runnable-track {
-    width: 100%;
-    height: 8.4px;
-    cursor: pointer;
-    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
-    background: #3071a9;
-    border-radius: 1.3px;
-    border: 0.2px solid #010101;
-}
-
-input[type=range]::-webkit-slider-thumb {
-    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
-    border: 1px solid #000000;
-    height: 36px;
-    width: 16px;
-    border-radius: 1px;
-    background: #e74c4c;
-    cursor: pointer;
-    -webkit-appearance: none;
-    margin-top: -14px;
-}
-
-input[type=range]:focus::-webkit-slider-runnable-track {
-    background: #367ebd;
-}
-
-input[type=range]::-moz-range-track {
-    width: 100%;
-    height: 8.4px;
-    cursor: pointer;
-    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
-    background: #3071a9;
-    border-radius: 1.3px;
-    border: 0.2px solid #010101;
-}
-
-input[type=range]::-moz-range-thumb {
-    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
-    border: 1px solid #000000;
-    height: 36px;
-    width: 16px;
-    border-radius: 1px;
-    background: #e96464;
-    cursor: pointer;
-}
-
-input[type=range]::-ms-track {
-    width: 100%;
-    height: 8.4px;
-    cursor: pointer;
-    background: transparent;
-    border-color: transparent;
-    border-width: 16px 0;
-    color: transparent;
-}
-
-input[type=range]::-ms-fill-lower {
-    background: #2a6495;
-    border: 0.2px solid #010101;
-    border-radius: 2.6px;
-    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
-}
-
-input[type=range]::-ms-fill-upper {
-    background: #3071a9;
-    border: 0.2px solid #010101;
-    border-radius: 2.6px;
-    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
-}
-
-input[type=range]::-ms-thumb {
-    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
-    border: 1px solid #000000;
-    height: 36px;
-    width: 16px;
-    cursor: pointer;
-}
-
-input[type=range]:focus::-ms-fill-lower {
-    background: #3071a9;
-}
-
-input[type=range]:focus::-ms-fill-upper {
-    background: #e23939;
-} */
 
 #slow,
 #medium,
@@ -293,7 +196,6 @@ input[type=range]:focus::-ms-fill-upper {
     border-radius: 6px;
     padding: 5px 0;
     position: absolute;
-    /* z-index: 10; */
     top: 100%;
     left: 50%;
     margin-left: -60px;
@@ -327,8 +229,6 @@ input[type=range]:focus::-ms-fill-upper {
     color: #FFFDBD;
     font-weight: bold;
     font-family: Dosis;
-    /* padding-bottom: 5px; */
-    /* margin-top: -10px; */
 }
 
 .panel {
@@ -342,17 +242,10 @@ input[type=range]:focus::-ms-fill-upper {
     opacity: 0.8;
 }
 
-/* .right_panel {
-width: 250px;
-right: 20px;
-} */
-
 #algorithm_panel {
     position: fixed;
-    /* padding: 20px; */
     background-color: rgba(0, 0, 0, 0.6);
     color: #fff;
-    /* border-radius: 8px; */
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
     cursor: default;
 }
@@ -362,8 +255,6 @@ right: 20px;
     color: rgb(0, 0, 0);
     font-weight: bold;
     font-family: Dosis;
-    /* padding-bottom: 5px; */
-    /* margin-top: -10px; */
 }
 
 #intro_panel {
@@ -390,8 +281,6 @@ right: 20px;
     color: rgb(103, 158, 0);
     font-weight: bold;
     font-family: Julius Sans One;
-    /* padding-bottom: 5px; */
-    /* margin-top: -10px; */
     text-align: center;
 }
 
@@ -443,15 +332,10 @@ right: 20px;
 
 .control_button {
     border: red;
-    /* background: rgba(255, 255, 255, 0.7); */
-    /* border-radius: 4px; */
     font-size: 100%;
     color: rgb(255, 255, 255);
     cursor: pointer;
     padding: 2px 8px;
-    /* margin: 0 2%;  */
-    /* width: 75px;
-height: 45px; */
     font-weight: bold;
 }
 

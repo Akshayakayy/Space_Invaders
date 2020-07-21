@@ -101,7 +101,7 @@ var View = {
      * Generate the grid asynchronously.
      * This method will be a very expensive task.
      * Therefore, in order to not to block the rendering of browser ui,
-     * I decomposed the task into smaller ones. Each will only generate a row.
+     * We decomposed the task into smaller ones. Each will only generate a row.
      */
     generateGrid: function(callback) {
         var i, j, x, y,
@@ -129,10 +129,6 @@ var View = {
                     rect.attr(normalStyle);
                     rects[rowId].push(rect);
                 }
-                // $stats.text(
-                //     'generating grid ' +
-                //     Math.round((rowId + 1) / numRows * 100) + '%'
-                // );
                 done(null);
             };
         };
@@ -168,7 +164,6 @@ var View = {
         } else {
             this.startNode.attr({ x: coord[0], y: coord[1] }).toFront();
         }
-        // console.log(this.checkpoint)
     },
     setCheckPoint: function (gridX, gridY, oldX, oldY, value) {
         var coord = this.toPageCoordinate(gridX, gridY);
@@ -200,27 +195,9 @@ var View = {
                 this.rects[gridY][gridX].remove()
                 node.attr(this.nodeStyle.normal)
                 this.rects[gridY][gridX] = node
-                // this.colorizeNode(node, node.attr(this.nodeStyle.normal));
-                // this.zoomNode(node);
-                // setTimeout(function () {
-                //     node.remove();
-                // }, this.nodeZoomEffect.duration);
-                // // blockedNodes[gridY][gridX] = null;
                 this.checkpoint.splice(checkindex, 1);
             }
         }
-        // if (this.checkpoint) {
-
-        //     // this.startNode = this.paper.rect(
-        //     //     coord[0],
-        //     //     coord[1],
-        //     //     this.nodeSize,
-        //     //     this.nodeSize
-        //     // ).attr(this.nodeStyle.normal)
-        //     //  .animate(this.nodeStyle.checkpoint, 1000);
-        // } else {
-        //     this.startNode.attr({ x: coord[0], y: coord[1] }).toFront();
-        // }
     },
     setPitPos: function(gridX, gridY) {
         var coord = this.toPageCoordinate(gridX, gridY);
@@ -273,10 +250,6 @@ var View = {
                 this.colorizeNode(this.rects[gridY][gridX], color);
                 this.setCoordDirty(gridX, gridY, true);
                 break;
-            case 'parent':
-                // XXX: Maybe draw a line from this node to its parent?
-                // This would be expensive.
-                break;
             default:
                 console.error('unsupported operation: ' + attr + ':' + value);
                 return;
@@ -315,10 +288,6 @@ var View = {
                     node.remove();
                 }, this.nodeZoomEffect.duration);
                 blockedNodes[gridY][gridX] = null;
-            } else {
-                // node = this.rects[gridY][gridX].clone();
-                // console.log(this.checkpoint);
-
             }
         } else {
             // draw blocked node
@@ -328,7 +297,6 @@ var View = {
             node = blockedNodes[gridY][gridX] = this.rects[gridY][gridX].clone();
             console.log("my object", ob);
             if (ob == "wall") {
-                // console.log("wall style");
                 this.colorizeNode(node, this.nodeStyle.blocked.fill);
             } 
             else if (ob == "pit") {
@@ -346,8 +314,6 @@ var View = {
             } else if (ob == "pitarea") {
                 this.colorizeNode(node, this.nodeStyle.pitarea.fill);
             }
-
-
             this.zoomNode(node);
         }
     },
@@ -474,15 +440,6 @@ var View = {
             icon: 'success',
             html: texts.join('<br>')
         })
-        // Swal.fire({
-        //     position: 'top-end',
-        //     icon: 'success',
-        //     title: 'Your work has been saved',
-        //     showConfirmButton: false,
-        //     timer: 10000,
-        //     timerProgressBar: true
-        //   })
-
     },
     setCoordDirty: function(gridX, gridY, isDirty) {
         var x, y,
@@ -499,7 +456,6 @@ var View = {
                 }
             }
         }
-
         this.coordDirty[gridY][gridX] = isDirty;
     },
     getDirtyCoords: function() {
