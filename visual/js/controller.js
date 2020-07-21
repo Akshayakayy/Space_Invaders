@@ -470,7 +470,8 @@ $.extend(Controller, {
                 startX: this.startX,
                 startY: this.startY,
                 endX: this.endX,
-                endY: this.endY
+                endY: this.endY,
+                checkpoints: this.checkpoints
             });
         } else if (mazetype == 'recursive') {
             maze = new PF.RecDivMaze({
@@ -479,7 +480,8 @@ $.extend(Controller, {
                 startX: this.startX,
                 startY: this.startY,
                 endX: this.endX,
-                endY: this.endY
+                endY: this.endY,
+                checkpoints: this.checkpoints
             });
         } else if (mazetype == 'stair') {
             maze = new PF.StairMaze({
@@ -488,7 +490,8 @@ $.extend(Controller, {
                 startX: this.startX,
                 startY: this.startY,
                 endX: this.endX,
-                endY: this.endY
+                endY: this.endY,
+                checkpoints: this.checkpoints
             });
         }
         console.log(maze);
