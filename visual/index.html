@@ -1,89 +1,93 @@
 <!DOCTYPE HTML>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    
-    <title>Mars Simulation</title>
-    <link rel="icon" type="image/png" href="./images/icon.jpeg" />
-    <link rel="stylesheet" href="./css/style.css" />
-    <link rel="stylesheet" href="./lib/themes/jquery.ui.all.css" />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 
-    <link href='https://fonts.googleapis.com/css?family=Julius%20Sans%20One' rel='stylesheet'>
-    <link href='https://fonts.googleapis.com/css?family=Dosis' rel='stylesheet'>
-    <link href='https://fonts.googleapis.com/css?family=Didact%20Gothic' rel='stylesheet'>
-    <link href='https://fonts.googleapis.com/css?family=Roboto+Mono' rel='stylesheet'>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-bulma@3.2.0/bulma.css">
+  <title>Mars Simulation</title>
+  <link rel="icon" type="image/png" href="./images/icon.jpeg" />
+  <link rel="stylesheet" href="./css/style.css" />
+  <link rel="stylesheet" href="./lib/themes/jquery.ui.all.css" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9/dist/sweetalert2.min.js"></script>
+  <link href='https://fonts.googleapis.com/css?family=Julius%20Sans%20One' rel='stylesheet'>
+  <link href='https://fonts.googleapis.com/css?family=Dosis' rel='stylesheet'>
+  <link href='https://fonts.googleapis.com/css?family=Didact%20Gothic' rel='stylesheet'>
+  <link href='https://fonts.googleapis.com/css?family=Roboto+Mono' rel='stylesheet'>
 
-    <script type="text/javascript" src="./lib/raphael-min.js"></script>
-    <script type="text/javascript" src="./lib/es5-shim.min.js"></script>
-    <script type="text/javascript" src="./lib/jquery-1.7.2.min.js"></script>
-    <script type="text/javascript" src="./lib/state-machine.min.js"></script>
-    <script type="text/javascript" src="./lib/async.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-bulma@3.2.0/bulma.css">
 
-    <script type="text/javascript" src="./lib/ui/jquery.ui.core.min.js"></script>
-    <script type="text/javascript" src="./lib/ui/jquery.ui.widget.min.js"></script>
-    <script type="text/javascript" src="./lib/ui/jquery.ui.mouse.min.js"></script>
-    <script type="text/javascript" src="./lib/ui/jquery.ui.draggable.min.js"></script>
-    <script type="text/javascript" src="./lib/ui/jquery.ui.accordion.min.js"></script>
-    <script type="text/javascript" src="./lib/ui/jquery.ui.slider.min.js"></script>
-    <script type="text/javascript" src="./lib/pathfinding-browser.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9/dist/sweetalert2.min.js"></script>
 
-    <script type="text/javascript" src="./js/view.js"></script>
-    <script type="text/javascript" src="./js/bot.js"></script>
-    <script type="text/javascript" src="./js/agent.js"></script>
-    <script type="text/javascript" src="./js/guide.js"></script>
-    <script type="text/javascript" src="./js/panel.js"></script>
-    <script type="text/javascript" src="./js/main.js"></script>
+  <script type="text/javascript" src="./lib/raphael-min.js"></script>
+  <script type="text/javascript" src="./lib/es5-shim.min.js"></script>
+  <script type="text/javascript" src="./lib/jquery-1.7.2.min.js"></script>
+  <script type="text/javascript" src="./lib/state-machine.min.js"></script>
+  <script type="text/javascript" src="./lib/async.min.js"></script>
 
-    <audio id="playMusic" autoplay="autoplay">
+  <script type="text/javascript" src="./lib/ui/jquery.ui.core.min.js"></script>
+  <script type="text/javascript" src="./lib/ui/jquery.ui.widget.min.js"></script>
+  <script type="text/javascript" src="./lib/ui/jquery.ui.mouse.min.js"></script>
+  <script type="text/javascript" src="./lib/ui/jquery.ui.draggable.min.js"></script>
+  <script type="text/javascript" src="./lib/ui/jquery.ui.accordion.min.js"></script>
+  <script type="text/javascript" src="./lib/ui/jquery.ui.slider.min.js"></script>
+  <script type="text/javascript" src="./lib/pathfinding-browser.min.js"></script>
+
+  <script type="text/javascript" src="./js/view.js"></script>
+  <script type="text/javascript" src="./js/bot.js"></script>
+  <script type="text/javascript" src="./js/agent.js"></script>
+  <script type="text/javascript" src="./js/guide.js"></script>
+  <script type="text/javascript" src="./js/panel.js"></script>
+  <script type="text/javascript" src="./js/main.js"></script>
+
+  <audio id="playMusic" autoplay="autoplay">
     <source src="music/mars_rover.mp3" type="audio/mpeg">
-    </audio>
-  </head>
+  </audio>
+</head>
 
-  <body>
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <img src="https://www.ripplesnigeria.com/wp-content/uploads/2018/10/Planet-Mars.jpg" alt="mars_pic" width="90" height="50">
-          <a class="navbar-brand" id="brand">Mars Pathfinder</a>
-        </div>
-        <ul class="nav navbar-nav">
-          <li  class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                <div class="header_title" id="genmaze">Generate Maze<span class="caret"></span>
-                  <span class="tooltiptext" id="tooltipgenmaze">Generate mazes using different algorithms</span>
-                </div>
-            </a>
+<body>
+  <nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <img src="https://www.ripplesnigeria.com/wp-content/uploads/2018/10/Planet-Mars.jpg" alt="mars_pic" width="90"
+          height="50">
+        <a class="navbar-brand" id="brand">Mars Pathfinder</a>
+      </div>
+      <ul class="nav navbar-nav">
+        <li class="dropdown" id="dropdown1">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+            <div class="header_title" id="genmaze">Generate Maze<span class="caret"></span>
+              <span class="tooltiptext" id="tooltipgenmaze">Generate mazes using different algorithms</span>
+            </div>
+          </a>
 
-            <ul class="dropdown-menu" id="algo_panel">
-              <div id="algorithm_panel">
+          <ul class="dropdown-menu" id="dropdown-menu1">
+            <div id="algorithm_panel">
               <div id="maze">
                 <li><a id="maze1" class="maze_button">Random Maze</a></li>
                 <li class="divider"></li>
                 <li><a id="maze2" class="maze_button">Recursive Maze</a></li>
                 <li class="divider"></li>
-                <li><div id="maze3" class="maze_button">Stair maze</div></li>
+                <li>
+                  <div id="maze3" class="maze_button">Stair maze</div>
+                </li>
               </div>
-              </div>
-            </ul>
-          </li>
+            </div>
+          </ul>
+        </li>
 
-          <li  class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-              <div class="header_title" id="genobs">Obstacles<span class="caret"></span>
-                <span class="tooltiptext" id="tooltipgenobs">Insert obstacles of various types</span>
-              </div>
-            </a>
-            <ul class="dropdown-menu" id="algo_panel">
-              <div id="algorithm_panel">
+        <li class="dropdown" id="dropdown2">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+            <div class="header_title" id="genobs">Obstacles<span class="caret"></span>
+              <span class="tooltiptext" id="tooltipgenobs">Insert obstacles of various types</span>
+            </div>
+          </a>
+          <ul class="dropdown-menu" id="dropdown-menu2">
+            <div id="algorithm_panel">
               <div id="obstacles">
                 <li><a id="button4" class="obstacle_button">Add Pit</a></li>
                 <li class="divider"></li>
@@ -91,18 +95,18 @@
                 <li class="divider"></li>
                 <li><a id="button6" class="obstacle_button">Add bombs</a></li>
               </div>
-              </div>
-            </ul>
-          </li>
-          
-          <li  class="dropdown">
-              <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                <div class="header_title" id="genalgo">Algorithms<span class="caret"></span>
-                  <span class="tooltiptext" id="tooltipgenalgo">Use various algorithms to find the shortest path</span>
-                </div>
-              </a>
-            <ul class="dropdown-menu" id="algo_panel">
-              <div id="algorithm_panel">
+            </div>
+          </ul>
+        </li>
+
+        <li class="dropdown" id="dropdown3">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+            <div class="header_title" id="genalgo">Algorithms<span class="caret"></span>
+              <span class="tooltiptext" id="tooltipgenalgo">Use various algorithms to find the shortest path</span>
+            </div>
+          </a>
+          <ul class="dropdown-menu" id="dropdown-menu3">
+            <div id="algorithm_panel">
               <div class="accordion">
 
                 <h3 id="astar_header"><a href="#">A*</a></h3>
@@ -113,14 +117,14 @@
                   <div id="astar_heuristic" class="sub_options">
                     <input type="radio" name="astar_heuristic" value="manhattan" checked />
                     <label class="option_label">Manhattan</label> <br>
-                    <input type="radio" name="astar_heuristic" value="euclidean"/>
+                    <input type="radio" name="astar_heuristic" value="euclidean" />
                     <label class="option_label">Euclidean</label> <br>
-                    <input type="radio" name="astar_heuristic" value="octile"/>
+                    <input type="radio" name="astar_heuristic" value="octile" />
                     <label class="option_label">Octile</label> <br>
-                    <input type="radio" name="astar_heuristic" value="chebyshev"/>
+                    <input type="radio" name="astar_heuristic" value="chebyshev" />
                     <label class="option_label">Chebyshev</label> <br>
                   </div>
-        
+
                   <header class="option_header">
                     <h3>Options</h3>
                   </header>
@@ -135,7 +139,7 @@
                     <label class="option_label">Weight</label> <br>
                   </div>
                 </div>
-        
+
                 <h3 id="ida_header"><a href="#">IDA*</a></h3>
                 <div id="ida_section" class="finder_section">
                   <header class="option_header">
@@ -144,11 +148,11 @@
                   <div id="ida_heuristic" class="sub_options">
                     <input type="radio" name="ida_heuristic" value="manhattan" checked />
                     <label class="option_label">Manhattan</label> <br>
-                    <input type="radio" name="ida_heuristic" value="euclidean"/>
+                    <input type="radio" name="ida_heuristic" value="euclidean" />
                     <label class="option_label">Euclidean</label> <br>
-                    <input type="radio" name="ida_heuristic" value="octile"/>
+                    <input type="radio" name="ida_heuristic" value="octile" />
                     <label class="option_label">Octile</label> <br>
-                    <input type="radio" name="ida_heuristic" value="chebyshev"/>
+                    <input type="radio" name="ida_heuristic" value="chebyshev" />
                     <label class="option_label">Chebyshev</label> <br>
                   </div>
                   <header class="option_header">
@@ -191,11 +195,11 @@
                   <div id="bestfirst_heuristic" class="sub_options">
                     <input type="radio" name="bestfirst_heuristic" value="manhattan" checked />
                     <label class="option_label">Manhattan</label> <br>
-                    <input type="radio" name="bestfirst_heuristic" value="euclidean"/>
+                    <input type="radio" name="bestfirst_heuristic" value="euclidean" />
                     <label class="option_label">Euclidean</label> <br>
-                    <input type="radio" name="bestfirst_heuristic" value="octile"/>
+                    <input type="radio" name="bestfirst_heuristic" value="octile" />
                     <label class="option_label">Octile</label> <br>
-                    <input type="radio" name="bestfirst_heuristic" value="chebyshev"/>
+                    <input type="radio" name="bestfirst_heuristic" value="chebyshev" />
                     <label class="option_label">Chebyshev</label> <br>
                   </div>
 
@@ -235,11 +239,11 @@
                   <div id="jump_point_heuristic" class="sub_options">
                     <input type="radio" name="jump_point_heuristic" value="manhattan" checked />
                     <label class="option_label">Manhattan</label> <br>
-                    <input type="radio" name="jump_point_heuristic" value="euclidean"/>
+                    <input type="radio" name="jump_point_heuristic" value="euclidean" />
                     <label class="option_label">Euclidean</label> <br>
-                    <input type="radio" name="jump_point_heuristic" value="octile"/>
+                    <input type="radio" name="jump_point_heuristic" value="octile" />
                     <label class="option_label">Octile</label> <br>
-                    <input type="radio" name="jump_point_heuristic" value="chebyshev"/>
+                    <input type="radio" name="jump_point_heuristic" value="chebyshev" />
                     <label class="option_label">Chebyshev</label> <br>
                   </div>
                   <header class="option_header">
@@ -251,7 +255,7 @@
                   </div>
                 </div>
 
-              <h3 id="orth_jump_point_header"><a href="#">Orthogonal Jump Point Search</a></h3>
+                <h3 id="orth_jump_point_header"><a href="#">Orthogonal Jump Point Search</a></h3>
                 <div id="orth_jump_point_section" class="finder_section">
                   <header class="option_header">
                     <h3>Heuristic</h3>
@@ -259,11 +263,11 @@
                   <div id="orth_jump_point_heuristic" class="sub_options">
                     <input type="radio" name="orth_jump_point_heuristic" value="manhattan" checked />
                     <label class="option_label">Manhattan</label> <br>
-                    <input type="radio" name="orth_jump_point_heuristic" value="euclidean"/>
+                    <input type="radio" name="orth_jump_point_heuristic" value="euclidean" />
                     <label class="option_label">Euclidean</label> <br>
-                    <input type="radio" name="orth_jump_point_heuristic" value="octile"/>
+                    <input type="radio" name="orth_jump_point_heuristic" value="octile" />
                     <label class="option_label">Octile</label> <br>
-                    <input type="radio" name="orth_jump_point_heuristic" value="chebyshev"/>
+                    <input type="radio" name="orth_jump_point_heuristic" value="chebyshev" />
                     <label class="option_label">Chebyshev</label> <br>
                   </div>
                   <header class="option_header">
@@ -282,46 +286,45 @@
                   <div id="cla_heuristic" class="sub_options">
                     <input type="radio" name="cla_heuristic" value="poweredManhattan" checked />
                     <label class="option_label">Powered Manhattan</label> <br>
-                    <input type="radio" name="cla_heuristic" value="extrapoweredManhattan"/>
+                    <input type="radio" name="cla_heuristic" value="extrapoweredManhattan" />
                     <label class="option_label">Extra Powered-Manhattan</label> <br>
                   </div>
                 </div>
               </div>
-              </div>
-            </ul>
-          </li>
-          <li><a id="speed">Speed:</a></li>
-          <li><input type="range" min="1" max="30" value="25" class="slider" name="speed"></li>
-        </ul>
+            </div>
+          </ul>
+        </li>
+        <li><a id="speed">Speed:</a></li>
+        <li><input type="range" min="1" max="30" value="25" class="slider" name="speed"></li>
+      </ul>
 
-        <ul class="nav navbar-nav navbar-right">
-          
-          <li class="b1"><a id="button1" class="control_button">Start Search</a></li>
-          <li><a id="button2" class="control_button">Pause Search</a></li>
-          <li><a id="button3" class="control_button">Clear Obstacles</a></li>
-          <li><a id="button4" class="control_button">Clear Checkpoints</a></li>
-          
-        </ul>
-      </div>
-    </nav>
+      <ul class="nav navbar-nav navbar-right">
 
-    <div id="draw_area"></div>
+        <li class="b1"><a id="button1" class="control_button">Start Search</a></li>
+        <li><a id="button2" class="control_button">Pause Search</a></li>
+        <li><a id="button3" class="control_button">Clear Obstacles</a></li>
+        <li><a id="button4" class="control_button">Clear Checkpoints</a></li>
 
-    <div id="bot_panel" class="panel">
-      <header>
-        <h2 class="bot_title">TARS</h2>
-        <span id="hide_bot"> X </span>
-      </header>
-      <div class="bot_content">
-        <div id="bot_msg">Welcome to Mars Rover Pathfinder!</id>
+      </ul>
+    </div>
+  </nav>
+
+  <div id="draw_area"></div>
+
+  <div id="bot_panel" class="panel">
+    <header>
+      <h2 class="bot_title">TARS</h2>
+      <span id="hide_bot"> X </span>
+    </header>
+    <div class="bot_content">
+      <div id="bot_msg">Welcome to Mars Rover Pathfinder!</id>
       </div>
     </div>
 
-  </body>
+</body>
 
-  <script>
-
-$('.dropdown-toggle').on('click', function (e) {
+<script>
+  $('.dropdown-toggle').on('click', function (e) {
     $(this).next().toggle();
   });
 
@@ -329,18 +332,48 @@ $('.dropdown-toggle').on('click', function (e) {
     $(this).parent().toggleClass('open');
   });
 
-  $('.dropdown').on('show.bs.dropdown', function() {
+  $('.dropdown').on('show.bs.dropdown', function () {
     $('body').append($('.dropdown').css({
       position: 'absolute',
       left: $('.dropdown').offset().left,
       top: $('.dropdown').offset().top
     }).detach());
   });
-    
+  $(document).click(function () {
+    // $(this).find(".dropdown-menu").hide()
+    $("#dropdown-menu1").hide();
+    $("#dropdown-menu2").hide();
+    $("#dropdown-menu3").hide();
+  });
+
+  /* Clicks within the dropdown won't make
+     it past the dropdown itself */
+  $("#dropdown1").click(function (e) {
+    e.stopPropagation();
+    $("#dropdown-menu2").hide();
+    $("#dropdown-menu3").hide();
+  });
+  $("#dropdown2").click(function (e) {
+    e.stopPropagation();
+    $("#dropdown-menu1").hide();
+    $("#dropdown-menu3").hide();
+  });
+  $("#dropdown3").click(function (e) {
+    e.stopPropagation();
+    $("#dropdown-menu1").hide();
+    $("#dropdown-menu2").hide();
+  });
+  // $(document).on("click", function (event) {
+  //   var $trigger = $(".dropdown");
+  //   if ($trigger !== event.target && !$trigger.has(event.target).length) {
+  //     $(".dropdown-menu").slideUp("fast");
+  //   }
+  // });
+
     var botpan = document.getElementById('bot_panel');
   var botmsg = document.getElementById('bot_msg');
   botmsg.innerHTML = 'Welcome! <br><br> Click within the grey grid and drag your mouse to draw obstacles. <br><br> Add and remove checkpoints using Ctrl+Click';
   msgs = 0;
+</script>
 
-  </script>
 </html>
