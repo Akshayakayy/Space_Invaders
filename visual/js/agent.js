@@ -670,6 +670,14 @@ $.extend(Agent, {
 
             Bot.botState(9,this.checkPointsleft);
             return;
+        
+        } else if (event.ctrlKey && this.endstatus==1) {
+            if (!this.isStartOrEndPos(gridX, gridY) && grid.isWalkableAt(gridX, gridY) && this.checkPointsleft > 0) {
+                this.setCheckPoint(gridX, gridY, true);
+                this.checkPointsleft--;
+                this.findPath(1);
+                Bot.botState(10,this.checkPointsleft);
+            } 
         } else if (event.ctrlKey) {
             if (!this.isStartOrEndPos(gridX, gridY) && grid.isWalkableAt(gridX, gridY) && this.checkPointsleft > 0) {
                 this.setCheckPoint(gridX, gridY, true);
