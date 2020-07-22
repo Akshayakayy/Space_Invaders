@@ -884,6 +884,10 @@ $.extend(Agent, {
                 gridY = coord[1];
             switch (state) {
                 case 'draggingStart':
+                    if (!grid.isWalkableAt(gridX,gridY)){
+                        if (this.endstatus == 1)
+                            this.findPath(1)
+                    }
                     if (grid.isWalkableAt(gridX, gridY) && !this.isEndPos(gridX, gridY) && this.isCheckPoint(gridX, gridY) == -1) {
                         this.setStartPos(gridX, gridY);
                         if (this.endstatus == 1)
@@ -891,6 +895,10 @@ $.extend(Agent, {
                     }
                     break;
                 case 'draggingEnd':
+                    if (!grid.isWalkableAt(gridX,gridY)){
+                        if (this.endstatus == 1)
+                            this.findPath(1)
+                    }
                     if (grid.isWalkableAt(gridX, gridY) && !this.isStartPos(gridX, gridY) && this.isCheckPoint(gridX, gridY) == -1) {
                         this.setEndPos(gridX, gridY);
                         if (this.endstatus == 1)
@@ -898,6 +906,10 @@ $.extend(Agent, {
                     }
                     break;
                 case 'draggingCheckpoint':
+                    if (!grid.isWalkableAt(gridX,gridY)){
+                        if (this.endstatus == 1)
+                            this.findPath(1)
+                    }
                     if (grid.isWalkableAt(gridX, gridY) && !this.isStartOrEndPos(gridX, gridY)) {
                         View.setCheckPoint(gridX, gridY, this.checkpoints[this.currCheckpoint].x, this.checkpoints[this.currCheckpoint].y, true)
                         this.checkpoints[this.currCheckpoint].x = gridX;
