@@ -662,6 +662,7 @@ $.extend(Agent, {
     clearAll: function() {
         this.clearFootprints();
         View.clearBlockedNodes();
+
     },
     buildNewGrid: function() {
         this.grid = new PF.Grid(this.gridSize[0], this.gridSize[1]);
@@ -905,7 +906,6 @@ $.extend(Agent, {
                 case 'draggingPit':
 
                     this.grid.setWalkableAt(gridX, gridY, false);
-                    View.setPitPos(gridX, gridY);
                     if (!grid.isWalkableAt(gridX, gridY)) {
                         if (this.endstatus == 1)
                             this.findPath(1)
