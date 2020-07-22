@@ -50,7 +50,7 @@ h6 {
 }
 
 .navbar-right {
-    font-size: large;
+    font-size: medium;
     color: #FFFDBD;
     font-weight: bold;
     font-family: Dosis;
@@ -73,7 +73,7 @@ h6 {
 }
 
 #speed {
-    font-size: large;
+    font-size: medium;
     color: #FFFDBD;
     font-weight: bold;
     font-family: Dosis;
@@ -81,7 +81,7 @@ h6 {
 }
 
 .navbar-right:hover {
-    font-size: large;
+    font-size: medium;
     color: #FFFDBD;
     font-weight: bold;
     font-family: Dosis;
@@ -227,7 +227,7 @@ h6 {
 }
 
 .header_title {
-    font-size: large;
+    font-size: medium;
     color: #FFFDBD;
     font-weight: bold;
     font-family: Dosis;
@@ -253,7 +253,7 @@ h6 {
 }
 
 .intro_title {
-    font-size: large;
+    font-size: medium;
     color: rgb(0, 0, 0);
     font-weight: bold;
     font-family: Dosis;
@@ -279,7 +279,7 @@ h6 {
 }
 
 .bot_title {
-    font-size: large;
+    font-size: medium;
     color: rgb(103, 158, 0);
     font-weight: bold;
     font-family: Roboto Mono;
