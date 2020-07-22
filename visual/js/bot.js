@@ -1,3 +1,7 @@
+/**
+ * The Message bot panel.
+ * It displays messages to instruct the user.
+ */
 var Bot = {
     init: function () {
         this.botPan = document.getElementById('bot_panel');
@@ -7,13 +11,16 @@ var Bot = {
         this.botMsg.innerHTML = text;
         this.botPan.style.visibility = 'visible';
         this.botMsg.style.visibility = 'visible';
-        setTimeout(function () {
+        setTimeout(function () { //hide the panel after <duration> milliseconds
             if (this.botMsg.innerHTML == text) {
                 this.botPan.style.visibility = 'hidden';
                 this.botMsg.style.visibility = 'hidden';
             }
         }.bind(this), duration)
     },
+    /**
+     * The mapping of bot messages with Agent states.
+     */
     botState: function (state,checkPointInfo) {
         text = "";
         switch (state) {
