@@ -165,7 +165,7 @@ var View = {
             this.startNode.attr({ x: coord[0], y: coord[1] }).toFront();
         }
     },
-    setCheckPoint: function (gridX, gridY, oldX, oldY, value) {
+    setCheckPoint: function(gridX, gridY, oldX, oldY, value) {
         var coord = this.toPageCoordinate(gridX, gridY);
         console.log(this.checkpoint)
         if (value) {
@@ -174,11 +174,11 @@ var View = {
                     x: gridX,
                     y: gridY,
                     paper_el: this.paper.rect(
-                        coord[0],
-                        coord[1],
-                        this.nodeSize,
-                        this.nodeSize
-                    ).attr(this.nodeStyle.checkpoint)
+                            coord[0],
+                            coord[1],
+                            this.nodeSize,
+                            this.nodeSize
+                        ).attr(this.nodeStyle.checkpoint)
                         .animate(this.nodeStyle.checkpoint, 1000)
                 })
             } else {
@@ -208,7 +208,7 @@ var View = {
                     this.nodeSize,
                     this.nodeSize
                 ).attr(this.nodeStyle.normal)
-                .animate(this.nodeStyle.start, 1000);
+                .animate(this.nodeStyle.pitnode, 1000);
         } else {
             this.pitNode.attr({ x: coord[0], y: coord[1] }).toFront();
         }
@@ -298,8 +298,7 @@ var View = {
             console.log("my object", ob);
             if (ob == "wall") {
                 this.colorizeNode(node, this.nodeStyle.blocked.fill);
-            } 
-            else if (ob == "pit") {
+            } else if (ob == "pit") {
                 console.log("pit style");
                 this.colorizeNode(node, this.nodeStyle.pitnode.fill);
             } else if (ob == "ice") {
