@@ -325,7 +325,7 @@
 
 <script>
   $('.dropdown-toggle').on('click', function (e) {
-    $(this).next().toggle();
+    $(this).next().slideToggle();
   });
 
   $('li.dropdown.mega-dropdown a').on('click', function (event) {
@@ -341,27 +341,27 @@
   });
   $(document).click(function () {
     // $(this).find(".dropdown-menu").hide()
-    $("#dropdown-menu1").hide();
-    $("#dropdown-menu2").hide();
-    $("#dropdown-menu3").hide();
+    $("#dropdown-menu1").slideUp();
+    $("#dropdown-menu2").slideUp();
+    $("#dropdown-menu3").slideUp();
   });
 
   /* Clicks within the dropdown won't make
      it past the dropdown itself */
   $("#dropdown1").click(function (e) {
     e.stopPropagation();
-    $("#dropdown-menu2").hide();
-    $("#dropdown-menu3").hide();
+    $("#dropdown-menu2").slideUp();
+    $("#dropdown-menu3").slideUp();
   });
   $("#dropdown2").click(function (e) {
     e.stopPropagation();
-    $("#dropdown-menu1").hide();
-    $("#dropdown-menu3").hide();
+    $("#dropdown-menu1").slideUp();
+    $("#dropdown-menu3").slideUp();
   });
   $("#dropdown3").click(function (e) {
     e.stopPropagation();
-    $("#dropdown-menu1").hide();
-    $("#dropdown-menu2").hide();
+    $("#dropdown-menu1").slideUp();
+    $("#dropdown-menu2").slideUp();
   });
   // $(document).on("click", function (event) {
   //   var $trigger = $(".dropdown");
