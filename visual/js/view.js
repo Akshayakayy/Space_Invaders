@@ -466,14 +466,14 @@ var View = {
             this.iceNode = null;
 
         }
-        if (this.ice1Node != null) {
-            this.ice1Node.remove();
-            this.ice1Node = null;
+        if (this.iced1Node != null) {
+            this.iced1Node.remove();
+            this.iced1Node = null;
 
         }
-        if (this.ice2Node != null) {
-            this.ice2Node.remove();
-            this.ice2Node = null;
+        if (this.iced2Node != null) {
+            this.iced2Node.remove();
+            this.iced2Node = null;
         }
 
 
