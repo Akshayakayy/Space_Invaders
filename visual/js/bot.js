@@ -26,18 +26,18 @@ var Bot = {
         botpan.style.visibility = 'visible';
         botmsg.style.visibility = 'visible';
 
-        setTimeout(function() {
-            if((botmsg.innerHTML == text) && (this.msgs==msgid)) {
+        setTimeout(function () {
+            if ((botmsg.innerHTML == text) && (this.msgs == msgid)) {
                 botpan.style.visibility = 'hidden';
                 botmsg.style.visibility = 'hidden';
-                }
+            }
             this.msgs -= 1;
-            }.bind(this),10000)
+        }.bind(this), 10000)
     },
     /**
      * The mapping of bot messages with Agent states.
      */
-    botState: function (state,checkPointInfo = "") {
+    botState: function (state, checkPointInfo = "") {
         text = "";
         switch (state) {
             case 0:
@@ -66,17 +66,17 @@ var Bot = {
                 text = "Obstacles cleared! <br><br> Create with a fresh map!"
                 break;
             case 8:
-                text = "Cleared all checkpoints! <br><br> You can add "+String(checkPointInfo)+" checkpoints now! (Ctrl+Click)"
+                text = "Cleared all checkpoints! <br><br> You can add " + String(checkPointInfo) + " checkpoints now! (Ctrl+Click)"
                 break;
             case 9:
-                text = "Removed a checkpoint <br><br> You can add "+String(checkPointInfo)+" checkpoints now!"
+                text = "Removed a checkpoint <br><br> You can add " + String(checkPointInfo) + " checkpoints now!"
                 break;
             case 10:
-                text = "Added a checkpoint <br><br> Checkpoints left: "+String(checkPointInfo)+"<br><br> You can remove a checkpoint using Ctrl+Click"
+                text = "Added a checkpoint <br><br> Checkpoints left: " + String(checkPointInfo) + "<br><br> You can remove a checkpoint using Ctrl+Click"
                 break;
-            
+
         }
-        if(state == 5)
+        if (state == 5)
             this.botTextFinish(text)
         else
             this.botText(text);

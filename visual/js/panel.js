@@ -8,7 +8,7 @@ var Panel = {
         var $algo = $('#algorithm_panel');
         $('.panel').draggable();
         $('.accordion').accordion({
-            collapsible: false,
+            collapsible: true,
         });
         $('.option_label').click(function () {
             $(this).prev().click();
