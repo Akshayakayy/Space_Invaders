@@ -6,8 +6,9 @@ var Bot = {
     init: function () {
         this.botPan = document.getElementById('bot_panel');
         this.botMsg = document.getElementById('bot_msg');
+        this.msgs = 0;
     },
-    botText: function (text, duration) {
+    botText: function (text) {
         this.botMsg.innerHTML = text;
         this.botPan.style.visibility = 'visible';
         this.botMsg.style.visibility = 'visible';
@@ -16,12 +17,27 @@ var Bot = {
                 this.botPan.style.visibility = 'hidden';
                 this.botMsg.style.visibility = 'hidden';
             }
-        }.bind(this), duration)
+        }.bind(this), 4000)
+    },
+    botTextFinish: function (text) {
+        var msgid = 1;
+        this.msgs += 1;
+        botmsg.innerHTML = text;
+        botpan.style.visibility = 'visible';
+        botmsg.style.visibility = 'visible';
+
+        setTimeout(function() {
+            if((botmsg.innerHTML == text) && (this.msgs==msgid)) {
+                botpan.style.visibility = 'hidden';
+                botmsg.style.visibility = 'hidden';
+                }
+            this.msgs -= 1;
+            }.bind(this),10000)
     },
     /**
      * The mapping of bot messages with Agent states.
      */
-    botState: function (state,checkPointInfo) {
+    botState: function (state,checkPointInfo = "") {
         text = "";
         switch (state) {
             case 0:
@@ -60,7 +76,10 @@ var Bot = {
                 break;
             
         }
-        this.botText(text, 4000);
+        if(state == 5)
+            this.botTextFinish(text)
+        else
+            this.botText(text);
 
     }
 

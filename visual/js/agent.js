@@ -278,7 +278,7 @@ $.extend(Agent, {
         if (!this.pathfound)
             this.finish()
         // => searching
-        Bot.botState(0,"");
+        Bot.botState(0);
     },
     
     onrestart: function () {
@@ -297,24 +297,24 @@ $.extend(Agent, {
         this.numice = 0;
         this.numpit = 0;
 
-        Bot.botState(1,"");
+        Bot.botState(1);
 
         // => restarting
     },
     onpause: function (event, from, to) {
         // => paused
-        Bot.botState(2,"");
+        Bot.botState(2);
     },
     onresume: function (event, from, to) {
         this.loop();
         // => searching
-        Bot.botState(3,"");
+        Bot.botState(3);
     },
     oncancel: function (event, from, to) {
         this.clearOperations();
         this.clearFootprints();
         // => ready
-        Bot.botState(4,"");
+        Bot.botState(4);
     },
     onfinish: function (event, from, to) {
         if (!this.pathfound) {
@@ -329,20 +329,20 @@ $.extend(Agent, {
             
             var botpan=document.getElementById('bot_panel');
             var botmsg=document.getElementById('bot_msg');
+            Bot.botState(5);
+            // msgid = 1;
+            // msgs += 1;
+            // botmsg.innerHTML = 'Congratulations! Base Found!<br><br> Try moving the rover/ base to render path in real time!<br><br> Try adding checkpoints (Ctrl+Click) and obstacles as well';
+            // botpan.style.visibility = 'visible';
+            // botmsg.style.visibility = 'visible';
 
-            msgid = 1;
-            msgs += 1;
-            botmsg.innerHTML = 'Congratulations! Base Found!<br><br> Try moving the rover/ base to render path in real time!<br><br> Try adding checkpoints (Ctrl+Click) and obstacles as well';
-            botpan.style.visibility = 'visible';
-            botmsg.style.visibility = 'visible';
-
-            setTimeout(function() {
-                if((botmsg.innerHTML == 'Congratulations! Base Found!<br><br> Try moving the rover/ base to render path in real time!<br><br> Try adding checkpoints (Ctrl+Click) as well') && (msgs==msgid)) {
-                    botpan.style.visibility = 'hidden';
-                    botmsg.style.visibility = 'hidden';
-                    }
-                msgs -= 1;//oi just ekhanei//there's trouble here.//but it should still worj the same way right
-              },10000)
+            // setTimeout(function() {
+            //     if((botmsg.innerHTML == 'Congratulations! Base Found!<br><br> Try moving the rover/ base to render path in real time!<br><br> Try adding checkpoints (Ctrl+Click) as well') && (msgs==msgid)) {
+            //         botpan.style.visibility = 'hidden';
+            //         botmsg.style.visibility = 'hidden';
+            //         }
+            //     msgs -= 1;
+            //   },10000)
         }
         this.endstatus = 1;
         this.path = [];
@@ -353,7 +353,7 @@ $.extend(Agent, {
         this.clearOperations();
         this.clearFootprints();
         // => ready
-        Bot.botState(6,"");
+        Bot.botState(6);
     },
     onmodify: function (event, from, to) {
         // => modified
@@ -373,7 +373,7 @@ $.extend(Agent, {
         this.numice = 0;
         this.numpit = 0;
         // => ready
-        Bot.botState(7,"");
+        Bot.botState(7);
     },
 
     /**
