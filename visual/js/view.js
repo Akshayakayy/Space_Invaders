@@ -190,11 +190,11 @@ var View = {
         } else {
             if (this.checkpoint.findIndex(node => node.x == gridX && node.y == gridY) != -1) {
                 checkindex = this.checkpoint.findIndex(node => node.x == gridX && node.y == gridY);
-                console.log("Check", checkindex, this.rects[gridY][gridX])
-                node = this.rects[gridY][gridX].clone()
-                this.rects[gridY][gridX].remove()
-                node.attr(this.nodeStyle.normal)
-                this.rects[gridY][gridX] = node
+                console.log("Check", checkindex, this.rects[gridY][gridX]);
+                node = this.rects[gridY][gridX].clone();
+                this.rects[gridY][gridX].remove();
+                node.attr(this.nodeStyle.normal);
+                this.rects[gridY][gridX] = node;
                 this.checkpoint.splice(checkindex, 1);
             }
         }
@@ -216,7 +216,9 @@ var View = {
                 ).attr(this.nodeStyle.normal)
                 .animate(this.nodeStyle.pitnode, 1000);
         } else {
+
             this.pitNode.attr({ x: coord[0], y: coord[1] }).toFront();
+
         }
         if (!this.pitm2Node) {
             console.log(this.blockedNodes[gridY][gridX])
@@ -672,8 +674,8 @@ var View = {
             timer: 10000,
             timerProgressBar: true,
             onOpen: (to) => {
-                to.addEventListener('mouseenter', Swal.stopTimer)
-                to.addEventListener('mouseleave', Swal.resumeTimer)
+                to.addEventListener('mouseenter', Swal.stopTimer);
+                to.addEventListener('mouseleave', Swal.resumeTimer);
             }
         })
         Toast.fire({

@@ -413,7 +413,6 @@ $.extend(Agent, {
 
         Bot.botState(8, this.checkPointsleft);
     },
-
     initmaze: function(mazetype) {
         this.mazetype = mazetype;
         this.startMaze();
@@ -658,7 +657,6 @@ $.extend(Agent, {
         View.clearPath();
 
     },
-
     clearCheckPoint: function(gridX, gridY) {
         const ind = this.checkpoints.findIndex(node =>
             node.x == gridX &&
