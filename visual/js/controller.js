@@ -278,16 +278,7 @@ $.extend(Controller, {
         if (!this.pathfound)
             this.finish()
         // => searching
-        botmsg.innerHTML = 'Search Started! <br><br> You can pause or restart anytime you want.';
-        botpan.style.visibility = 'visible';
-        botmsg.style.visibility = 'visible';
-
-        setTimeout(function(){
-        if(botmsg.innerHTML == 'Search Started! <br><br> You can pause or restart anytime you want.') {
-            botpan.style.visibility = 'hidden';
-            botmsg.style.visibility = 'hidden';
-        }
-                },4000)
+        Bot.botState(0,"");
     },
     
     onrestart: function () {
@@ -306,51 +297,24 @@ $.extend(Controller, {
         this.numice = 0;
         this.numpit = 0;
 
-        botmsg.innerHTML = 'Search Started! <br><br> You can pause anytime you want.';
-        botpan.style.visibility = 'visible';
-        botmsg.style.visibility = 'visible';
-
-        setTimeout(function(){
-        if(botmsg.innerHTML == 'Search Started! <br><br> You can pause anytime you want.') {
-            botpan.style.visibility = 'hidden';
-            botmsg.style.visibility = 'hidden';
-        }
-                },4000)
+        Bot.botState(1,"");
 
         // => restarting
     },
     onpause: function (event, from, to) {
         // => paused
-        Bot.botState(0);
+        Bot.botState(2,"");
     },
     onresume: function (event, from, to) {
         this.loop();
         // => searching
-        botmsg.innerHTML = 'Search Resumed! <br><br> You can pause or restart anytime';
-        botpan.style.visibility = 'visible';
-        botmsg.style.visibility = 'visible';
-
-        setTimeout(function(){
-        if(botmsg.innerHTML == 'Search Resumed! <br><br> You can pause or restart anytime') {
-            botpan.style.visibility = 'hidden';
-            botmsg.style.visibility = 'hidden';
-        }
-                },4000)
+        Bot.botState(3,"");
     },
     oncancel: function (event, from, to) {
         this.clearOperations();
         this.clearFootprints();
         // => ready
-        botmsg.innerHTML = 'Search Canceled!';
-        botpan.style.visibility = 'visible';
-        botmsg.style.visibility = 'visible';
-
-        setTimeout(function(){
-        if(botmsg.innerHTML == 'Search Canceled!') {
-            botpan.style.visibility = 'hidden';
-            botmsg.style.visibility = 'hidden';
-        }
-                },4000)
+        Bot.botState(4,"");
     },
     onfinish: function (event, from, to) {
         if (!this.pathfound) {
@@ -377,7 +341,7 @@ $.extend(Controller, {
                     botpan.style.visibility = 'hidden';
                     botmsg.style.visibility = 'hidden';
                     }
-                msgs -= 1;
+                msgs -= 1;//oi just ekhanei//there's trouble here.//but it should still worj the same way right
               },10000)
         }
         this.endstatus = 1;
@@ -389,16 +353,7 @@ $.extend(Controller, {
         this.clearOperations();
         this.clearFootprints();
         // => ready
-        botmsg.innerHTML = 'Path Cleared! <br><br> Modify the current map and search again';
-        botpan.style.visibility = 'visible';
-        botmsg.style.visibility = 'visible';
-
-        setTimeout(function(){
-        if(botmsg.innerHTML == 'Path Cleared! <br><br> Modify the current map and search again') {
-            botpan.style.visibility = 'hidden';
-            botmsg.style.visibility = 'hidden';
-        }
-                },4000)
+        Bot.botState(6,"");
     },
     onmodify: function (event, from, to) {
         // => modified
@@ -418,16 +373,7 @@ $.extend(Controller, {
         this.numice = 0;
         this.numpit = 0;
         // => ready
-        botmsg.innerHTML = 'Obstacles cleared! <br><br> Create with a fresh map!';
-        botpan.style.visibility = 'visible';
-        botmsg.style.visibility = 'visible';
-
-        setTimeout(function(){
-        if(botmsg.innerHTML == 'Obstacles cleared! <br><br> Create with a fresh map!') {
-            botpan.style.visibility = 'hidden';
-            botmsg.style.visibility = 'hidden';
-        }
-                },4000)
+        Bot.botState(7,"");
     },
 
     /**
@@ -445,16 +391,7 @@ $.extend(Controller, {
         if (this.endstatus == 1)
             this.findPath(1);
 
-        botmsg.innerHTML = 'Cleared all checkpoints! <br><br> You can add '+String(this.checkPointsleft)+' checkpoints now! (Ctrl+Click)';
-        botpan.style.visibility = 'visible';
-        botmsg.style.visibility = 'visible';
-
-        setTimeout(function(){
-        if(botmsg.innerHTML == 'Cleared all checkpoints! <br><br> You can add '+String(4)+' checkpoints now! (Ctrl+Click)') {
-            botpan.style.visibility = 'hidden';
-            botmsg.style.visibility = 'hidden';
-        }
-                },4000)
+        Bot.botState(8,this.checkPointsleft);
     },
     initmaze: function (mazetype) {
         this.mazetype = mazetype;
@@ -731,31 +668,13 @@ $.extend(Controller, {
             this.clearCheckPoint(gridX, gridY);
             this.checkPointsleft++;
 
-            botmsg.innerHTML = 'Removed a checkpoint <br><br> You can add '+String(this.checkPointsleft)+' checkpoints now!';
-            botpan.style.visibility = 'visible';
-            botmsg.style.visibility = 'visible';
-
-            setTimeout(function(){
-            if(botmsg.innerHTML == 'Removed a checkpoint <br><br> You can add '+String(this.checkPointsleft)+' checkpoints now!') {
-                botpan.style.visibility = 'hidden';
-                botmsg.style.visibility = 'hidden';
-            }
-                    },4000)
+            Bot.botState(9,this.checkPointsleft);
             return;
         } else if (event.ctrlKey) {
             if (!this.isStartOrEndPos(gridX, gridY) && grid.isWalkableAt(gridX, gridY) && this.checkPointsleft > 0) {
                 this.setCheckPoint(gridX, gridY, true);
                 this.checkPointsleft--;
-                botmsg.innerHTML = 'Added a checkpoint <br><br> Checkpoints left: '+String(this.checkPointsleft)+'<br><br> You can remove a checkpoint using Ctrl+Click';
-                botpan.style.visibility = 'visible';
-                botmsg.style.visibility = 'visible';
-
-                setTimeout(function(){
-                if(botmsg.innerHTML == 'Added a checkpoint <br><br> Checkpoints left: '+String(this.checkPointsleft)+'<br><br> You can remove a checkpoint using Ctrl+Click') {
-                    botpan.style.visibility = 'hidden';
-                    botmsg.style.visibility = 'hidden';
-                }
-                        },4000)
+                Bot.botState(10,this.checkPointsleft);
             }
         } else {
             if (this.can('dragStart') && this.isStartPos(gridX, gridY)) {
