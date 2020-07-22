@@ -892,7 +892,7 @@ $.extend(Agent, {
                 }
                 break;
             case 'draggingPit':
-                if (grid.isWalkableAt(gridX, gridY)) {
+                if (grid.isWalkableAt(gridX, gridY) && grid.isWalkableAt(gridX - 2, gridY) && grid.isWalkableAt(gridX - 1, gridY) && grid.isWalkableAt(gridX + 2, gridY) && grid.isWalkableAt(gridX + 1, gridY)) {
                     this.mousemoveflag = 1
                     this.setPitPos(gridX, gridY);
                     if (this.endstatus == 1)
@@ -901,7 +901,7 @@ $.extend(Agent, {
                 }
                 break;
             case 'draggingIce':
-                if (grid.isWalkableAt(gridX, gridY)) {
+                if (grid.isWalkableAt(gridX, gridY) && grid.isWalkableAt(gridX - 1, gridY + 1) && grid.isWalkableAt(gridX + 1, gridY - 1)) {
                     this.mousemoveflag = 1
                     this.setIcePos(gridX, gridY);
                     if (this.endstatus == 1)
@@ -910,7 +910,7 @@ $.extend(Agent, {
                 }
                 break;
             case 'draggingBomb':
-                if (grid.isWalkableAt(gridX, gridY)) {
+                if (grid.isWalkableAt(gridX, gridY) && grid.isWalkableAt(gridX - 1, gridY) && grid.isWalkableAt(gridX + 1, gridY) && grid.isWalkableAt(gridX, gridY - 1) && grid.isWalkableAt(gridX, gridY + 1)) {
                     this.mousemoveflag = 1
                     this.setBombPos(gridX, gridY);
                     if (this.endstatus == 1)
@@ -962,11 +962,11 @@ $.extend(Agent, {
                     this.grid.setWalkableAt(gridX - 1, gridY, false);
                     this.grid.setWalkableAt(gridX + 1, gridY, false);
                     this.grid.setWalkableAt(gridX + 2, gridY, false);
-                    if (!grid.isWalkableAt(gridX, gridY)) {
+                    if (!grid.isWalkableAt(gridX, gridY && !grid.isWalkableAt(gridX - 2, gridY) && !grid.isWalkableAt(gridX - 1, gridY) && !grid.isWalkableAt(gridX + 2, gridY) && !grid.isWalkableAt(gridX + 1, gridY))) {
                         if (this.endstatus == 1)
                             this.findPath(1)
                     }
-                    if (grid.isWalkableAt(gridX, gridY) && !this.isStartEndPos(gridX, gridY) && this.isCheckPoint(gridX, gridY) == -1) {
+                    if (grid.isWalkableAt(gridX, gridY) && grid.isWalkableAt(gridX - 2, gridY) && grid.isWalkableAt(gridX - 1, gridY) && grid.isWalkableAt(gridX + 2, gridY) && grid.isWalkableAt(gridX + 1, gridY) && !this.isStartEndPos(gridX, gridY) && this.isCheckPoint(gridX, gridY) == -1) {
                         this.setPitPos(gridX, gridY);
                         if (this.endstatus == 1)
                             this.findPath(1)
@@ -976,11 +976,11 @@ $.extend(Agent, {
                     this.grid.setWalkableAt(gridX, gridY, false);
                     this.grid.setWalkableAt(gridX - 1, gridY + 1, false);
                     this.grid.setWalkableAt(gridX + 1, gridY + 1, false);
-                    if (!grid.isWalkableAt(gridX, gridY)) {
+                    if (!grid.isWalkableAt(gridX, gridY) && !grid.isWalkableAt(gridX - 1, gridY + 1) && !grid.isWalkableAt(gridX + 1, gridY - 1) && !this.isStartEndPos(gridX, gridY)) {
                         if (this.endstatus == 1)
                             this.findPath(1)
                     }
-                    if (grid.isWalkableAt(gridX, gridY) && !this.isStartEndPos(gridX, gridY) && this.isCheckPoint(gridX, gridY) == -1) {
+                    if (grid.isWalkableAt(gridX, gridY) && grid.isWalkableAt(gridX - 1, gridY + 1) && grid.isWalkableAt(gridX + 1, gridY - 1) && !this.isStartEndPos(gridX, gridY) && this.isCheckPoint(gridX, gridY) == -1) {
                         this.setIcePos(gridX, gridY);
                         if (this.endstatus == 1)
                             this.findPath(1)
@@ -992,11 +992,11 @@ $.extend(Agent, {
                     this.grid.setWalkableAt(gridX, gridY - 1, false);
                     this.grid.setWalkableAt(gridX, gridY + 1, false);
                     this.grid.setWalkableAt(gridX + 1, gridY, false);
-                    if (!grid.isWalkableAt(gridX, gridY)) {
+                    if (!grid.isWalkableAt(gridX, gridY) && !grid.isWalkableAt(gridX - 1, gridY) && !grid.isWalkableAt(gridX + 1, gridY) && !grid.isWalkableAt(gridX, gridY - 1) && !grid.isWalkableAt(gridX, gridY + 1)) {
                         if (this.endstatus == 1)
                             this.findPath(1)
                     }
-                    if (grid.isWalkableAt(gridX, gridY) && !this.isStartEndPos(gridX, gridY) && this.isCheckPoint(gridX, gridY) == -1) {
+                    if (grid.isWalkableAt(gridX, gridY) && grid.isWalkableAt(gridX - 1, gridY) && grid.isWalkableAt(gridX + 1, gridY) && grid.isWalkableAt(gridX, gridY - 1) && grid.isWalkableAt(gridX, gridY + 1) && !this.isStartEndPos(gridX, gridY) && this.isCheckPoint(gridX, gridY) == -1) {
                         this.setBombPos(gridX, gridY);
                         if (this.endstatus == 1)
                             this.findPath(1)
