@@ -165,7 +165,7 @@ var View = {
             this.startNode.attr({ x: coord[0], y: coord[1] }).toFront();
         }
     },
-    setCheckPoint: function (gridX, gridY, oldX, oldY, value) {
+    setCheckPoint: function(gridX, gridY, oldX, oldY, value) {
         var coord = this.toPageCoordinate(gridX, gridY);
         console.log(this.checkpoint)
         if (value) {
@@ -174,11 +174,11 @@ var View = {
                     x: gridX,
                     y: gridY,
                     paper_el: this.paper.rect(
-                        coord[0],
-                        coord[1],
-                        this.nodeSize,
-                        this.nodeSize
-                    ).attr(this.nodeStyle.checkpoint)
+                            coord[0],
+                            coord[1],
+                            this.nodeSize,
+                            this.nodeSize
+                        ).attr(this.nodeStyle.checkpoint)
                         .animate(this.nodeStyle.checkpoint, 1000)
                 })
             } else {
@@ -190,27 +190,32 @@ var View = {
         } else {
             if (this.checkpoint.findIndex(node => node.x == gridX && node.y == gridY) != -1) {
                 checkindex = this.checkpoint.findIndex(node => node.x == gridX && node.y == gridY);
-                console.log("Check", checkindex, this.rects[gridY][gridX])
-                node = this.rects[gridY][gridX].clone()
-                this.rects[gridY][gridX].remove()
-                node.attr(this.nodeStyle.normal)
-                this.rects[gridY][gridX] = node
+                console.log("Check", checkindex, this.rects[gridY][gridX]);
+                node = this.rects[gridY][gridX].clone();
+                this.rects[gridY][gridX].remove();
+                node.attr(this.nodeStyle.normal);
+                this.rects[gridY][gridX] = node;
                 this.checkpoint.splice(checkindex, 1);
             }
         }
     },
     setPitPos: function(gridX, gridY) {
         var coord = this.toPageCoordinate(gridX, gridY);
+
         if (!this.pitNode) {
+
+            console.log(this.blockedNodes[gridY][gridX]);
             this.pitNode = this.paper.rect(
                     coord[0],
                     coord[1],
                     this.nodeSize,
                     this.nodeSize
                 ).attr(this.nodeStyle.normal)
-                .animate(this.nodeStyle.start, 1000);
+                .animate(this.nodeStyle.pitnode, 1000);
         } else {
+
             this.pitNode.attr({ x: coord[0], y: coord[1] }).toFront();
+
         }
     },
     setEndPos: function(gridX, gridY) {
@@ -298,8 +303,7 @@ var View = {
             console.log("my object", ob);
             if (ob == "wall") {
                 this.colorizeNode(node, this.nodeStyle.blocked.fill);
-            } 
-            else if (ob == "pit") {
+            } else if (ob == "pit") {
                 console.log("pit style");
                 this.colorizeNode(node, this.nodeStyle.pitnode.fill);
             } else if (ob == "ice") {
@@ -432,8 +436,8 @@ var View = {
             timer: 10000,
             timerProgressBar: true,
             onOpen: (to) => {
-                to.addEventListener('mouseenter', Swal.stopTimer)
-                to.addEventListener('mouseleave', Swal.resumeTimer)
+                to.addEventListener('mouseenter', Swal.stopTimer);
+                to.addEventListener('mouseleave', Swal.resumeTimer);
             }
         })
         Toast.fire({
