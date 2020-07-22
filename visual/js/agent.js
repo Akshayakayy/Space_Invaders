@@ -1235,7 +1235,7 @@ $.extend(Agent, {
         return gridX === this.startX && gridY === this.startY;
     },
     isStartorEndPos: function(gridX, gridY) {
-        return gridX === this.startX && gridY === this.startY && gridX === this.endX && gridY === this.endY;
+        return (gridX === this.startX && gridY === this.startY) || (gridX === this.endX && gridY === this.endY);
     },
     isPitPos: function(gridX, gridY) {
         return gridX === this.pitX && gridY === this.pitY;
