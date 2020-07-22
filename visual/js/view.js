@@ -209,8 +209,10 @@ var View = {
                     this.nodeSize
                 ).attr(this.nodeStyle.normal)
                 .animate(this.nodeStyle.pitnode, 1000);
+
         } else {
             this.pitNode.attr({ x: coord[0], y: coord[1] }).toFront();
+
         }
     },
     setEndPos: function(gridX, gridY) {

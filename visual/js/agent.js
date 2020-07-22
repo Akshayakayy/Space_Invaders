@@ -698,19 +698,15 @@ $.extend(Agent, {
                 this.dragEnd();
                 return;
             }
+            if (this.can('dragPit') && this.isPitPos(gridX, gridY)) {
+                this.dragPit();
+                return;
+            }
             if (this.can('dragCheckpoint') && this.isCheckPoint(gridX, gridY) != -1) {
                 this.currCheckpoint = this.isCheckPoint(gridX, gridY)
                 this.dragCheckpoint();
                 return;
             }
-            if (this.can('eraseWall') && this.isPitPos(gridX, gridY)) {
-                this.dragPit();
-                return;
-            }
-            // if (this.can('dragEndFinished') && this.isEndPos(gridX, gridY)) {
-            //     this.dragEndFinished();
-            //     return;
-            // }
             if (this.can('drawWall') && grid.isWalkableAt(gridX, gridY)) {
                 this.drawWall(gridX, gridY);
                 return;
@@ -856,6 +852,7 @@ $.extend(Agent, {
             case 'draggingPit':
                 if (grid.isWalkableAt(gridX, gridY)) {
                     this.mousemoveflag = 1
+                    this.setWalkableAt(gridX, gridY)
                     this.setPitPos(gridX, gridY);
                     if (this.endstatus == 1)
                         this.findPath(0)
@@ -922,6 +919,18 @@ $.extend(Agent, {
                         if (this.endstatus == 1) {
                             this.findPath(1)
                         }
+                    }
+                    break;
+                case 'draggingPit':
+                    if (!grid.isWalkableAt(gridX, gridY)) {
+                        if (this.endstatus == 1)
+                            this.findPath(1)
+                    }
+                    if (grid.isWalkableAt(gridX, gridY) && !this.isStartOrEndPos(gridX, gridY) && this.isCheckPoint(gridX, gridY) == -1) {
+
+                        this.setPitPos(gridX, gridY);
+                        if (this.endstatus == 1)
+                            this.findPath(1)
                     }
                     break;
             }
@@ -1045,6 +1054,7 @@ $.extend(Agent, {
         this.pitY = gridY;
         console.log("setting pit at", gridX, gridY);
         View.setPitPos(gridX, gridY);
+        // this.setPitAt(gridX, gridY, false);
     },
     setWalkableAt: function(gridX, gridY, walkable, pit) {
         this.grid.setWalkableAt(gridX, gridY, walkable, pit);
