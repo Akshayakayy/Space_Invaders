@@ -201,7 +201,10 @@ var View = {
     },
     setPitPos: function(gridX, gridY) {
         var coord = this.toPageCoordinate(gridX, gridY);
+
         if (!this.pitNode) {
+
+            console.log(this.blockedNodes[gridY][gridX])
             this.pitNode = this.paper.rect(
                     coord[0],
                     coord[1],
@@ -209,8 +212,8 @@ var View = {
                     this.nodeSize
                 ).attr(this.nodeStyle.normal)
                 .animate(this.nodeStyle.pitnode, 1000);
-
         } else {
+
             this.pitNode.attr({ x: coord[0], y: coord[1] }).toFront();
 
         }

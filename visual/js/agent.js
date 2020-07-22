@@ -892,19 +892,31 @@ $.extend(Agent, {
                 gridY = coord[1];
             switch (state) {
                 case 'draggingStart':
-                    // if (!grid.isWalkableAt(gridX, gridY)) {
-                    //     if (this.endstatus == 1)
-                    //         this.findPath(1)
-                    // }
-                    // if (grid.isWalkableAt(gridX, gridY) && !this.isEndPos(gridX, gridY) && this.isCheckPoint(gridX, gridY) == -1) {
-                    //     this.setStartPos(gridX, gridY);
-                    //     if (this.endstatus == 1)
-                    //         this.findPath(1)
-                    // }
+                    if (!grid.isWalkableAt(gridX, gridY)) {
+                        if (this.endstatus == 1)
+                            this.findPath(1)
+                    }
+                    if (grid.isWalkableAt(gridX, gridY) && !this.isEndPos(gridX, gridY) && this.isCheckPoint(gridX, gridY) == -1) {
+                        this.setStartPos(gridX, gridY);
+                        if (this.endstatus == 1)
+                            this.findPath(1)
+                    }
                     break;
                 case 'draggingPit':
+
                     this.grid.setWalkableAt(gridX, gridY, false);
-                    View.setPitAt(gridX, gridY);
+                    View.setPitPos(gridX, gridY);
+                    if (!grid.isWalkableAt(gridX, gridY)) {
+                        if (this.endstatus == 1)
+                            this.findPath(1)
+                    }
+                    if (grid.isWalkableAt(gridX, gridY) && !this.isStartEndPos(gridX, gridY) && this.isCheckPoint(gridX, gridY) == -1) {
+                        this.setPitPos(gridX, gridY);
+                        if (this.endstatus == 1)
+                            this.findPath(1)
+                    }
+                    break;
+
 
                 case 'draggingEnd':
                     if (!grid.isWalkableAt(gridX, gridY)) {
