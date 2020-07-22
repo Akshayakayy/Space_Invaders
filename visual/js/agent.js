@@ -1,10 +1,10 @@
 /**
- * The visualization controller will works as a state machine.
+ * The visualization Agent will works as a state machine.
  * See files under the `doc` folder for transition descriptions.
  * See https://github.com/jakesgordon/javascript-state-machine
  * for the document of the StateMachine module.
  */
-var Controller = StateMachine.create({
+var Agent = StateMachine.create({
     initial: 'none',
     events: [{
             name: 'init',
@@ -115,7 +115,7 @@ var Controller = StateMachine.create({
     ],
 });
 
-$.extend(Controller, {
+$.extend(Agent, {
     gridSize: [64, 36], // number of nodes horizontally and vertically
     draggingEndLock: false,
     checkpoints: [],
@@ -142,9 +142,9 @@ $.extend(Controller, {
             numRows: numRows
         });
         View.generateGrid(function () {
-            Controller.setDefaultStartEndPos();
-            Controller.bindEvents();
-            Controller.transition(); // transit to the next state (ready)
+            Agent.setDefaultStartEndPos();
+            Agent.bindEvents();
+            Agent.transition(); // transit to the next state (ready)
 
         });
         Bot.init();
@@ -289,9 +289,9 @@ $.extend(Controller, {
         // The same reason applies for the `onreset` event handler.
         this.endstatus = 0;
         setTimeout(function () {
-            Controller.clearOperations();
-            Controller.clearFootprints();
-            Controller.start();
+            Agent.clearOperations();
+            Agent.clearFootprints();
+            Agent.start();
         }, View.nodeColorizeEffect.duration * 1.2);
         this.numbomb = 0;
         this.numice = 0;
@@ -361,9 +361,9 @@ $.extend(Controller, {
     onreset: function (event, from, to) {
         this.endstatus = 0;
         setTimeout(function () {
-            Controller.clearOperations();
-            Controller.clearAll();
-            Controller.buildNewGrid();
+            Agent.clearOperations();
+            Agent.clearAll();
+            Agent.buildNewGrid();
         }, View.nodeColorizeEffect.duration * 1.2);
         this.setButtonStates({
             id: 3,
@@ -461,9 +461,9 @@ $.extend(Controller, {
     onstartMaze: function (event, from, to) {
         this.endstatus = 0;
         var mazetype = this.mazetype;
-        Controller.clearOperations();
-        Controller.clearAll();
-        Controller.buildNewGrid();
+        Agent.clearOperations();
+        Agent.clearAll();
+        Agent.buildNewGrid();
         this.setButtonStates({
             id: 3,
             enabled: true,
@@ -605,10 +605,10 @@ $.extend(Controller, {
 
         var interval = 1000 / operationsPerSecond;
         (function loop() {
-            if (!Controller.is('searching')) {
+            if (!Agent.is('searching')) {
                 return;
             }
-            Controller.step();
+            Agent.step();
             setTimeout(loop, interval);
         })();
     },
@@ -867,9 +867,9 @@ $.extend(Controller, {
         }
     },
     mouseup: function (event) {
-        if (Controller.can('rest')) {
+        if (Agent.can('rest')) {
             var state = this.current;
-            Controller.rest();
+            Agent.rest();
             var coord = View.toGridCoordinate(event.pageX, event.pageY),
                 grid = this.grid,
                 gridX = coord[0],
@@ -910,7 +910,7 @@ $.extend(Controller, {
             //     optid = 0;
             // }
 
-            var $button = Controller.$buttons.eq(optid);
+            var $button = Agent.$buttons.eq(optid);
             if (opt.text) {
                 $button.text(opt.text);
             }
@@ -935,7 +935,7 @@ $.extend(Controller, {
 
             var optid = opt.id;
             console.log(opt)
-            var $button = Controller.$maze_buttons.eq(optid);
+            var $button = Agent.$maze_buttons.eq(optid);
             if (opt.text) {
                 $button.text(opt.text);
             }
@@ -960,7 +960,7 @@ $.extend(Controller, {
 
             var optid = opt.id;
             console.log(opt)
-            var $button = Controller.$obstacle_buttons.eq(optid - 1);
+            var $button = Agent.$obstacle_buttons.eq(optid - 1);
             if (opt.text) {
                 $button.text(opt.text);
             }
