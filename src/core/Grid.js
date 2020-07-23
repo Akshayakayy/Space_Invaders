@@ -46,7 +46,7 @@ function Grid(width_or_matrix, height, matrix) {
  *     the walkable status of the nodes.
  * @see Grid
  */
-Grid.prototype._buildNodes = function(width, height, matrix) {
+Grid.prototype._buildNodes = function (width, height, matrix) {
     var i, j,
         nodes = new Array(height);
 
@@ -80,7 +80,7 @@ Grid.prototype._buildNodes = function(width, height, matrix) {
 };
 
 
-Grid.prototype.getNodeAt = function(x, y) {
+Grid.prototype.getNodeAt = function (x, y) {
     return this.nodes[y][x];
 };
 
@@ -92,7 +92,7 @@ Grid.prototype.getNodeAt = function(x, y) {
  * @param {number} y - The y coordinate of the node.
  * @return {boolean} - The walkability of the node.
  */
-Grid.prototype.isWalkableAt = function(x, y) {
+Grid.prototype.isWalkableAt = function (x, y) {
     return this.isInside(x, y) && this.nodes[y][x].walkable;
 };
 
@@ -106,7 +106,7 @@ Grid.prototype.isWalkableAt = function(x, y) {
  * @param {number} y
  * @return {boolean}
  */
-Grid.prototype.isInside = function(x, y) {
+Grid.prototype.isInside = function (x, y) {
     return (x >= 0 && x < this.width) && (y >= 0 && y < this.height);
 };
 
@@ -118,7 +118,7 @@ Grid.prototype.isInside = function(x, y) {
  * @param {number} y - The y coordinate of the node.
  * @param {boolean} walkable - Whether the position is walkable.
  */
-Grid.prototype.setWalkableAt = function(x, y, walkable) {
+Grid.prototype.setWalkableAt = function (x, y, walkable) {
     this.nodes[y][x].walkable = walkable;
 };
 
@@ -141,14 +141,18 @@ Grid.prototype.setWalkableAt = function(x, y, walkable) {
  * @param {Node} node
  * @param {DiagonalMovement} diagonalMovement
  */
-Grid.prototype.getNeighbors = function(node, diagonalMovement) {
+Grid.prototype.getNeighbors = function (node, diagonalMovement) {
     var x = node.x,
         y = node.y,
         neighbors = [],
-        s0 = false, d0 = false,
-        s1 = false, d1 = false,
-        s2 = false, d2 = false,
-        s3 = false, d3 = false,
+        s0 = false,
+        d0 = false,
+        s1 = false,
+        d1 = false,
+        s2 = false,
+        d2 = false,
+        s3 = false,
+        d3 = false,
         nodes = this.nodes;
 
     // ↑
@@ -220,7 +224,7 @@ Grid.prototype.getNeighbors = function(node, diagonalMovement) {
  * Get a clone of this grid.
  * @return {Grid} Cloned grid.
  */
-Grid.prototype.clone = function() {
+Grid.prototype.clone = function () {
     var i, j,
 
         width = this.width,

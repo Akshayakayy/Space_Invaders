@@ -71,8 +71,6 @@ StairMaze.prototype.createMaze = function () {
 			x++;
 		}
 	}
-
-	console.log(this.mazeWalls);
 	return this.mazeWalls;
 }
 module.exports = StairMaze;

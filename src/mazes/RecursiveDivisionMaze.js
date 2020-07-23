@@ -68,7 +68,7 @@ RecDivMaze.prototype.divide = function (x, y, width, height, orientation) {
 					break;
 				}
 			}
-			if ((wallX == this.startX && wallY == this.startY) || (wallX == this.endX && wallY == this.endY) || (ind == -1)) {} else {
+			if ((wallX == this.startX && wallY == this.startY) || (wallX == this.endX && wallY == this.endY) || (ind == -1)) { } else {
 				this.mazeWalls.push({
 					x: wallX,
 					y: wallY
