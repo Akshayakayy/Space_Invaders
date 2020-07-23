@@ -1,0 +1,16 @@
+red {
+    color: crimson;
+}
+
+cyan {
+    color: cyan;
+}
+
+.device-mockup {
+    height: 480px;
+    width: 590px
+}
+
+.is-revealing {
+    width: 270px;
+}
