@@ -985,7 +985,6 @@ $.extend(Agent, {
                         if (this.endstatus == 1)
                             this.findPath(1)
                     }
-
                     break;
                 case 'draggingBomb':
                     this.grid.setWalkableAt(gridX, gridY, false);
