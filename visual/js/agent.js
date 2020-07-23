@@ -413,7 +413,6 @@ $.extend(Agent, {
 
         Bot.botState(8, this.checkPointsleft);
     },
-
     initmaze: function(mazetype) {
         this.mazetype = mazetype;
         this.startMaze();
@@ -658,7 +657,6 @@ $.extend(Agent, {
         View.clearPath();
 
     },
-
     clearCheckPoint: function(gridX, gridY) {
         const ind = this.checkpoints.findIndex(node =>
             node.x == gridX &&
@@ -974,6 +972,9 @@ $.extend(Agent, {
                     }
                     break;
                 case 'draggingIce':
+                    this.grid.setWalkableAt(gridX, gridY, false);
+                    this.grid.setWalkableAt(gridX - 1, gridY + 1, false);
+                    this.grid.setWalkableAt(gridX + 1, gridY + 1, false);
 
                     if (!grid.isWalkableAt(gridX, gridY) || !grid.isWalkableAt(gridX - 1, gridY + 1) || !grid.isWalkableAt(gridX + 1, gridY - 1) || this.isStartOrEndPos(gridX, gridY) || this.isStartOrEndPos(gridX, gridY) || this.isStartOrEndPos(gridX - 1, gridY + 1) || this.isStartOrEndPos(gridX + 1, gridY - 1)) {
                         if (this.endstatus == 1)
@@ -984,9 +985,6 @@ $.extend(Agent, {
                         if (this.endstatus == 1)
                             this.findPath(1)
                     }
-                    this.grid.setWalkableAt(gridX, gridY, false);
-                    this.grid.setWalkableAt(gridX - 1, gridY + 1, false);
-                    this.grid.setWalkableAt(gridX + 1, gridY + 1, false);
                     break;
                 case 'draggingBomb':
                     this.grid.setWalkableAt(gridX, gridY, false);
@@ -1153,6 +1151,8 @@ $.extend(Agent, {
         View.setPitPos(gridX, gridY);
 
     },
+
+
     setIcePos: function(gridX, gridY) {
         this.iceX = gridX;
         this.iceY = gridY;
@@ -1167,6 +1167,7 @@ $.extend(Agent, {
         View.setBombPos(gridX, gridY);
 
     },
+
     setWalkableAt: function(gridX, gridY, walkable, pit) {
         this.grid.setWalkableAt(gridX, gridY, walkable, pit);
         View.setAttributeAt(gridX, gridY, 'walkable', walkable, "wall");
