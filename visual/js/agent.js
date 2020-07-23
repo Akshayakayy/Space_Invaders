@@ -1218,7 +1218,7 @@ $.extend(Agent, {
         View.setCheckPoint(gridX, gridY, -1, -1, true)
     },
     setPitAt: function(gridX, gridY, walkable) {
-        if (this.numpit < 5) {
+        if (this.numpit < 1) {
             this.grid.setWalkableAt(gridX, gridY, walkable);
             View.setAttributeAt(gridX, gridY, 'walkable', walkable, "pit");
             this.setPitArea(gridX - 1, gridY, walkable);
@@ -1237,7 +1237,7 @@ $.extend(Agent, {
         View.setAttributeAt(gridX, gridY, 'walkable', walkable, "pitarea");
     },
     setIceAt: function(gridX, gridY, walkable) {
-        if (this.numice < 5) {
+        if (this.numice < 1) {
             this.grid.setWalkableAt(gridX, gridY, walkable);
             View.setAttributeAt(gridX, gridY, 'walkable', walkable, "ice");
             this.setIceArea(gridX - 1, gridY + 1, walkable);
@@ -1253,7 +1253,7 @@ $.extend(Agent, {
         View.setAttributeAt(gridX, gridY, 'walkable', walkable, "icearea");
     },
     setBombAt: function(gridX, gridY, walkable) {
-        if (this.numbomb < 5) {
+        if (this.numbomb < 1) {
             this.grid.setWalkableAt(gridX, gridY, walkable);
             View.setAttributeAt(gridX, gridY, 'walkable', walkable, "bomb");
             this.setBombArea(gridX - 1, gridY, walkable);
