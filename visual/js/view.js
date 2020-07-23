@@ -106,6 +106,7 @@ var View = {
     generateGrid: function (callback) {
         var i, j, x, y,
             rect,
+            rect,
             normalStyle, nodeSize,
             createRowTask, sleep, tasks,
             nodeSize = this.nodeSize,
@@ -155,11 +156,11 @@ var View = {
         var coord = this.toPageCoordinate(gridX, gridY);
         if (!this.startNode) {
             this.startNode = this.paper.rect(
-                coord[0],
-                coord[1],
-                this.nodeSize,
-                this.nodeSize
-            ).attr(this.nodeStyle.normal)
+                    coord[0],
+                    coord[1],
+                    this.nodeSize,
+                    this.nodeSize
+                ).attr(this.nodeStyle.normal)
                 .animate(this.nodeStyle.start, 1000);
         } else {
             this.startNode.attr({
@@ -177,11 +178,11 @@ var View = {
                     x: gridX,
                     y: gridY,
                     paper_el: this.paper.rect(
-                        coord[0],
-                        coord[1],
-                        this.nodeSize,
-                        this.nodeSize
-                    ).attr(this.nodeStyle.checkpoint)
+                            coord[0],
+                            coord[1],
+                            this.nodeSize,
+                            this.nodeSize
+                        ).attr(this.nodeStyle.checkpoint)
                         .animate(this.nodeStyle.checkpoint, 1000)
                 })
             } else {
@@ -196,41 +197,242 @@ var View = {
         } else {
             if (this.checkpoint.findIndex(node => node.x == gridX && node.y == gridY) != -1) {
                 checkindex = this.checkpoint.findIndex(node => node.x == gridX && node.y == gridY);
-                console.log("Check", checkindex, this.rects[gridY][gridX])
-                node = this.rects[gridY][gridX].clone()
-                this.rects[gridY][gridX].remove()
-                node.attr(this.nodeStyle.normal)
-                this.rects[gridY][gridX] = node
+                console.log("Check", checkindex, this.rects[gridY][gridX]);
+                node = this.rects[gridY][gridX].clone();
+                this.rects[gridY][gridX].remove();
+                node.attr(this.nodeStyle.normal);
+                this.rects[gridY][gridX] = node;
                 this.checkpoint.splice(checkindex, 1);
             }
         }
     },
     setPitPos: function (gridX, gridY) {
         var coord = this.toPageCoordinate(gridX, gridY);
+        var m2coord = this.toPageCoordinate(gridX - 2, gridY);
+        var m1coord = this.toPageCoordinate(gridX - 1, gridY);
+        var a2coord = this.toPageCoordinate(gridX + 2, gridY);
+        var a1coord = this.toPageCoordinate(gridX + 1, gridY);
+        console.log(this.pitNode);
         if (!this.pitNode) {
+            console.log(this.blockedNodes[gridY][gridX])
             this.pitNode = this.paper.rect(
-                coord[0],
-                coord[1],
-                this.nodeSize,
-                this.nodeSize
-            ).attr(this.nodeStyle.normal)
-                .animate(this.nodeStyle.start, 1000);
+                    coord[0],
+                    coord[1],
+                    this.nodeSize,
+                    this.nodeSize
+                ).attr(this.nodeStyle.normal)
+                .animate(this.nodeStyle.pitnode, 1000);
         } else {
+
             this.pitNode.attr({
                 x: coord[0],
                 y: coord[1]
             }).toFront();
+
+        }
+        if (!this.pitm2Node) {
+            console.log(this.blockedNodes[gridY][gridX])
+            this.pitm2Node = this.paper.rect(
+                    m2coord[0],
+                    m2coord[1],
+                    this.nodeSize,
+                    this.nodeSize
+                ).attr(this.nodeStyle.normal)
+                .animate(this.nodeStyle.pitarea, 1000);
+        } else {
+            this.pitm2Node.attr({
+                x: m2coord[0],
+                y: m2coord[1]
+            }).toFront();
+        }
+        if (!this.pitm1Node) {
+            console.log(this.blockedNodes[gridY][gridX])
+            this.pitm1Node = this.paper.rect(
+                    m1coord[0],
+                    m1coord[1],
+                    this.nodeSize,
+                    this.nodeSize
+                ).attr(this.nodeStyle.normal)
+                .animate(this.nodeStyle.pitarea, 1000);
+        } else {
+            this.pitm1Node.attr({
+                x: m1coord[0],
+                y: m1coord[1]
+            }).toFront();
+        }
+        if (!this.pita1Node) {
+            console.log(this.blockedNodes[gridY][gridX])
+            this.pita1Node = this.paper.rect(
+                    a1coord[0],
+                    a1coord[1],
+                    this.nodeSize,
+                    this.nodeSize
+                ).attr(this.nodeStyle.normal)
+                .animate(this.nodeStyle.pitarea, 1000);
+        } else {
+            this.pita1Node.attr({
+                x: a1coord[0],
+                y: a1coord[1]
+            }).toFront();
+        }
+        if (!this.pita2Node) {
+            console.log(this.blockedNodes[gridY][gridX])
+            this.pita2Node = this.paper.rect(
+                    a2coord[0],
+                    a1coord[1],
+                    this.nodeSize,
+                    this.nodeSize
+                ).attr(this.nodeStyle.normal)
+                .animate(this.nodeStyle.pitarea, 1000);
+        } else {
+            this.pita2Node.attr({
+                x: a2coord[0],
+                y: a2coord[1]
+            }).toFront();
+        }
+
+    },
+    setIcePos: function (gridX, gridY) {
+        var coord = this.toPageCoordinate(gridX, gridY);
+        var d1coord = this.toPageCoordinate(gridX - 1, gridY + 1);
+        var d2coord = this.toPageCoordinate(gridX + 1, gridY + 1);
+        console.log(this.iceNode);
+        if (!this.iceNode) {
+
+            this.iceNode = this.paper.rect(
+                    coord[0],
+                    coord[1],
+                    this.nodeSize,
+                    this.nodeSize
+                ).attr(this.nodeStyle.normal)
+                .animate(this.nodeStyle.icenode, 1000);
+        } else {
+            this.iceNode.attr({
+                x: coord[0],
+                y: coord[1]
+            }).toFront();
+        }
+        if (!this.iced1Node) {
+
+            this.iced1Node = this.paper.rect(
+                    d1coord[0],
+                    d1coord[1],
+                    this.nodeSize,
+                    this.nodeSize
+                ).attr(this.nodeStyle.normal)
+                .animate(this.nodeStyle.icearea, 1000);
+        } else {
+            this.iced1Node.attr({
+                x: d1coord[0],
+                y: d1coord[1]
+            }).toFront();
+        }
+        if (!this.iced2Node) {
+
+            this.iced2Node = this.paper.rect(
+                    d2coord[0],
+                    d2coord[1],
+                    this.nodeSize,
+                    this.nodeSize
+                ).attr(this.nodeStyle.normal)
+                .animate(this.nodeStyle.icearea, 1000);
+        } else {
+            this.iced2Node.attr({
+                x: d2coord[0],
+                y: d2coord[1]
+            }).toFront();
         }
     },
+    setBombPos: function (gridX, gridY) {
+        var coord = this.toPageCoordinate(gridX, gridY);
+        var lcoord = this.toPageCoordinate(gridX - 1, gridY);
+        var rcoord = this.toPageCoordinate(gridX + 1, gridY);
+        var dcoord = this.toPageCoordinate(gridX, gridY - 1);
+        var ucoord = this.toPageCoordinate(gridX, gridY + 1);
+
+        if (!this.bombNode) {
+            this.bombNode = this.paper.rect(
+                    coord[0],
+                    coord[1],
+                    this.nodeSize,
+                    this.nodeSize
+                ).attr(this.nodeStyle.normal)
+                .animate(this.nodeStyle.bombnode, 1000);
+        } else {
+            this.bombNode.attr({
+                x: coord[0],
+                y: coord[1]
+            }).toFront();
+        }
+        if (!this.bomblNode) {
+            this.bomblNode = this.paper.rect(
+                    lcoord[0],
+                    lcoord[1],
+                    this.nodeSize,
+                    this.nodeSize
+                ).attr(this.nodeStyle.normal)
+                .animate(this.nodeStyle.bombarea, 1000);
+        } else {
+            this.bomblNode.attr({
+                x: lcoord[0],
+                y: lcoord[1]
+            }).toFront();
+        }
+        if (!this.bombrNode) {
+            this.bombrNode = this.paper.rect(
+                    rcoord[0],
+                    rcoord[1],
+                    this.nodeSize,
+                    this.nodeSize
+                ).attr(this.nodeStyle.normal)
+                .animate(this.nodeStyle.bombarea, 1000);
+        } else {
+            this.bombrNode.attr({
+                x: rcoord[0],
+                y: rcoord[1]
+            }).toFront();
+        }
+        if (!this.bombuNode) {
+            this.bombuNode = this.paper.rect(
+                    ucoord[0],
+                    ucoord[1],
+                    this.nodeSize,
+                    this.nodeSize
+                ).attr(this.nodeStyle.normal)
+                .animate(this.nodeStyle.bombarea, 1000);
+        } else {
+            this.bombuNode.attr({
+                x: ucoord[0],
+                y: ucoord[1]
+            }).toFront();
+        }
+        if (!this.bombdNode) {
+            this.bombdNode = this.paper.rect(
+                    dcoord[0],
+                    dcoord[1],
+                    this.nodeSize,
+                    this.nodeSize
+                ).attr(this.nodeStyle.normal)
+                .animate(this.nodeStyle.bombarea, 1000);
+        } else {
+            this.bombdNode.attr({
+                x: dcoord[0],
+                y: dcoord[1]
+            }).toFront();
+        }
+    },
+
+
+
     setEndPos: function (gridX, gridY) {
         var coord = this.toPageCoordinate(gridX, gridY);
         if (!this.endNode) {
             this.endNode = this.paper.rect(
-                coord[0],
-                coord[1],
-                this.nodeSize,
-                this.nodeSize
-            ).attr(this.nodeStyle.normal)
+                    coord[0],
+                    coord[1],
+                    this.nodeSize,
+                    this.nodeSize
+                ).attr(this.nodeStyle.normal)
                 .animate(this.nodeStyle.end, 1000);
         } else {
             this.endNode.attr({
@@ -280,6 +482,84 @@ var View = {
             transform: this.nodeZoomEffect.transformBack,
         }, this.nodeZoomEffect.duration);
     },
+    clearallpit: function () {
+
+        if (this.pitNode != null) {
+            this.pitNode.remove();
+            this.pitNode = null;
+
+        }
+        if (this.pitm1Node != null) {
+            this.pitm1Node.remove();
+            this.pitm1Node = null;
+
+        }
+        if (this.pitm2Node != null) {
+            this.pitm2Node.remove();
+            this.pitm2Node = null;
+
+        }
+        if (this.pita1Node != null) {
+            this.pita1Node.remove();
+            this.pita1Node = null;
+
+        }
+        if (this.pita2Node != null) {
+            this.pita2Node.remove();
+            this.pita2Node = null;
+
+        }
+    },
+    clearallice: function () {
+
+        if (this.iceNode != null) {
+            this.iceNode.remove();
+            this.iceNode = null;
+
+        }
+        if (this.iced1Node != null) {
+            this.iced1Node.remove();
+            this.iced1Node = null;
+
+        }
+        if (this.iced2Node != null) {
+            this.iced2Node.remove();
+            this.iced2Node = null;
+        }
+
+
+    },
+    clearallbomb: function () {
+
+        if (this.bombNode != null) {
+            this.bombNode.remove();
+            this.bombNode = null;
+
+        }
+        if (this.bombuNode != null) {
+            this.bombuNode.remove();
+            this.bombuNode = null;
+
+        }
+        if (this.bombdNode != null) {
+            this.bombdNode.remove();
+            this.bombdNode = null;
+
+        }
+        if (this.bomblNode != null) {
+            this.bomblNode.remove();
+            this.bomblNode = null;
+
+        }
+        if (this.bombrNode != null) {
+            this.bombrNode.remove();
+            this.bombrNode = null;
+
+        }
+    },
+
+
+
     setWalkableAt: function (gridX, gridY, value, ob) {
         var node, i, blockedNodes = this.blockedNodes;
         if (!blockedNodes) {
@@ -443,8 +723,8 @@ var View = {
             timer: 10000,
             timerProgressBar: true,
             onOpen: (to) => {
-                to.addEventListener('mouseenter', Swal.stopTimer)
-                to.addEventListener('mouseleave', Swal.resumeTimer)
+                to.addEventListener('mouseenter', Swal.stopTimer);
+                to.addEventListener('mouseleave', Swal.resumeTimer);
             }
         })
         Toast.fire({
