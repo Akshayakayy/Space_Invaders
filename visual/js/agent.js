@@ -413,7 +413,6 @@ $.extend(Agent, {
 
         Bot.botState(8, this.checkPointsleft);
     },
-
     initmaze: function(mazetype) {
         this.mazetype = mazetype;
         this.startMaze();
@@ -658,7 +657,6 @@ $.extend(Agent, {
         View.clearPath();
 
     },
-
     clearCheckPoint: function(gridX, gridY) {
         const ind = this.checkpoints.findIndex(node =>
             node.x == gridX &&
@@ -1153,6 +1151,7 @@ $.extend(Agent, {
         View.setPitPos(gridX, gridY);
 
     },
+
     setIcePos: function(gridX, gridY) {
         this.iceX = gridX;
         this.iceY = gridY;
@@ -1167,6 +1166,7 @@ $.extend(Agent, {
         View.setBombPos(gridX, gridY);
 
     },
+
     setWalkableAt: function(gridX, gridY, walkable, pit) {
         this.grid.setWalkableAt(gridX, gridY, walkable, pit);
         View.setAttributeAt(gridX, gridY, 'walkable', walkable, "wall");
