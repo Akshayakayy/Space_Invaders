@@ -32,8 +32,8 @@ RandomMaze.prototype.createMaze = function () {
 	while (x < this.xlim) {
 		while (y < this.ylim) {
 			var ind = 0;
-			for (let i=0;i<this.checkpoints.length;i++){
-				if (this.checkpoints[i].x==x && this.checkpoints[i].y==y){
+			for (let i = 0; i < this.checkpoints.length; i++) {
+				if (this.checkpoints[i].x == x && this.checkpoints[i].y == y) {
 					ind = -1;
 					break;
 				}

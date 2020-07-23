@@ -13,7 +13,7 @@ var Panel = {
         $('.option_label').click(function () {
             $(this).prev().click();
         });
-        $('#hide_bot').click(function() {
+        $('#hide_bot').click(function () {
             botpan.style.visibility = 'hidden';
             botmsg.style.visibility = 'hidden';
         });

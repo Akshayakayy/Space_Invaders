@@ -7,111 +7,111 @@
 var Agent = StateMachine.create({
     initial: 'none',
     events: [{
-            name: 'init',
-            from: 'none',
-            to: 'ready'
-        },
-        {
-            name: 'search',
-            from: 'starting',
-            to: 'searching'
-        },
-        {
-            name: 'pause',
-            from: 'searching',
-            to: 'paused'
-        },
-        {
-            name: 'finish',
-            from: 'searching',
-            to: 'finished'
-        },
-        {
-            name: 'resume',
-            from: 'paused',
-            to: 'searching'
-        },
-        {
-            name: 'cancel',
-            from: 'paused',
-            to: 'ready'
-        },
-        {
-            name: 'modify',
-            from: 'finished',
-            to: 'modified'
-        },
-        {
-            name: 'reset',
-            from: '*',
-            to: 'ready'
-        },
-        {
-            name: 'clear',
-            from: ['finished', 'modified'],
-            to: 'ready'
-        },
-        {
-            name: 'start',
-            from: ['ready', 'modified', 'restarting'],
-            to: 'starting'
-        },
-        {
-            name: 'restart',
-            from: ['searching', 'finished'],
-            to: 'restarting'
-        },
-        {
-            name: 'dragStart',
-            from: ['ready', 'finished'],
-            to: 'draggingStart'
-        },
-        {
-            name: 'dragEnd',
-            from: ['ready', 'finished'],
-            to: 'draggingEnd'
-        },
-        {
-            name: 'dragCheckpoint',
-            from: ['ready', 'finished'],
-            to: 'draggingCheckpoint'
-        },
+        name: 'init',
+        from: 'none',
+        to: 'ready'
+    },
+    {
+        name: 'search',
+        from: 'starting',
+        to: 'searching'
+    },
+    {
+        name: 'pause',
+        from: 'searching',
+        to: 'paused'
+    },
+    {
+        name: 'finish',
+        from: 'searching',
+        to: 'finished'
+    },
+    {
+        name: 'resume',
+        from: 'paused',
+        to: 'searching'
+    },
+    {
+        name: 'cancel',
+        from: 'paused',
+        to: 'ready'
+    },
+    {
+        name: 'modify',
+        from: 'finished',
+        to: 'modified'
+    },
+    {
+        name: 'reset',
+        from: '*',
+        to: 'ready'
+    },
+    {
+        name: 'clear',
+        from: ['finished', 'modified'],
+        to: 'ready'
+    },
+    {
+        name: 'start',
+        from: ['ready', 'modified', 'restarting'],
+        to: 'starting'
+    },
+    {
+        name: 'restart',
+        from: ['searching', 'finished'],
+        to: 'restarting'
+    },
+    {
+        name: 'dragStart',
+        from: ['ready', 'finished'],
+        to: 'draggingStart'
+    },
+    {
+        name: 'dragEnd',
+        from: ['ready', 'finished'],
+        to: 'draggingEnd'
+    },
+    {
+        name: 'dragCheckpoint',
+        from: ['ready', 'finished'],
+        to: 'draggingCheckpoint'
+    },
 
-        {
-            name: 'drawWall',
-            from: ['ready', 'finished'],
-            to: 'drawingWall'
-        },
-        {
-            name: 'eraseWall',
-            from: ['ready', 'finished'],
-            to: 'erasingWall'
-        },
-        {
-            name: 'addPit',
-            from: ['ready', 'finished'],
-            to: 'addingPit'
-        },
-        {
-            name: 'addBomb',
-            from: ['ready', 'finished'],
-            to: 'addingBomb'
-        },
-        {
-            name: 'addIce',
-            from: ['ready', 'finished'],
-            to: 'addingIce'
-        },
-        {
-            name: 'rest',
-            from: ['draggingStart', 'draggingEnd', 'drawingWall', 'erasingWall', 'addingPit', 'addingIce', 'addingBomb', 'draggingCheckpoint'],
-            to: 'ready'
-        },
-        {
-            name: 'startMaze',
-            from:  ['ready', 'finished'],
-            to: 'ready'
-        }
+    {
+        name: 'drawWall',
+        from: ['ready', 'finished'],
+        to: 'drawingWall'
+    },
+    {
+        name: 'eraseWall',
+        from: ['ready', 'finished'],
+        to: 'erasingWall'
+    },
+    {
+        name: 'addPit',
+        from: ['ready', 'finished'],
+        to: 'addingPit'
+    },
+    {
+        name: 'addBomb',
+        from: ['ready', 'finished'],
+        to: 'addingBomb'
+    },
+    {
+        name: 'addIce',
+        from: ['ready', 'finished'],
+        to: 'addingIce'
+    },
+    {
+        name: 'rest',
+        from: ['draggingStart', 'draggingEnd', 'drawingWall', 'erasingWall', 'addingPit', 'addingIce', 'addingBomb', 'draggingCheckpoint'],
+        to: 'ready'
+    },
+    {
+        name: 'startMaze',
+        from: ['ready', 'finished'],
+        to: 'ready'
+    }
     ],
 });
 
@@ -280,7 +280,7 @@ $.extend(Agent, {
         // => searching
         Bot.botState(0);
     },
-    
+
     onrestart: function () {
         // When clearing the colorized nodes, there may be
         // nodes still animating, which is an asynchronous procedure.
@@ -326,9 +326,9 @@ $.extend(Agent, {
                 operationCount: this.operationCount,
             });
             View.drawPath(this.path);
-            
-            var botpan=document.getElementById('bot_panel');
-            var botmsg=document.getElementById('bot_msg');
+
+            var botpan = document.getElementById('bot_panel');
+            var botmsg = document.getElementById('bot_msg');
             Bot.botState(5);
             // msgid = 1;
             // msgs += 1;
@@ -391,7 +391,7 @@ $.extend(Agent, {
         if (this.endstatus == 1)
             this.findPath(1);
 
-        Bot.botState(8,this.checkPointsleft);
+        Bot.botState(8, this.checkPointsleft);
     },
     initmaze: function (mazetype) {
         this.mazetype = mazetype;
@@ -668,21 +668,21 @@ $.extend(Agent, {
             this.clearCheckPoint(gridX, gridY);
             this.checkPointsleft++;
 
-            Bot.botState(9,this.checkPointsleft);
+            Bot.botState(9, this.checkPointsleft);
             return;
-        
-        } else if (event.ctrlKey && this.endstatus==1) {
+
+        } else if (event.ctrlKey && this.endstatus == 1) {
             if (!this.isStartOrEndPos(gridX, gridY) && grid.isWalkableAt(gridX, gridY) && this.checkPointsleft > 0) {
                 this.setCheckPoint(gridX, gridY, true);
                 this.checkPointsleft--;
                 this.findPath(1);
-                Bot.botState(10,this.checkPointsleft);
-            } 
+                Bot.botState(10, this.checkPointsleft);
+            }
         } else if (event.ctrlKey) {
             if (!this.isStartOrEndPos(gridX, gridY) && grid.isWalkableAt(gridX, gridY) && this.checkPointsleft > 0) {
                 this.setCheckPoint(gridX, gridY, true);
                 this.checkPointsleft--;
-                Bot.botState(10,this.checkPointsleft);
+                Bot.botState(10, this.checkPointsleft);
             }
         } else {
             if (this.can('dragStart') && this.isStartPos(gridX, gridY)) {
@@ -848,14 +848,14 @@ $.extend(Agent, {
                     }
                 }
                 break;
-                // case 'draggingPit':
-                //     if (grid.isWalkableAt(gridX, gridY)) {
-                //         this.mousemoveflag = 1
-                //         this.setPitPos(gridX, gridY);
-                //         if (this.endstatus == 1)
-                //             this.findPath(0)
-                //     }
-                //     break;
+            // case 'draggingPit':
+            //     if (grid.isWalkableAt(gridX, gridY)) {
+            //         this.mousemoveflag = 1
+            //         this.setPitPos(gridX, gridY);
+            //         if (this.endstatus == 1)
+            //             this.findPath(0)
+            //     }
+            //     break;
             case 'drawingWall':
                 this.setWalkableAt(gridX, gridY, false, "wall");
                 break;
@@ -884,7 +884,7 @@ $.extend(Agent, {
                 gridY = coord[1];
             switch (state) {
                 case 'draggingStart':
-                    if (!grid.isWalkableAt(gridX,gridY)){
+                    if (!grid.isWalkableAt(gridX, gridY)) {
                         if (this.endstatus == 1)
                             this.findPath(1)
                     }
@@ -895,7 +895,7 @@ $.extend(Agent, {
                     }
                     break;
                 case 'draggingEnd':
-                    if (!grid.isWalkableAt(gridX,gridY)){
+                    if (!grid.isWalkableAt(gridX, gridY)) {
                         if (this.endstatus == 1)
                             this.findPath(1)
                     }
@@ -906,7 +906,7 @@ $.extend(Agent, {
                     }
                     break;
                 case 'draggingCheckpoint':
-                    if (!grid.isWalkableAt(gridX,gridY)){
+                    if (!grid.isWalkableAt(gridX, gridY)) {
                         if (this.endstatus == 1)
                             this.findPath(1)
                     }
