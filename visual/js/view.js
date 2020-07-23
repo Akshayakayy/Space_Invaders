@@ -106,6 +106,7 @@ var View = {
     generateGrid: function(callback) {
         var i, j, x, y,
             rect,
+            rect,
             normalStyle, nodeSize,
             createRowTask, sleep, tasks,
             nodeSize = this.nodeSize,
