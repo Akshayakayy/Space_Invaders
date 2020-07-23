@@ -972,6 +972,9 @@ $.extend(Agent, {
                     }
                     break;
                 case 'draggingIce':
+                    this.grid.setWalkableAt(gridX, gridY, false);
+                    this.grid.setWalkableAt(gridX - 1, gridY + 1, false);
+                    this.grid.setWalkableAt(gridX + 1, gridY + 1, false);
 
                     if (!grid.isWalkableAt(gridX, gridY) || !grid.isWalkableAt(gridX - 1, gridY + 1) || !grid.isWalkableAt(gridX + 1, gridY - 1) || this.isStartOrEndPos(gridX, gridY) || this.isStartOrEndPos(gridX, gridY) || this.isStartOrEndPos(gridX - 1, gridY + 1) || this.isStartOrEndPos(gridX + 1, gridY - 1)) {
                         if (this.endstatus == 1)
@@ -982,9 +985,7 @@ $.extend(Agent, {
                         if (this.endstatus == 1)
                             this.findPath(1)
                     }
-                    this.grid.setWalkableAt(gridX, gridY, false);
-                    this.grid.setWalkableAt(gridX - 1, gridY + 1, false);
-                    this.grid.setWalkableAt(gridX + 1, gridY + 1, false);
+
                     break;
                 case 'draggingBomb':
                     this.grid.setWalkableAt(gridX, gridY, false);
@@ -1151,6 +1152,7 @@ $.extend(Agent, {
         View.setPitPos(gridX, gridY);
 
     },
+
 
     setIcePos: function(gridX, gridY) {
         this.iceX = gridX;
