@@ -2,10 +2,12 @@
  * Backtrace according to the parent records and return the path.
  * (including both start and end nodes)
  * @param {Node} node End node
- * @return {Array<Array<number>>} the path
+ * @return {Object} it returns an object res where res.path is the path and res.operations are the operations
  */
 function backtrace(node, operations) {
-    var path = [[node.x, node.y]];
+    var path = [
+        [node.x, node.y]
+    ];
     while (node.parent) {
         node = node.parent;
         path.push([node.x, node.y]);
@@ -23,12 +25,11 @@ exports.backtrace = backtrace;
  * (including both start and end nodes)
  * @param {Node}
  * @param {Node}
+ * @return {Object} it returns an object res where res.path is the path and res.operations are the operations
  */
 function biBacktrace(nodeA, nodeB, operations) {
-    // console.log(nodeA, nodeB)
     var pathA = backtrace(nodeA),
         pathB = backtrace(nodeB);
-    // console.log(pathA['path'], pathB['path'].reverse())
     res = {
         'path': pathA['path'].concat(pathB['path'].reverse()),
         'operations': operations
@@ -43,7 +44,8 @@ exports.biBacktrace = biBacktrace;
  * @return {number} The length of the path
  */
 function pathLength(path) {
-    var i, sum = 0, a, b, dx, dy;
+    var i, sum = 0,
+        a, b, dx, dy;
     for (i = 1; i < path.length; ++i) {
         a = path[i - 1];
         b = path[i];
@@ -85,7 +87,7 @@ function interpolate(x0, y0, x1, y1) {
         if (x0 === x1 && y0 === y1) {
             break;
         }
-        
+
         e2 = 2 * err;
         if (e2 > -dy) {
             err = err - dy;
@@ -145,18 +147,20 @@ exports.expandPath = expandPath;
  */
 function smoothenPath(grid, path) {
     var len = path.length,
-        x0 = path[0][0],        // path start x
-        y0 = path[0][1],        // path start y
-        x1 = path[len - 1][0],  // path end x
-        y1 = path[len - 1][1],  // path end y
-        sx, sy,                 // current start coordinate
-        ex, ey,                 // current end coordinate
+        x0 = path[0][0], // path start x
+        y0 = path[0][1], // path start y
+        x1 = path[len - 1][0], // path end x
+        y1 = path[len - 1][1], // path end y
+        sx, sy, // current start coordinate
+        ex, ey, // current end coordinate
         newPath,
         i, j, coord, line, testCoord, blocked;
 
     sx = x0;
     sy = y0;
-    newPath = [[sx, sy]];
+    newPath = [
+        [sx, sy]
+    ];
 
     for (i = 2; i < len; ++i) {
         coord = path[i];
@@ -196,7 +200,7 @@ exports.smoothenPath = smoothenPath;
 function compressPath(path) {
 
     // nothing to compress
-    if(path.length < 3) {
+    if (path.length < 3) {
         return path;
     }
 
@@ -212,14 +216,14 @@ function compressPath(path) {
         sq, i;
 
     // normalize the direction
-    sq = Math.sqrt(dx*dx + dy*dy);
+    sq = Math.sqrt(dx * dx + dy * dy);
     dx /= sq;
     dy /= sq;
 
     // start the new path
-    compressed.push([sx,sy]);
+    compressed.push([sx, sy]);
 
-    for(i = 2; i < path.length; i++) {
+    for (i = 2; i < path.length; i++) {
 
         // store the last point
         lx = px;
@@ -238,18 +242,18 @@ function compressPath(path) {
         dy = py - ly;
 
         // normalize
-        sq = Math.sqrt(dx*dx + dy*dy);
+        sq = Math.sqrt(dx * dx + dy * dy);
         dx /= sq;
         dy /= sq;
 
         // if the direction has changed, store the point
-        if ( dx !== ldx || dy !== ldy ) {
-            compressed.push([lx,ly]);
+        if (dx !== ldx || dy !== ldy) {
+            compressed.push([lx, ly]);
         }
     }
 
     // store the last point
-    compressed.push([px,py]);
+    compressed.push([px, py]);
 
     return compressed;
 }

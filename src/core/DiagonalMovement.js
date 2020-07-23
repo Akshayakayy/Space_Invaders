@@ -1,3 +1,6 @@
+/**
+ * This object is used to determine the behaviout of the diagonal movement of the path finding algorithm
+ */
 var DiagonalMovement = {
     Always: 1,
     Never: 2,

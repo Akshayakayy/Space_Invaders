@@ -10,7 +10,7 @@ module.exports = {
      * @param {number} dy - Difference in y.
      * @return {number} dx + dy
      */
-    manhattan: function(dx, dy) {
+    manhattan: function (dx, dy) {
         return dx + dy;
     },
     /**
@@ -19,7 +19,7 @@ module.exports = {
      * @param {number} dy - Difference in y.
      * @return {number} (dx + dy)^2
      */
-    poweredManhattan: function(dx, dy) {
+    poweredManhattan: function (dx, dy) {
         return Math.pow((dx + dy), 2);
     },
 
@@ -29,7 +29,7 @@ module.exports = {
      * @param {number} dy - Difference in y.
      * @return {number} (dx + dy)^10
      */
-    extrapoweredManhattan: function(dx, dy) {
+    extrapoweredManhattan: function (dx, dy) {
         return Math.pow((dx + dy), 10);
     },
 
@@ -40,7 +40,7 @@ module.exports = {
      * @param {number} dy - Difference in y.
      * @return {number} sqrt(dx * dx + dy * dy)
      */
-    euclidean: function(dx, dy) {
+    euclidean: function (dx, dy) {
         return Math.sqrt(dx * dx + dy * dy);
     },
 
@@ -50,7 +50,7 @@ module.exports = {
      * @param {number} dy - Difference in y.
      * @return {number} sqrt(dx * dx + dy * dy) for grids
      */
-    octile: function(dx, dy) {
+    octile: function (dx, dy) {
         var F = Math.SQRT2 - 1;
         return (dx < dy) ? F * dx + dy : F * dy + dx;
     },
@@ -61,7 +61,7 @@ module.exports = {
      * @param {number} dy - Difference in y.
      * @return {number} max(dx, dy)
      */
-    chebyshev: function(dx, dy) {
+    chebyshev: function (dx, dy) {
         return Math.max(dx, dy);
     }
 
