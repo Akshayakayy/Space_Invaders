@@ -160,16 +160,6 @@ var View = {
         var coord = this.toPageCoordinate(gridX, gridY);
         console.log(this.checkpoint)
         if (value) {
-            gridX = this.centerX;
-            // gridY = this.centerY - 1;
-
-            // if (this.checkbefdrag(gridX, gridY) && this.checkbefdrag(gridX - 1, gridY + 1) && this.checkbefdrag(gridX + 1, gridY + 1)) {
-            //     this.setIceAt(this.centerX, this.centerY - 1, false);
-            // } else {
-            //     this.clearposice(this.centerX, this.centerY - 1);
-            //     console.log("now setting ice")
-            //     this.setIceAt(this.centerX, this.centerY - 1, false);
-            // }
             if (this.checkpoint.findIndex(node => node.x == oldX && node.y == oldY) == -1) {
                 this.checkpoint.push({
                     x: gridX,
