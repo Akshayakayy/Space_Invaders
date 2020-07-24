@@ -166,9 +166,7 @@ $.extend(Agent, {
         this.$buttons = $('.control_button');
         this.$maze_buttons = $('.maze_button');
         this.$obstacle_buttons = $('.obstacle_button');
-        console.log(this.$maze_buttons)
-            // this.hookPathFinding();
-
+        console.log(this.$maze_buttons);
         return StateMachine.ASYNC;
         // => ready
     },
@@ -290,7 +288,6 @@ $.extend(Agent, {
             timeEnd = window.performance ? performance.now() : Date.now();
             this.timeSpent = (timeEnd - timeStart).toFixed(4);
             this.loop();
-            // break;
         }
         console.log(this.current)
         if (!this.pathfound)
@@ -348,19 +345,6 @@ $.extend(Agent, {
             var botpan = document.getElementById('bot_panel');
             var botmsg = document.getElementById('bot_msg');
             Bot.botState(5);
-            // msgid = 1;
-            // msgs += 1;
-            // botmsg.innerHTML = 'Congratulations! Base Found!<br><br> Try moving the rover/ base to render path in real time!<br><br> Try adding checkpoints (Ctrl+Click) and obstacles as well';
-            // botpan.style.visibility = 'visible';
-            // botmsg.style.visibility = 'visible';
-
-            // setTimeout(function() {
-            //     if((botmsg.innerHTML == 'Congratulations! Base Found!<br><br> Try moving the rover/ base to render path in real time!<br><br> Try adding checkpoints (Ctrl+Click) as well') && (msgs==msgid)) {
-            //         botpan.style.visibility = 'hidden';
-            //         botmsg.style.visibility = 'hidden';
-            //         }
-            //     msgs -= 1;
-            //   },10000)
         }
         this.endstatus = 1;
         this.path = [];
@@ -399,21 +383,8 @@ $.extend(Agent, {
     /**
      * The following functions are called on entering states.
      */
-    clearAllCheckPoints: function() {
-        console.log("Clearing all checkpoints!");
-        for (let i = 0; i < this.checkpoints.length; i++)
-            View.setCheckPoint(this.checkpoints[i].x, this.checkpoints[i].y, -1, -1, false);
-        // this.setWalkableAt(this.checkpoints[i].x, this.checkpoints[i].y, true, "wall");
-        this.checkpoints.splice(0, this.checkpoints.length);
-        console.log("leftover checkpoints:", this.checkpoints);
-        this.checkPointsleft = 4;
-        this.currCheckpoint = -1;
-        if (this.endstatus == 1)
-            this.findPath(1);
 
-        Bot.botState(8, this.checkPointsleft);
-    },
-    initmaze: function(mazetype) {
+    initmaze: function (mazetype) {
         this.mazetype = mazetype;
         this.startMaze();
     },
@@ -437,7 +408,7 @@ $.extend(Agent, {
             id: 3,
             text: 'Clear checkpoints',
             enabled: true,
-            callback: $.proxy(this.clearAllCheckPoints, this),
+            callback: $.proxy(this.clearCheckPoint, this, 1), 
         });
         this.setButtonStatesMaze({
             id: 0,
@@ -608,10 +579,7 @@ $.extend(Agent, {
      * Define setters and getters of PF.Node, then we can get the operations
      * of the pathfinding.
      */
-    hookPathFinding: function() {
-        this.operations = [];
-    },
-    bindEvents: function() {
+    bindEvents: function () {
         $('#draw_area').mousedown($.proxy(this.mousedown, this));
         $(window)
             .mousemove($.proxy(this.mousemove, this))
@@ -657,18 +625,25 @@ $.extend(Agent, {
         View.clearPath();
 
     },
-    clearCheckPoint: function(gridX, gridY) {
-        const ind = this.checkpoints.findIndex(node =>
-            node.x == gridX &&
-            node.y == gridY
-        );
-        console.log(ind);
-        if (ind != -1) {
-            this.checkpoints.splice(ind, 1);
+    clearCheckPoint: function (clearNumber, gridX = 0, gridY = 0) {
+        if (clearNumber == 0) {
+            const ind = this.checkpoints.findIndex(node =>
+                node.x == gridX &&
+                node.y == gridY
+            );
+            if (ind != -1) {
+                this.checkpoints.splice(ind, 1);
+                this.grid.setWalkableAt(gridX, gridY, true, "");
+                View.setCheckPoint(gridX, gridY, -1, -1, false);
+            }
+        } else {
+            for (let i = 0; i < this.checkpoints.length; i++)
+                View.setCheckPoint(this.checkpoints[i].x, this.checkpoints[i].y, -1, -1, false);
+            this.checkpoints.splice(0, this.checkpoints.length);
+            this.checkPointsleft = 4;
+            Bot.botState(8, this.checkPointsleft);
         }
         this.currCheckpoint = -1;
-        this.grid.setWalkableAt(gridX, gridY, true, "");
-        View.setCheckPoint(gridX, gridY, -1, -1, false);
         if (this.endstatus == 1)
             this.findPath(1);
     },
@@ -688,7 +663,7 @@ $.extend(Agent, {
             grid = this.grid;
         if ((event.ctrlKey) && this.isCheckPoint(gridX, gridY) != -1) {
             console.log("Remove checkpoint!");
-            this.clearCheckPoint(gridX, gridY);
+            this.clearCheckPoint(0, gridX, gridY);
             this.checkPointsleft++;
 
             Bot.botState(9, this.checkPointsleft);
@@ -730,7 +705,7 @@ $.extend(Agent, {
                 this.dragPit();
                 return;
             }
-            if (this.can('eraseWall') && this.isBombPos(gridX, gridY)) {
+            if (this.can('eraseWall') && this.isBombPos(gridX, gridY)) {//abe it's only our loss, we anyway have a weak codebase. plus we r removing features
                 this.setWalkableAt(gridX, gridY, true);
                 this.setWalkableAt(gridX, gridY + 1, true);
                 this.setWalkableAt(gridX, gridY - 1, true);
@@ -783,10 +758,9 @@ $.extend(Agent, {
             var checkx = this.checkpoints[this.currCheckpoint].x
             var checky = this.checkpoints[this.currCheckpoint].y
         }
-        res = TSP.onTSP();
-        this.checkpoints = res[0];
-        this.pathfound = res[1];
-        // this.checkpoints, this.pathfound = TSP.onTSP()
+        res = TSP.onTSP()
+        this.checkpoints = res[0]
+        this.pathfound = res[1]
         if (this.currCheckpoint != -1) {
             for (var i = 0; i < this.checkpoints.length; i++)
                 if (checkx == this.checkpoints[i].x && checky == this.checkpoints[i].y) {
@@ -794,8 +768,6 @@ $.extend(Agent, {
                     break;
                 }
         }
-        // this.pathfound = 1;
-        console.log(this.pathfound)
         for (var i = -1; i < this.checkpoints.length; i++) {
             if (i == -1) {
                 var originX = this.startX;
@@ -824,7 +796,6 @@ $.extend(Agent, {
             path = path.concat(res['path'])
             operations = operations.concat(res['operations'])
         }
-        // console.log(res['path'])
         if (this.pathfound) {
             var op, isSupported;
             if (viewoperations) {
@@ -916,30 +887,6 @@ $.extend(Agent, {
                 break;
             case 'addingIce':
                 this.setIceAt(this.centerX, this.centerY - 1, false);
-                // gridX = this.centerX;
-                // gridY = this.centerY;
-                // console.log(grid.isWalkableAt(this.centerX, (this.centerY - 1)))
-                // if (grid.isWalkableAt(this.centerX, (this.centerY - 1)) && grid.isWalkableAt(this.centerX + 1, (this.centerY - 2)) && grid.isWalkableAt(this.centerX - 1, (this.centerY))) {
-                //     this.setIceAt(this.centerX, this.centerY - 1, false);
-                // } else {
-                //     this.clearposice(this.centerX, this.centerY - 1);
-                //     console.log("now setting ice")
-                //     this.setIceAt(this.centerX, this.centerY - 1, false);
-                // }
-                // this.grid.setWalkableAt(gridX, gridY, false);
-                // this.grid.setWalkableAt(gridX - 1, gridY + 1, false);
-                // this.grid.setWalkableAt(gridX + 1, gridY + 1, false);
-
-                // // if (!grid.isWalkableAt(gridX, gridY) || !grid.isWalkableAt(gridX - 1, gridY + 1) || !grid.isWalkableAt(gridX + 1, gridY - 1) || this.isStartOrEndPos(gridX, gridY) || this.isStartOrEndPos(gridX, gridY) || this.isStartOrEndPos(gridX - 1, gridY + 1) || this.isStartOrEndPos(gridX + 1, gridY - 1)) {
-                // //     if (this.endstatus == 1)
-                // //         this.findPath(1)
-                // // }
-                // if (grid.isWalkableAt(gridX, gridY) && grid.isWalkableAt(gridX - 1, gridY + 1) && grid.isWalkableAt(gridX + 1, gridY - 1) && !this.isStartOrEndPos(gridX, gridY) && this.isCheckPoint(gridX, gridY) == -1) {
-                //     this.setIcePos(gridX, gridY);
-                //     if (this.endstatus == 1)
-                //         this.findPath(1)
-                // }
-                // break;
 
                 break;
         }
@@ -1049,9 +996,6 @@ $.extend(Agent, {
         $.each(arguments, function(i, opt) {
             console.log("Button id:", opt.id)
             var optid = opt.id;
-            // if (opt.id == 7) {
-            //     optid = 0;
-            // }
 
             var $button = Agent.$buttons.eq(optid);
             if (opt.text) {
@@ -1158,7 +1102,6 @@ $.extend(Agent, {
         this.endX = gridX;
         this.endY = gridY;
         View.setEndPos(gridX, gridY);
-        // this.grid.setWalkableAt(gridX, gridY, false);
     },
     setPitPos: function(gridX, gridY) {
         this.pitX = gridX;
@@ -1194,10 +1137,9 @@ $.extend(Agent, {
     },
     setCheckPoint: function(gridX, gridY) {
         this.checkpoints.push({
-                x: gridX,
-                y: gridY
-            })
-            // View.setAttributeAt(gridX, gridY, 'checkpoint', true);
+            x: gridX,
+            y: gridY
+        })
         View.setCheckPoint(gridX, gridY, -1, -1, true)
     },
     setPitAt: function(gridX, gridY, walkable) {
@@ -1248,8 +1190,7 @@ $.extend(Agent, {
             this.bombY = gridY;
         }
     },
-    clearposice: function(gridX, gridY) {
-        // this.grid.setWalkableAt(gridX, gridY, true);
+    clearposice: function (gridX, gridY) {
         View.setWalkableAt(gridX, gridY, 'walkable', true, "clear");
         View.setWalkableAt(gridX - 1, gridY + 1, 'walkable', true, "clear");
         View.setWalkableAt(gridX + 1, gridY - 1, 'walkable', true, "clear");
