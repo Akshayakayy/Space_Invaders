@@ -668,6 +668,13 @@ $.extend(Agent, {
                 this.dragCheckpoint();
                 return;
             }
+            if (this.can('drawWall') && grid.isWalkableAt(gridX, gridY)) {
+                this.drawWall(gridX, gridY);
+                return;
+            }
+            if (this.can('eraseWall') && !grid.isWalkableAt(gridX, gridY)) {
+                this.eraseWall(gridX, gridY);
+            }
             if (this.can('dragStart') && this.isStartPos(gridX, gridY)) {
                 this.dragStart();
                 return;
