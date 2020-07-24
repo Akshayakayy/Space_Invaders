@@ -706,7 +706,7 @@ $.extend(Agent, {
                 this.dragBomb();
                 return;
             }
-            if (this.can('dragIce') && this.isBombPos(gridX, gridY)) {
+            if (this.can('dragIce') && this.isIcePos(gridX, gridY)) {
                 this.setIceWalkable(gridX, gridY, true);
                 this.dragIce();
                 return;
@@ -838,6 +838,7 @@ $.extend(Agent, {
                 }
                 break;
             case 'draggingIce':
+                console.log('dragging ice')
                 if (this.checkbefdrag(gridX, gridY) && this.checkbefdrag(gridX - 1, gridY + 1) && this.checkbefdrag(gridX + 1, gridY + 1)) {
                     this.mousemoveflag = 1;
                     this.setIcePos(gridX, gridY);
@@ -905,6 +906,7 @@ $.extend(Agent, {
                     }
                     break;
                 case 'draggingIce':
+                    console.log("ice drag")
                     this.setIceWalkable(gridX, gridY, false);
                     if (!grid.isWalkableAt(gridX, gridY) || !grid.isWalkableAt(gridX - 1, gridY + 1) || !grid.isWalkableAt(gridX + 1, gridY + 1) || this.isStartOrEndPos(gridX, gridY) || this.isStartOrEndPos(gridX, gridY) || this.isStartOrEndPos(gridX - 1, gridY + 1) || this.isStartOrEndPos(gridX + 1, gridY - 1)) {
                         if (this.endstatus == 1)
