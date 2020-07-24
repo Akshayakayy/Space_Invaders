@@ -179,7 +179,12 @@ $.extend(Agent, {
         // => drawingWall
     },
     oneraseWall: function(event, from, to, gridX, gridY) {
+        this.numresetobstacles(gridX, gridY);
         console.log("erasing wall");
+        this.setWalkableAt(gridX, gridY, true, "wall");
+        // => erasingWall
+    },
+    numresetobstacles: function(gridX, gridY) {
         if (this.pitX == gridX && this.pitY == gridY) {
             this.numpit = 0;
             console.log("pit num reset");
@@ -192,9 +197,6 @@ $.extend(Agent, {
             this.numice = 0;
             console.log("ice num reset");
         }
-        console.log("erasing wall")
-        this.setWalkableAt(gridX, gridY, true, "wall");
-        // => erasingWall
     },
     onaddPit: function(event, from, to, gridX, gridY) {
         console.log("adding pit");
