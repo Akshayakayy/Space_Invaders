@@ -74,9 +74,12 @@ var Bot = {
             case 10:
                 text = "Added a checkpoint <br><br> Checkpoints left: " + String(checkPointInfo) + "<br><br> You can remove a checkpoint using Ctrl+Click"
                 break;
+            case 11:
+                text = "Oops! Path not found. <br> Try changing the layout of the grid. <br> If you are using IDA, it might be possible the algorithm times out. Please increase the time parameter or decrease some obstacles."
+                break;
 
         }
-        if (state == 5)
+        if (state == 5 || state == 11)
             this.botTextFinish(text)
         else
             this.botText(text);

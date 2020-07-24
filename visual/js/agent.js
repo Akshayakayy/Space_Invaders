@@ -1,117 +1,102 @@
 /**
  * The visualization Agent will works as a state machine.
- * See files under the `doc` folder for transition descriptions.
+ * See the attached document for the transitions of state diagram
  * See https://github.com/jakesgordon/javascript-state-machine
  * for the document of the StateMachine module.
  */
 var Agent = StateMachine.create({
     initial: 'none',
     events: [{
-            name: 'init',
-            from: 'none',
-            to: 'ready'
-        },
-        {
-            name: 'search',
-            from: 'starting',
-            to: 'searching'
-        },
-        {
-            name: 'pause',
-            from: 'searching',
-            to: 'paused'
-        },
-        {
-            name: 'finish',
-            from: 'searching',
-            to: 'finished'
-        },
-        {
-            name: 'resume',
-            from: 'paused',
-            to: 'searching'
-        },
-        {
-            name: 'cancel',
-            from: 'paused',
-            to: 'ready'
-        },
-        {
-            name: 'modify',
-            from: 'finished',
-            to: 'modified'
-        },
-        {
-            name: 'reset',
-            from: '*',
-            to: 'ready'
-        },
-        {
-            name: 'clear',
-            from: ['finished', 'modified'],
-            to: 'ready'
-        },
-        {
-            name: 'start',
-            from: ['ready', 'modified', 'restarting'],
-            to: 'starting'
-        },
-        {
-            name: 'restart',
-            from: ['searching', 'finished'],
-            to: 'restarting'
-        },
-        {
-            name: 'dragStart',
-            from: ['ready', 'finished'],
-            to: 'draggingStart'
-        },
-        {
-            name: 'dragEnd',
-            from: ['ready', 'finished'],
-            to: 'draggingEnd'
-        },
-        {
-            name: 'dragCheckpoint',
-            from: ['ready', 'finished'],
-            to: 'draggingCheckpoint'
-        },
+        name: 'init',
+        from: 'none',
+        to: 'ready'
+    },
+    {
+        name: 'search',
+        from: 'starting',
+        to: 'searching'
+    },
+    {
+        name: 'pause',
+        from: 'searching',
+        to: 'paused'
+    },
+    {
+        name: 'finish',
+        from: 'searching',
+        to: 'finished'
+    },
+    {
+        name: 'resume',
+        from: 'paused',
+        to: 'searching'
+    },
+    {
+        name: 'cancel',
+        from: 'paused',
+        to: 'ready'
+    },
+    {
+        name: 'modify',
+        from: 'finished',
+        to: 'modified'
+    },
+    {
+        name: 'reset',
+        from: '*',
+        to: 'ready'
+    },
+    {
+        name: 'clear',
+        from: ['finished', 'modified'],
+        to: 'ready'
+    },
+    {
+        name: 'start',
+        from: ['ready', 'modified', 'restarting'],
+        to: 'starting'
+    },
+    {
+        name: 'restart',
+        from: ['searching', 'finished'],
+        to: 'restarting'
+    },
+    {
+        name: 'dragStart',
+        from: ['ready', 'finished'],
+        to: 'draggingStart'
+    },
+    {
+        name: 'dragEnd',
+        from: ['ready', 'finished'],
+        to: 'draggingEnd'
+    },
+    {
+        name: 'dragCheckpoint',
+        from: ['ready', 'finished'],
+        to: 'draggingCheckpoint'
+    },
 
-        {
-            name: 'drawWall',
-            from: ['ready', 'finished'],
-            to: 'drawingWall'
-        },
-        {
-            name: 'eraseWall',
-            from: ['ready', 'finished'],
-            to: 'erasingWall'
-        },
-        {
-            name: 'addPit',
-            from: ['ready', 'finished'],
-            to: 'addingPit'
-        },
-        {
-            name: 'addBomb',
-            from: ['ready', 'finished'],
-            to: 'addingBomb'
-        },
-        {
-            name: 'addIce',
-            from: ['ready', 'finished'],
-            to: 'addingIce'
-        },
-        {
-            name: 'rest',
-            from: ['draggingStart', 'draggingEnd', 'drawingWall', 'erasingWall', 'addingPit', 'addingIce', 'addingBomb', 'draggingCheckpoint'],
-            to: 'ready'
-        },
-        {
-            name: 'startMaze',
-            from: ['ready', 'finished'],
-            to: 'ready'
-        }
+    {
+        name: 'drawWall',
+        from: ['ready', 'finished'],
+        to: 'drawingWall'
+    },
+    {
+        name: 'eraseWall',
+        from: ['ready', 'finished'],
+        to: 'erasingWall'
+    },
+    {
+        name: 'rest',
+        from: ['draggingStart', 'draggingEnd', 'drawingWall', 'erasingWall', 'draggingCheckpoint'],
+        to: 'ready'
+    },
+    {
+        name: 'startMaze',
+        from: ['ready', 'finished'],
+        to: 'ready'
+    }
     ],
 });
 
@@ -124,12 +109,11 @@ $.extend(Agent, {
     endstatus: 0,
     currCheckpoint: -1,
     mousemoveflag: 0,
-    checkPointsleft: 4,
-    numice: 0,
-    numpit: 0,
-    numbomb: 0,
+    checkPointsleft: 4, // number of checkpoints left to be inserted (max 4)
     /**
-     * Asynchronous transition from `none` state to `ready` state.
+     * -----------------------------------------------------------------------
+     * Functions to insert and erase walls and obstacles
+     * -----------------------------------------------------------------------
      */
     onleavenone: function () {
         var numCols = this.gridSize[0],
@@ -147,11 +131,9 @@ $.extend(Agent, {
             Agent.transition(); // transit to the next state (ready)
 
         });
-        Bot.init();
+        Bot.init(); //initializing the TARS bot
         this.$buttons = $('.control_button');
         this.$maze_buttons = $('.maze_button');
-        this.$obstacle_buttons = $('.obstacle_button');
-
         return StateMachine.ASYNC;
         // => ready
     },
@@ -160,54 +142,15 @@ $.extend(Agent, {
         // => drawingWall
     },
     oneraseWall: function (event, from, to, gridX, gridY) {
-        console.log("erasing wall");
-        if (this.pitX == gridX && this.pitY == gridY) {
-            this.numpit = 0;
-            console.log("pit num reset");
-        }
-        if (this.bombX == gridX && this.bombY == gridY) {
-            this.numbomb = 0;
-            console.log("bomb num reset");
-        }
-        if (this.iceX == gridX && this.iceY == gridY) {
-            this.numice = 0;
-            console.log("ice num reset");
-        }
-
         this.setWalkableAt(gridX, gridY, true, "wall");
         // => erasingWall
     },
-    onaddPit: function (event, from, to, gridX, gridY) {
-        console.log("adding pit");
-    },
-    onaddIce: function (event, from, to, gridX, gridY) {
-        console.log("adding ice");
-
-        // => addingIce
-    },
-    onaddBomb: function (event, from, to, gridX, gridY) {
-        this.setBombAt(gridX, gridY, false);
-        console.log("adding bomb");
-        // => addingBomb
-    },
-    pathnotfound: function () {
-        const Toast = Swal.mixin({
-            toast: true,
-            position: 'bottom-end',
-            showConfirmButton: false,
-            timer: 10000,
-            timerProgressBar: true,
-            onOpen: (to) => {
-                to.addEventListener('mouseenter', Swal.stopTimer)
-                to.addEventListener('mouseleave', Swal.resumeTimer)
-            }
-        })
-        Toast.fire({
-            icon: 'error',
-            title: 'Path not found'
-        })
-    },
-    onsearch: function (event, from, to) {
+    /**
+     * -------------------------------------------------------------------------------
+     * Agent functions that get triggered when various buttons on navbar are pressed (buttonpress Event percept)
+     * -------------------------------------------------------------------------------
+     */
+    onsearch: function (event, from, to) { //triggered when Start Search is pressed
         var grid,
             timeStart, timeEnd,
             finder = Panel.getFinder();
@@ -218,14 +161,6 @@ $.extend(Agent, {
             startY: this.startY,
             endX: this.endX,
             endY: this.endY,
-            pitX: this.pitX,
-            pitY: this.pitY,
-            iceX: this.iceX,
-            iceY: this.iceY,
-            bombX: this.bombX,
-            bombY: this.bombY,
-            centerX: this.centerX,
-            centerY: this.centerY,
             checkpoints: this.checkpoints,
             grid: this.grid,
             finder: this.finder
@@ -266,13 +201,16 @@ $.extend(Agent, {
             this.timeSpent = (timeEnd - timeStart).toFixed(4);
             this.loop();
         }
-        if (!this.pathfound)
+        if (!this.pathfound) {
             this.finish()
+        }
+        else {
+            Bot.botState(0);
+        }
         // => searching
-        Bot.botState(0);
     },
 
-    onrestart: function () {
+    onrestart: function () { //triggered when Restart Start button is pressed
         // When clearing the colorized nodes, there may be
         // nodes still animating, which is an asynchronous procedure.
         // Therefore, we have to defer the `abort` routine to make sure
@@ -284,30 +222,26 @@ $.extend(Agent, {
             Agent.clearFootprints();
             Agent.start();
         }, View.nodeColorizeEffect.duration * 1.2);
-        this.numbomb = 0;
-        this.numice = 0;
-        this.numpit = 0;
-
         Bot.botState(1);
 
         // => restarting
     },
-    onpause: function (event, from, to) {
+    onpause: function (event, from, to) { //triggered when Pause Search is pressed
         // => paused
         Bot.botState(2);
     },
-    onresume: function (event, from, to) {
+    onresume: function (event, from, to) { //triggered when Resume Search is pressed
         this.loop();
         // => searching
         Bot.botState(3);
     },
-    oncancel: function (event, from, to) {
+    oncancel: function (event, from, to) { //triggered when Cancel Search is pressed
         this.clearOperations();
         this.clearFootprints();
         // => ready
         Bot.botState(4);
     },
-    onfinish: function (event, from, to) {
+    onfinish: function (event, from, to) { //triggered when the search finishes
         if (!this.pathfound) {
             this.pathnotfound()
         } else {
@@ -327,16 +261,13 @@ $.extend(Agent, {
         this.operations = [];
         // => finished
     },
-    onclear: function (event, from, to) {
+    onclear: function (event, from, to) { //triggered when Clear Path is pressed
         this.clearOperations();
         this.clearFootprints();
         // => ready
         Bot.botState(6);
     },
-    onmodify: function (event, from, to) {
-        // => modified
-    },
-    onreset: function (event, from, to) {
+    onreset: function (event, from, to) { //triggered when Clear Obstacles is pressed
         this.endstatus = 0;
         setTimeout(function () {
             Agent.clearOperations();
@@ -347,22 +278,21 @@ $.extend(Agent, {
             id: 3,
             enabled: true,
         });
-        this.numbomb = 0;
-        this.numice = 0;
-        this.numpit = 0;
         // => ready
         Bot.botState(7);
     },
 
     /**
-     * The following functions are called on entering states.
+     * --------------------------------------------------------------------------
+     * Functions called on entering states.
+     * --------------------------------------------------------------------------
      */
 
-    initmaze: function (mazetype) {
+    initmaze: function (mazetype) { //triggered on transitioning to startMaze
         this.mazetype = mazetype;
         this.startMaze();
     },
-    onready: function () {
+    onready: function () { //triggered when agent transitions to Ready
         console.log('=> ready');
         this.setButtonStates({
             id: 0,
@@ -405,27 +335,9 @@ $.extend(Agent, {
             enabled: true,
             callback: $.proxy(this.initmaze, this, 'sparse_recursive'),
         });
-        this.setButtonStatesObstacles({
-            id: 1,
-            text: 'Add Bomb',
-            enabled: true,
-            callback: $.proxy(this.addBomb, this)
-        }, {
-            id: 2,
-            text: 'Add Ice',
-            enabled: true,
-            callback: $.proxy(this.addIce, this)
-        }, {
-            id: 3,
-            text: 'Add Pit',
-            enabled: true,
-            callback: $.proxy(this.addPit, this)
-
-        })
         // => [starting, draggingStart, draggingEnd, draggingPit drawingStart, drawingEnd]
     },
     createMazeWall: function (event, x, y) {
-
         event.setWalkableAt(x, y, false);
     },
     onstartMaze: function (event, from, to) {
@@ -444,6 +356,7 @@ $.extend(Agent, {
         });
         var rows = this.gridSize[0];
         var cols = this.gridSize[1];
+        //creates Maze class objects based on the type of Maze selected by user
         if (mazetype == 'random') {
             maze = new PF.RandomMaze({
                 xlim: rows,
@@ -568,16 +481,13 @@ $.extend(Agent, {
      * Define setters and getters of PF.Node, then we can get the operations
      * of the pathfinding.
      */
-    hookPathFinding: function () {
-        this.operations = [];
-    },
     bindEvents: function () {
         $('#draw_area').mousedown($.proxy(this.mousedown, this));
         $(window)
             .mousemove($.proxy(this.mousemove, this))
             .mouseup($.proxy(this.mouseup, this));
     },
-    loop: function () {
+    loop: function () { //used to adjust agent speed
 
         speed = Panel.getSpeed();
         var operationsPerSecond = speed * 5;
@@ -608,6 +518,11 @@ $.extend(Agent, {
 
         View.setAttributeAt(op.x, op.y, op.attr, op.value, false);
     },
+    /**
+     * ----------------------------------------------------------------------------------------
+     * Clear Functions: used to remove path, walls and checkpoints
+     * ----------------------------------------------------------------------------------------
+     */
     clearOperations: function () {
         this.operations = [];
         this.path = []
@@ -645,69 +560,12 @@ $.extend(Agent, {
     buildNewGrid: function () {
         this.grid = new PF.Grid(this.gridSize[0], this.gridSize[1]);
     },
-    mousedown: function (event) {
-        var coord = View.toGridCoordinate(event.pageX, event.pageY),
-            gridX = coord[0],
-            gridY = coord[1],
-            grid = this.grid;
-        if ((event.ctrlKey) && this.isCheckPoint(gridX, gridY) != -1) {
-            console.log("Remove checkpoint!");
-            this.clearCheckPoint(0, gridX, gridY);
-            this.checkPointsleft++;
-
-            Bot.botState(9, this.checkPointsleft);
-            return;
-
-        } else if (event.ctrlKey && this.endstatus == 1) {
-            if (!this.isStartOrEndPos(gridX, gridY) && grid.isWalkableAt(gridX, gridY) && this.checkPointsleft > 0) {
-                this.setCheckPoint(gridX, gridY, true);
-                this.checkPointsleft--;
-                this.findPath(1);
-                Bot.botState(10, this.checkPointsleft);
-            }
-        } else if (event.ctrlKey) {
-            if (!this.isStartOrEndPos(gridX, gridY) && grid.isWalkableAt(gridX, gridY) && this.checkPointsleft > 0) {
-                this.setCheckPoint(gridX, gridY, true);
-                this.checkPointsleft--;
-                Bot.botState(10, this.checkPointsleft);
-            }
-        } else {
-            if (this.can('dragStart') && this.isStartPos(gridX, gridY)) {
-                this.dragStart();
-                return;
-            }
-            if (this.can('dragEnd') && this.isEndPos(gridX, gridY)) {
-                this.dragEnd();
-                return;
-            }
-            if (this.can('dragCheckpoint') && this.isCheckPoint(gridX, gridY) != -1) {
-                this.currCheckpoint = this.isCheckPoint(gridX, gridY)
-                this.dragCheckpoint();
-                return;
-            }
-            if (this.can('drawWall') && grid.isWalkableAt(gridX, gridY)) {
-                this.drawWall(gridX, gridY);
-                return;
-            }
-            if (this.can('eraseWall') && !grid.isWalkableAt(gridX, gridY)) {
-                this.eraseWall(gridX, gridY);
-            }
-
-            if (this.can('addBomb') && grid.isWalkableAt(gridX, gridY)) {
-                this.addBomb(100, 100);
-                return;
-            }
-            if (this.can('dragStart') && this.isStartPos(gridX, gridY)) {
-                this.dragStart();
-                return;
-            }
-            if (this.can('dragEnd') && this.isEndPos(gridX, gridY)) {
-                this.dragEnd();
-                return;
-            }
-        }
-
-    },
+    /** 
+     * This function finds the path as per choice of algorithm by the user.
+     * In case of checkpoints it first calls TSP to find out what sequence
+     * the checkpoints should be visited in. Finally it renders the path 
+     * found using drawPath() from View.
+     */
     findPath: function (viewoperations) {
         this.clearOperations();
         this.clearFootprints();
@@ -756,8 +614,7 @@ $.extend(Agent, {
                 originX, originY, destX, destY, grid
             );
             if (!res['path'] || res['path'].length == 1) {
-                this.pathfound = 0
-                console.log("path not")
+                this.pathfound = 0;
                 break;
             }
             path = path.concat(res['path'])
@@ -766,7 +623,6 @@ $.extend(Agent, {
         if (this.pathfound) {
             var op, isSupported;
             if (viewoperations) {
-                console.log(operations)
                 while (operations.length) {
                     op = operations.shift();
                     View.setAttributeAt(op.x, op.y, op.attr, op.value);
@@ -775,23 +631,82 @@ $.extend(Agent, {
             View.drawPath(path);
         }
     },
-    mousemove: function (event) {
+    /**
+     * ----------------------------------------------------------------------------------------
+     * These functions process percepts in form of mouse press, mouseup and cursor motion.
+     * ----------------------------------------------------------------------------------------
+     */
+    mousedown: function (event) { //triggered on pressing on the grid
+        var coord = View.toGridCoordinate(event.pageX, event.pageY),
+            gridX = coord[0],
+            gridY = coord[1],
+            grid = this.grid;
+        if ((event.ctrlKey) && this.isCheckPoint(gridX, gridY) != -1) {
+            this.clearCheckPoint(0, gridX, gridY);
+            this.checkPointsleft++;
+            Bot.botState(9, this.checkPointsleft);
+            return;
+
+        } else if (event.ctrlKey) {
+            if (!this.isStartPos(gridX, gridY) && !this.isEndPos(gridX, gridY) && grid.isWalkableAt(gridX, gridY) && this.checkPointsleft > 0) {
+                this.setCheckPoint(gridX, gridY, true);
+                this.checkPointsleft--;
+                if (this.endstatus == 1) {
+                    this.findPath(1);
+                }
+                Bot.botState(10, this.checkPointsleft);
+            }
+        } else {
+            if (this.can('dragStart') && this.isStartPos(gridX, gridY)) {
+                this.dragStart();
+                return;
+            }
+            if (this.can('dragEnd') && this.isEndPos(gridX, gridY)) {
+                this.dragEnd();
+                return;
+            }
+            if (this.can('dragCheckpoint') && this.isCheckPoint(gridX, gridY) != -1) {
+                this.currCheckpoint = this.isCheckPoint(gridX, gridY)
+                this.dragCheckpoint();
+                return;
+            }
+            if (this.can('drawWall') && grid.isWalkableAt(gridX, gridY)) {
+                this.drawWall(gridX, gridY);
+                return;
+            }
+            if (this.can('eraseWall') && !grid.isWalkableAt(gridX, gridY)) {
+                this.eraseWall(gridX, gridY);
+            }
+            if (this.can('dragStart') && this.isStartPos(gridX, gridY)) {
+                this.dragStart();
+                return;
+            }
+            if (this.can('dragEnd') && this.isEndPos(gridX, gridY)) {
+                this.dragEnd();
+                return;
+            }
+        }
+
+    },
+    mousemove: function (event) { //triggered on moving cursor on the grid
         var coord = View.toGridCoordinate(event.pageX, event.pageY),
             grid = this.grid,
             gridX = coord[0],
             gridY = coord[1];
 
-        if (this.isStartOrEndPos(gridX, gridY) || this.isCheckPoint(gridX, gridY) != -1) {
+        if (this.isStartPos(gridX, gridY) && this.isEndPos(gridX, gridY) || this.isCheckPoint(gridX, gridY) != -1) {
             return;
         }
-
+        /**
+        * Different behavior based on dragging objects on the grid, e.g Start point, End point or Checkpoints.
+        */
         switch (this.current) {
             case 'draggingStart':
                 if (grid.isWalkableAt(gridX, gridY)) {
                     this.mousemoveflag = 1
                     this.setStartPos(gridX, gridY);
                     if (this.endstatus == 1)
-                        this.findPath(0)
+                        this.findPath(0);
                 }
                 break;
             case 'draggingEnd':
@@ -799,7 +714,7 @@ $.extend(Agent, {
                     this.mousemoveflag = 1
                     this.setEndPos(gridX, gridY);
                     if (this.endstatus == 1)
-                        this.findPath(0)
+                        this.findPath(0);
                 }
                 break;
             case 'draggingCheckpoint':
@@ -809,7 +724,7 @@ $.extend(Agent, {
                     this.checkpoints[this.currCheckpoint].x = gridX;
                     this.checkpoints[this.currCheckpoint].y = gridY;
                     if (this.endstatus == 1) {
-                        this.findPath(0)
+                        this.findPath(0);
                     }
                 }
                 break;
@@ -819,19 +734,9 @@ $.extend(Agent, {
             case 'erasingWall':
                 this.setWalkableAt(gridX, gridY, true, "wall");
                 break;
-            case 'addingPit':
-                this.setPitAt(this.centerX + 3, this.centerY + 6, false);
-                break;
-
-            case 'addingBomb':
-                this.setBombAt(this.centerX + 12, this.centerY + 10, false);
-                break;
-            case 'addingIce':
-                this.setIceAt(this.centerX, this.centerY - 1, false);
-                break;
         }
     },
-    mouseup: function (event) {
+    mouseup: function (event) { //triggered on realising mouse button on the grid
         if (Agent.can('rest')) {
             var state = this.current;
             Agent.rest();
@@ -839,27 +744,30 @@ $.extend(Agent, {
                 grid = this.grid,
                 gridX = coord[0],
                 gridY = coord[1];
+            /**
+             * Different behavior based on dragging objects on the grid, e.g Start point, End point or Checkpoints.
+             */
             switch (state) {
                 case 'draggingStart':
                     if (!grid.isWalkableAt(gridX, gridY)) {
                         if (this.endstatus == 1)
-                            this.findPath(1)
+                            this.findPath(1);
                     }
                     if (grid.isWalkableAt(gridX, gridY) && !this.isEndPos(gridX, gridY) && this.isCheckPoint(gridX, gridY) == -1) {
                         this.setStartPos(gridX, gridY);
                         if (this.endstatus == 1)
-                            this.findPath(1)
+                            this.findPath(1);
                     }
                     break;
                 case 'draggingEnd':
                     if (!grid.isWalkableAt(gridX, gridY)) {
                         if (this.endstatus == 1)
-                            this.findPath(1)
+                            this.findPath(1);
                     }
                     if (grid.isWalkableAt(gridX, gridY) && !this.isStartPos(gridX, gridY) && this.isCheckPoint(gridX, gridY) == -1) {
                         this.setEndPos(gridX, gridY);
                         if (this.endstatus == 1)
-                            this.findPath(1)
+                            this.findPath(1);
                     }
                     break;
                 case 'draggingCheckpoint':
@@ -867,12 +775,12 @@ $.extend(Agent, {
                         if (this.endstatus == 1)
                             this.findPath(1)
                     }
-                    if (grid.isWalkableAt(gridX, gridY) && !this.isStartOrEndPos(gridX, gridY)) {
+                    if (grid.isWalkableAt(gridX, gridY) && !this.isStartPos(gridX, gridY) && !this.isEndPos(gridX, gridY)) {
                         View.setCheckPoint(gridX, gridY, this.checkpoints[this.currCheckpoint].x, this.checkpoints[this.currCheckpoint].y, true)
                         this.checkpoints[this.currCheckpoint].x = gridX;
                         this.checkpoints[this.currCheckpoint].y = gridY;
                         if (this.endstatus == 1) {
-                            this.findPath(1)
+                            this.findPath(1);
                         }
                     }
                     break;
@@ -931,7 +839,6 @@ $.extend(Agent, {
         $.each(arguments, function (i, opt) {
 
             var optid = opt.id;
-            console.log(opt)
             var $button = Agent.$obstacle_buttons.eq(optid - 1);
             if (opt.text) {
                 $button.text(opt.text);
@@ -987,11 +894,6 @@ $.extend(Agent, {
         this.endY = gridY;
         View.setEndPos(gridX, gridY);
     },
-    setPitPos: function (gridX, gridY) {
-        this.pitX = gridX;
-        this.pitY = gridY;
-        View.setPitPos(this.centerX, this.centerY);
-    },
     setWalkableAt: function (gridX, gridY, walkable, pit) {
         this.grid.setWalkableAt(gridX, gridY, walkable, pit);
         View.setAttributeAt(gridX, gridY, 'walkable', walkable, "wall");
@@ -1003,67 +905,26 @@ $.extend(Agent, {
         })
         View.setCheckPoint(gridX, gridY, -1, -1, true)
     },
-    setPitAt: function (gridX, gridY, walkable) {
-        if (this.numpit < 5) {
-            this.grid.setWalkableAt(gridX, gridY, walkable);
-            View.setAttributeAt(gridX, gridY, 'walkable', walkable, "pit");
-            this.setPitArea(gridX - 1, gridY, walkable);
-            this.setPitArea(gridX - 2, gridY, walkable);
-            this.setPitArea(gridX + 1, gridY, walkable);
-            this.setPitArea(gridX + 2, gridY, walkable);
-            this.numpit += 1;
-        }
-
-
-    },
-    setPitArea: function (gridX, gridY, walkable) {
-        this.grid.setWalkableAt(gridX, gridY, walkable);
-        View.setAttributeAt(gridX, gridY, 'walkable', walkable, "pitarea");
-    },
-    setIceAt: function (gridX, gridY, walkable) {
-        if (this.numice < 5) {
-            this.grid.setWalkableAt(gridX, gridY, walkable);
-            View.setAttributeAt(gridX, gridY, 'walkable', walkable, "ice");
-            this.setIceArea(gridX - 1, gridY + 1, walkable);
-            this.setIceArea(gridX + 1, gridY + 1, walkable);
-            this.numice += 1;
-
-        }
-    },
-    setIceArea: function (gridX, gridY, walkable) {
-        this.grid.setWalkableAt(gridX, gridY, walkable);
-        View.setAttributeAt(gridX, gridY, 'walkable', walkable, "icearea");
-    },
-    setBombAt: function (gridX, gridY, walkable) {
-        if (this.numbomb < 5) {
-            this.grid.setWalkableAt(gridX, gridY, walkable);
-            View.setAttributeAt(gridX, gridY, 'walkable', walkable, "bomb");
-            this.setBombArea(gridX - 1, gridY, walkable);
-            this.setBombArea(gridX, gridY - 1, walkable);
-            this.setBombArea(gridX + 1, gridY, walkable);
-            this.setBombArea(gridX, gridY + 1, walkable);
-            this.numbomb += 1;
-        }
-    },
-    setBombArea: function (gridX, gridY, walkable) {
-        this.grid.setWalkableAt(gridX, gridY, walkable);
-        View.setAttributeAt(gridX, gridY, 'walkable', walkable, "bombarea");
-    },
+    /**
+     * ----------------------------------------------------------------------------------------
+     * These functions check what type of node the current node is (start,end or checkpoint).
+     * ----------------------------------------------------------------------------------------
+     */
     isStartPos: function (gridX, gridY) {
         return gridX === this.startX && gridY === this.startY;
-    },
-    isPitPos: function (gridX, gridY) {
-        return gridX === this.pitX && gridY === this.pitY;
     },
     isEndPos: function (gridX, gridY) {
         return gridX === this.endX && gridY === this.endY;
     },
-
     isCheckPoint: function (gridX, gridY) {
         return this.checkpoints.findIndex(node => node.x == gridX && node.y == gridY);
     },
-    isStartOrEndPos: function (gridX, gridY) {
-        return this.isStartPos(gridX, gridY) || this.isEndPos(gridX, gridY);
+    /**
+     * ----------------------------------------------------------------------------------------
+     * Utility functions
+     * ----------------------------------------------------------------------------------------
+     */
+    pathnotfound: function () {
+        Bot.botState(11);
     },
-
 });

@@ -84,7 +84,7 @@
           </ul>
         </li>
 
-        <li class="dropdown" id="dropdown2">
+        <!-- <li class="dropdown" id="dropdown2">
           <a class="dropdown-toggle" data-toggle="dropdown" href="#">
             <div class="header_title" id="genobs">Obstacles<span class="caret"></span>
               <span class="tooltiptext" id="tooltipgenobs">Insert obstacles of various types</span>
@@ -101,7 +101,7 @@
               </div>
             </div>
           </ul>
-        </li>
+        </li> -->
 
         <li class="dropdown" id="dropdown3">
           <a class="dropdown-toggle" data-toggle="dropdown" href="#">
@@ -346,7 +346,7 @@
   $(document).click(function () {
     // $(this).find(".dropdown-menu").hide()
     $("#dropdown-menu1").slideUp("fast");
-    $("#dropdown-menu2").slideUp("fast");
+    // $("#dropdown-menu2").slideUp("fast");
     $("#dropdown-menu3").slideUp("fast");
   });
 
@@ -357,11 +357,11 @@
     $("#dropdown-menu2").slideUp("fast");
     $("#dropdown-menu3").slideUp("fast");
   });
-  $("#dropdown2").click(function (e) {
-    e.stopPropagation();
-    $("#dropdown-menu1").slideUp("fast");
-    $("#dropdown-menu3").slideUp("fast");
-  });
+  // $("#dropdown2").click(function (e) {
+  //   e.stopPropagation();
+  //   $("#dropdown-menu1").slideUp("fast");
+  //   $("#dropdown-menu3").slideUp("fast");
+  // });
   $("#dropdown3").click(function (e) {
     e.stopPropagation();
     $("#dropdown-menu1").slideUp("fast");
