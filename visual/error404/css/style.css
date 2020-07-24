@@ -1,6 +1,6 @@
 * {
   -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 body {
@@ -19,8 +19,8 @@ body {
   left: 50%;
   top: 50%;
   -webkit-transform: translate(-50%, -50%);
-      -ms-transform: translate(-50%, -50%);
-          transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
 }
 
 .notfound {
@@ -42,9 +42,9 @@ body {
   position: absolute;
   left: 50%;
   top: 50%;
-  -webkit-transform: translate(-50% , -50%);
-      -ms-transform: translate(-50% , -50%);
-          transform: translate(-50% , -50%);
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
   font-size: 224px;
   font-weight: 900;
   margin-top: 0px;
@@ -92,13 +92,13 @@ body {
 }
 
 @media only screen and (max-width: 767px) {
-    .notfound .notfound-404 h2 {
-        font-size: 24px;
-    }
+  .notfound .notfound-404 h2 {
+    font-size: 24px;
+  }
 }
 
 @media only screen and (max-width: 480px) {
   .notfound .notfound-404 h1 {
-      font-size: 182px;
+    font-size: 182px;
   }
 }
