@@ -1,32 +1,63 @@
 # Space_Invaders
 ## Project 1: NAVIGATE THE MARS ROVER
-Help the Mars Curiosity Rover find the shortest path between two points while avoiding obstacles on the way. ####
+Help the Mars Curiosity Rover find the shortest path between two points while avoiding obstacles on the way.
 
-# Introduction
-This is the Javascript based webgame for navigating the mars rover using various pathfinding algorithms.
+## Introduction
+This is the Javascript based webapp for navigating the mars rover using various pathfinding algorithms. It lets the user visualize route found using various algorithms, add checkpoints along the way, mazes to confuse the rover and drag start, checkpoints and endpoints in real time.
 
-# Features
-* Multiple Destinations
+## Features
+### Multiple Destinations
+- Ctrl+ Click on grid cells to add checkpoints.
+- The agent covers the checkpoints in shortest path order and reaches destination.
+- Rendering using Travelling salesman algorithm.
+- Dynamic Rendering of path through just drag and drop The shortest path is dynamically visible if user even after search is over drags the nodes.
+	
+![Test Image 1](https://github.com/Akshayakayy/Space_Invaders/blob/master/visual/images/gifs/checkpoints.gif)
+![Test Image 1](https://github.com/Akshayakayy/Space_Invaders/blob/master/visual/images/gifs/search.gif)
+![Test Image 1](https://github.com/Akshayakayy/Space_Invaders/blob/master/visual/images/gifs/clearall.gif)
 
-	* ctrl+ click on board cells to add checkpoints.
-	* The agent covers the checkpoints in shortest path order and reaches destination.
-	* Rendering using Travelling salesmen algorithm.
-	* Dynamic Rendering of path through just drag and drop The shortest path is dynamically visible if user even after search is over drags the nodes.
+### Speed of visualization for pathfinder: Draggable speed control for the Rover
 
-* Speed of visualization Three different speeds for pathfinder: Fast, Medium, Slow
+![Test Image 1](https://github.com/Akshayakayy/Space_Invaders/blob/master/visual/images/gifs/speed.gif)
 
-* Mutiple Obstacles
+### Mazes of various patterns
+Implemented various types of mazes using algorithms:
+- Random Maze
+- Stair Maze
+- Dense Recursive Maze
+- Sparse Recursive Maze
 
-	* Ice, Pits, Bombs
-	* Click on respective buttons then click on cells where you want to add the obstacle.
-	* Different Algorithms New
+![Test Image 1](https://github.com/Akshayakayy/Space_Invaders/blob/master/visual/images/gifs/maze.gif)
 
+### New searching algorithm:
 * Collaborative Learning Agents
-* Travelling salesmen
+
+### Other features:
 * Music loop in game
+* Interactive Guide using SweetAlert 
+* Landing Page
+* TARS bot to provide instructions to the user 
 
 
-Server
+## Running the Project and Local installation:
+
+The project is deployed in Azure. You can access it here: https://tathagataraha.z13.web.core.windows.net/
+
+#### Local running:
+- At first clone the repository:
+
+``git clone https://github.com/Akshayakayy/Space_Invaders``
+
+``cd Space_Invaders``
+
+- You can open the visual/landing.html to test it in the browser.
+
+- For development and changing files in the src folder, follow these steps:
+
+`` npm install`` (install the required modules)
+
+``gulp compile && mv lib/pathfinding-browser.min.js visual/lib`` (to compile the src folder)
+
 ------
 
 If you want to use it in Node.js, you may install it via `npm`.
@@ -43,23 +74,6 @@ var PF = require('pathfinding');
 
 See the `Basic Usage` section below for usage details.
 
-
-Browser
--------
-
-If you have bower installed then you can install it with the following command:
-
-```bash
-bower install pathfinding
-```
-
-By default bower will install pathfinding under the bower_components folder, so to include it in your page do something like:
-
-```html
-<script type="text/javascript" src="path/to/bower_components/pathfinding/pathfinding-browser.min.js"></script>
-```
-
-You can also grab a release from the [Releases Page](https://github.com/imor/pathfinding-bower/releases) if you don't use bower.
 
 Basic Usage
 -----------
