@@ -152,6 +152,10 @@ var View = {
             }
         });
     },
+    /**
+     * Sets display for the start node.
+     * This method will be called while setting default start position and dragging Start position.
+     */
     setStartPos: function (gridX, gridY) {
         var coord = this.toPageCoordinate(gridX, gridY);
         if (!this.startNode) {
@@ -169,9 +173,12 @@ var View = {
             }).toFront();
         }
     },
+    /**
+     * Sets display for the checkpoint node.
+     * This method will be called while inserting checkpoints, dragging checkpoints and clearing each or all checkpoints.
+     */
     setCheckPoint: function (gridX, gridY, oldX, oldY, value) {
         var coord = this.toPageCoordinate(gridX, gridY);
-        console.log(this.checkpoint)
         if (value) {
             if (this.checkpoint.findIndex(node => node.x == oldX && node.y == oldY) == -1) {
                 this.checkpoint.push({
@@ -423,7 +430,10 @@ var View = {
     },
 
 
-
+    /**
+     * Sets display for the end node.
+     * This method will be called while setting default end position and dragging end position.
+     */
     setEndPos: function (gridX, gridY) {
         var coord = this.toPageCoordinate(gridX, gridY);
         if (!this.endNode) {
@@ -559,7 +569,10 @@ var View = {
     },
 
 
-
+    /**
+     * Sets whether a node is available for bot to use in its route or not.
+     * This method will be called while setting default start position and dragging Start position.
+     */
     setWalkableAt: function (gridX, gridY, value, ob) {
         var node, i, blockedNodes = this.blockedNodes;
         if (!blockedNodes) {
@@ -637,7 +650,9 @@ var View = {
             this.zoomNode(node);
         }
     },
-
+    /**
+     * Clear functions called on clearing path and clicking over walls.
+     */
     clearFootprints: function () {
         var i, x, y, coord, coords = this.getDirtyCoords();
         for (i = 0; i < coords.length; ++i) {
