@@ -11,39 +11,6 @@ var View = {
             fill: '#CFCFCF',
             'stroke-opacity': 0.6, // the border
         },
-        pitnode: {
-
-            fill: 'url("images/pit.jpeg")',
-            'stroke-opacity': 0.2,
-
-        },
-        pitarea: {
-            fill: '#004C70',
-            "stroke-opacity": 0.1,
-
-        },
-        bombnode: {
-            fill: 'url("images/bomb.png")',
-            "stroke-opacity": 0.2,
-
-        },
-        bombarea: {
-            fill: 'url("images/bombarea.jpg")',
-            "stroke-opacity": 0.1,
-
-        },
-
-        icenode: {
-            fill: 'url("images/ice.jpg")',
-            'stroke-opacity': 0.2,
-
-        },
-        icearea: {
-            fill: 'url("images/icearea.png")',
-            "stroke-opacity": 0.1,
-
-        },
-
         blocked: {
             fill: '#47101E',
             'stroke-opacity': 0.2,
@@ -205,23 +172,6 @@ var View = {
             }
         }
     },
-    setPitPos: function (gridX, gridY) {
-        var coord = this.toPageCoordinate(gridX, gridY);
-        if (!this.pitNode) {
-            this.pitNode = this.paper.rect(
-                    coord[0],
-                    coord[1],
-                    this.nodeSize,
-                    this.nodeSize
-                ).attr(this.nodeStyle.normal)
-                .animate(this.nodeStyle.start, 1000);
-        } else {
-            this.pitNode.attr({
-                x: coord[0],
-                y: coord[1]
-            }).toFront();
-        }
-    },
     setEndPos: function (gridX, gridY) {
         var coord = this.toPageCoordinate(gridX, gridY);
         if (!this.endNode) {
@@ -310,54 +260,10 @@ var View = {
             console.log("my object", ob);
             if (ob == "wall") {
                 this.colorizeNode(node, this.nodeStyle.blocked.fill);
-            } else if (ob == "pit") {
-                console.log("pit style");
-                this.colorizeNode(node, this.nodeStyle.pitnode.fill);
-            } else if (ob == "ice") {
-                console.log("ice style");
-                this.colorizeNode(node, this.nodeStyle.icenode.fill);
-            } else if (ob == "bomb") {
-                this.colorizeNode(node, this.nodeStyle.bombnode.fill);
-            } else if (ob == "bombarea") {
-                this.colorizeNode(node, this.nodeStyle.bombarea.fill);
-            } else if (ob == "icearea") {
-                this.colorizeNode(node, this.nodeStyle.icearea.fill);
-            } else if (ob == "pitarea") {
-                this.colorizeNode(node, this.nodeStyle.pitarea.fill);
             }
             this.zoomNode(node);
         }
     },
-    setPitAt: function (gridX, gridY, value) {
-        var node, i, blockedNodes = this.blockedNodes;
-        if (!blockedNodes) {
-            blockedNodes = this.blockedNodes = new Array(this.numRows);
-            for (i = 0; i < this.numRows; ++i) {
-                blockedNodes[i] = [];
-            }
-        }
-        node = blockedNodes[gridY][gridX];
-        if (value) {
-            // clear blocked node
-            if (node) {
-                this.colorizeNode(node, this.rects[gridY][gridX].attr('fill'));
-                this.zoomNode(node);
-                setTimeout(function () {
-                    node.remove();
-                }, this.nodeZoomEffect.duration);
-                blockedNodes[gridY][gridX] = null;
-            }
-        } else {
-            // add pit to Node
-            if (node) {
-                return;
-            }
-            node = blockedNodes[gridY][gridX] = this.rects[gridY][gridX].clone();
-            this.colorizeNode(node, this.nodeStyle.pitnode.fill);
-            this.zoomNode(node);
-        }
-    },
-
     clearFootprints: function () {
         var i, x, y, coord, coords = this.getDirtyCoords();
         for (i = 0; i < coords.length; ++i) {
