@@ -141,7 +141,6 @@ var View = {
     setCheckPoint: function (gridX, gridY, oldX, oldY, value) {
         // Sets the checckpoint position at the co-ordinates(gridX, gridY)
         var coord = this.toPageCoordinate(gridX, gridY);
-        console.log(this.checkpoint)
         if (value) {
             if (this.checkpoint.findIndex(node => node.x == oldX && node.y == oldY) == -1) {
                 this.checkpoint.push({
@@ -167,7 +166,6 @@ var View = {
         } else {
             if (this.checkpoint.findIndex(node => node.x == gridX && node.y == gridY) != -1) {
                 checkindex = this.checkpoint.findIndex(node => node.x == gridX && node.y == gridY);
-                console.log("Check", checkindex, this.rects[gridY][gridX])
                 node = this.rects[gridY][gridX].clone()
                 this.rects[gridY][gridX].remove()
                 node.attr(this.nodeStyle.normal)
@@ -249,7 +247,6 @@ var View = {
         if (value) {
             // clear blocked node
             if (node) {
-                console.log(node)
 
                 this.colorizeNode(node, this.rects[gridY][gridX].attr('fill'));
                 this.zoomNode(node);
@@ -264,7 +261,6 @@ var View = {
                 return;
             }
             node = blockedNodes[gridY][gridX] = this.rects[gridY][gridX].clone();
-            console.log("my object", ob);
             if (ob == "wall") {
                 this.colorizeNode(node, this.nodeStyle.blocked.fill);
             }
@@ -303,7 +299,6 @@ var View = {
             return;
         }
         var svgPath = this.buildSvgPath(path);
-        console.log(svgPath)
         this.path = this.paper.path(svgPath).attr(this.pathStyle);
     },
     /**

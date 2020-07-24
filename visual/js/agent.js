@@ -623,7 +623,6 @@ $.extend(Agent, {
         if (this.pathfound) {
             var op, isSupported;
             if (viewoperations) {
-                console.log(operations)
                 while (operations.length) {
                     op = operations.shift();
                     View.setAttributeAt(op.x, op.y, op.attr, op.value);
@@ -840,7 +839,6 @@ $.extend(Agent, {
         $.each(arguments, function (i, opt) {
 
             var optid = opt.id;
-            console.log(opt)
             var $button = Agent.$obstacle_buttons.eq(optid - 1);
             if (opt.text) {
                 $button.text(opt.text);
@@ -928,6 +926,5 @@ $.extend(Agent, {
      */
     pathnotfound: function () {
         Bot.botState(11);
-        console.log("path not found")
     },
 });
