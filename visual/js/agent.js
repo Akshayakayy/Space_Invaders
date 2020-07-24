@@ -1,102 +1,102 @@
 /**
  * The visualization Agent will works as a state machine.
- * See files under the `doc` folder for transition descriptions.
+ * See the attached document for the transitions of state diagram
  * See https://github.com/jakesgordon/javascript-state-machine
  * for the document of the StateMachine module.
  */
 var Agent = StateMachine.create({
     initial: 'none',
     events: [{
-            name: 'init',
-            from: 'none',
-            to: 'ready'
-        },
-        {
-            name: 'search',
-            from: 'starting',
-            to: 'searching'
-        },
-        {
-            name: 'pause',
-            from: 'searching',
-            to: 'paused'
-        },
-        {
-            name: 'finish',
-            from: 'searching',
-            to: 'finished'
-        },
-        {
-            name: 'resume',
-            from: 'paused',
-            to: 'searching'
-        },
-        {
-            name: 'cancel',
-            from: 'paused',
-            to: 'ready'
-        },
-        {
-            name: 'modify',
-            from: 'finished',
-            to: 'modified'
-        },
-        {
-            name: 'reset',
-            from: '*',
-            to: 'ready'
-        },
-        {
-            name: 'clear',
-            from: ['finished', 'modified'],
-            to: 'ready'
-        },
-        {
-            name: 'start',
-            from: ['ready', 'modified', 'restarting'],
-            to: 'starting'
-        },
-        {
-            name: 'restart',
-            from: ['searching', 'finished'],
-            to: 'restarting'
-        },
-        {
-            name: 'dragStart',
-            from: ['ready', 'finished'],
-            to: 'draggingStart'
-        },
-        {
-            name: 'dragEnd',
-            from: ['ready', 'finished'],
-            to: 'draggingEnd'
-        },
-        {
-            name: 'dragCheckpoint',
-            from: ['ready', 'finished'],
-            to: 'draggingCheckpoint'
-        },
+        name: 'init',
+        from: 'none',
+        to: 'ready'
+    },
+    {
+        name: 'search',
+        from: 'starting',
+        to: 'searching'
+    },
+    {
+        name: 'pause',
+        from: 'searching',
+        to: 'paused'
+    },
+    {
+        name: 'finish',
+        from: 'searching',
+        to: 'finished'
+    },
+    {
+        name: 'resume',
+        from: 'paused',
+        to: 'searching'
+    },
+    {
+        name: 'cancel',
+        from: 'paused',
+        to: 'ready'
+    },
+    {
+        name: 'modify',
+        from: 'finished',
+        to: 'modified'
+    },
+    {
+        name: 'reset',
+        from: '*',
+        to: 'ready'
+    },
+    {
+        name: 'clear',
+        from: ['finished', 'modified'],
+        to: 'ready'
+    },
+    {
+        name: 'start',
+        from: ['ready', 'modified', 'restarting'],
+        to: 'starting'
+    },
+    {
+        name: 'restart',
+        from: ['searching', 'finished'],
+        to: 'restarting'
+    },
+    {
+        name: 'dragStart',
+        from: ['ready', 'finished'],
+        to: 'draggingStart'
+    },
+    {
+        name: 'dragEnd',
+        from: ['ready', 'finished'],
+        to: 'draggingEnd'
+    },
+    {
+        name: 'dragCheckpoint',
+        from: ['ready', 'finished'],
+        to: 'draggingCheckpoint'
+    },
 
-        {
-            name: 'drawWall',
-            from: ['ready', 'finished'],
-            to: 'drawingWall'
-        },
-        {
-            name: 'eraseWall',
-            from: ['ready', 'finished'],
-            to: 'erasingWall'
-        },
-        {
-            name: 'rest',
-            from: ['draggingStart', 'draggingEnd', 'drawingWall', 'erasingWall', 'draggingCheckpoint'],
-            to: 'ready'
-        },
-        {
-            name: 'startMaze',
-            from: ['ready', 'finished'],
-            to: 'ready'
-        }
+    {
+        name: 'drawWall',
+        from: ['ready', 'finished'],
+        to: 'drawingWall'
+    },
+    {
+        name: 'eraseWall',
+        from: ['ready', 'finished'],
+        to: 'erasingWall'
+    },
+    {
+        name: 'rest',
+        from: ['draggingStart', 'draggingEnd', 'drawingWall', 'erasingWall', 'draggingCheckpoint'],
+        to: 'ready'
+    },
+    {
+        name: 'startMaze',
+        from: ['ready', 'finished'],
+        to: 'ready'
+    }
     ],
 });
 
@@ -201,10 +201,13 @@ $.extend(Agent, {
             this.timeSpent = (timeEnd - timeStart).toFixed(4);
             this.loop();
         }
-        if (!this.pathfound)
+        if (!this.pathfound) {
             this.finish()
+        }
+        else {
+            Bot.botState(0);
+        }
         // => searching
-        Bot.botState(0);
     },
 
     onrestart: function () { //triggered when Restart Start button is pressed
@@ -923,21 +926,8 @@ $.extend(Agent, {
      * Utility functions
      * ----------------------------------------------------------------------------------------
      */
-    pathnotfound: function () { //function that returns error when path cannot be found
-        const Toast = Swal.mixin({
-            toast: true,
-            position: 'bottom-end',
-            showConfirmButton: false,
-            timer: 10000,
-            timerProgressBar: true,
-            onOpen: (to) => {
-                to.addEventListener('mouseenter', Swal.stopTimer)
-                to.addEventListener('mouseleave', Swal.resumeTimer)
-            }
-        })
-        Toast.fire({
-            icon: 'error',
-            title: 'Path not found'
-        })
+    pathnotfound: function () {
+        Bot.botState(11);
+        console.log("path not found")
     },
 });

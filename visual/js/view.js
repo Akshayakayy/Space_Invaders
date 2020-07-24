@@ -1,6 +1,7 @@
 /**
  * The pathfinding visualization.
  * It uses raphael.js to show the grids.
+ * It handles most of the inputs and outputs in the Raphael grid.
  */
 
 var View = {
@@ -71,6 +72,7 @@ var View = {
      * We decomposed the task into smaller ones. Each will only generate a row.
      */
     generateGrid: function (callback) {
+        // It is used to generate the grid. 
         var i, j, x, y,
             rect,
             normalStyle, nodeSize,
@@ -119,6 +121,7 @@ var View = {
         });
     },
     setStartPos: function (gridX, gridY) {
+        // Sets the start position at the co-ordinates(gridX, gridY)
         var coord = this.toPageCoordinate(gridX, gridY);
         if (!this.startNode) {
             this.startNode = this.paper.rect(
@@ -136,6 +139,7 @@ var View = {
         }
     },
     setCheckPoint: function (gridX, gridY, oldX, oldY, value) {
+        // Sets the checckpoint position at the co-ordinates(gridX, gridY)
         var coord = this.toPageCoordinate(gridX, gridY);
         console.log(this.checkpoint)
         if (value) {
@@ -173,6 +177,7 @@ var View = {
         }
     },
     setEndPos: function (gridX, gridY) {
+        // Sets the destination position at the co-ordinates(gridX, gridY)
         var coord = this.toPageCoordinate(gridX, gridY);
         if (!this.endNode) {
             this.endNode = this.paper.rect(
@@ -218,6 +223,7 @@ var View = {
         }
     },
     colorizeNode: function (node, color) {
+        // Fill the node with a particular colour
         node.animate({
             fill: color
         }, this.nodeColorizeEffect.duration);
@@ -231,6 +237,7 @@ var View = {
         }, this.nodeZoomEffect.duration);
     },
     setWalkableAt: function (gridX, gridY, value, ob) {
+        // Sets the walkable status of a particular node
         var node, i, blockedNodes = this.blockedNodes;
         if (!blockedNodes) {
             blockedNodes = this.blockedNodes = new Array(this.numRows);
@@ -265,6 +272,7 @@ var View = {
         }
     },
     clearFootprints: function () {
+        // Clears the visited and tested nodes.
         var i, x, y, coord, coords = this.getDirtyCoords();
         for (i = 0; i < coords.length; ++i) {
             coord = coords[i];
@@ -275,6 +283,7 @@ var View = {
         }
     },
     clearBlockedNodes: function () {
+        // Clears the obstacles
         var i, j, blockedNodes = this.blockedNodes;
         if (!blockedNodes) {
             return;
@@ -289,6 +298,7 @@ var View = {
         }
     },
     drawPath: function (path) {
+        // Draws the path from start to end when a path is found
         if (!path.length) {
             return;
         }
@@ -313,6 +323,7 @@ var View = {
         return strs.join('');
     },
     clearPath: function () {
+        // Clear the path
         if (this.path) {
             this.path.remove();
         }
@@ -336,6 +347,7 @@ var View = {
         ];
     },
     showStats: function (opts) {
+        // Show the length, time and the number of operations in a toast notification at the bottom right corner.
         var texts = [
 
             '<b>Length: </b>' + Math.round(opts.pathLength * 100) / 100,
