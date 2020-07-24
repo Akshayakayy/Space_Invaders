@@ -229,12 +229,10 @@ var View = {
                 ).attr(this.nodeStyle.normal)
                 .animate(style, 1000);
         } else {
-
             Node.attr({
                 x: coord[0],
                 y: coord[1]
             }).toFront();
-
         }
         return Node;
 
@@ -259,9 +257,6 @@ var View = {
         this.bombdNode = this.nodedrag(this.bombdNode, dcoord, this.nodeStyle.bombarea);
         this.bombuNode = this.nodedrag(this.bombuNode, ucoord, this.nodeStyle.bombarea);
     },
-
-
-
     setEndPos: function(gridX, gridY) {
         var coord = this.toPageCoordinate(gridX, gridY);
         if (!this.endNode) {
@@ -320,6 +315,11 @@ var View = {
             transform: this.nodeZoomEffect.transformBack,
         }, this.nodeZoomEffect.duration);
     },
+    clearallobstacles: function() {
+        this.clearallpit();
+        this.clearallbomb();
+        this.clearallice();
+    },
     clearallpit: function() {
         this.pitNode = this.clearob(this.pitNode);
         this.pitm1Node = this.clearob(this.pitm1Node);
@@ -349,8 +349,6 @@ var View = {
         this.bomblNode = this.clearob(this.bomblNode);
         this.bombrNode = this.clearob(this.bombrNode);
     },
-
-
 
     setWalkableAt: function(gridX, gridY, value, ob) {
         var node, i, blockedNodes = this.blockedNodes;
