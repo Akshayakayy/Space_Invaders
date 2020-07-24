@@ -1,6 +1,4 @@
-/**
- * @author imor / https://github.com/imor
- */
+
 var JumpPointFinderBase = require('./JumpPointFinderBase');
 var DiagonalMovement = require('../core/DiagonalMovement');
 

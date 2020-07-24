@@ -1,6 +1,4 @@
-/**
- * @author aniero / https://github.com/aniero
- */
+
 var DiagonalMovement = require('../core/DiagonalMovement');
 var JPFNeverMoveDiagonally = require('./JPFNeverMoveDiagonally');
 var JPFAlwaysMoveDiagonally = require('./JPFAlwaysMoveDiagonally');
