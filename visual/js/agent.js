@@ -384,7 +384,7 @@ $.extend(Agent, {
      * The following functions are called on entering states.
      */
 
-    initmaze: function (mazetype) {
+    initmaze: function(mazetype) {
         this.mazetype = mazetype;
         this.startMaze();
     },
@@ -408,7 +408,7 @@ $.extend(Agent, {
             id: 3,
             text: 'Clear checkpoints',
             enabled: true,
-            callback: $.proxy(this.clearCheckPoint, this, 1), 
+            callback: $.proxy(this.clearCheckPoint, this, 1),
         });
         this.setButtonStatesMaze({
             id: 0,
@@ -579,7 +579,7 @@ $.extend(Agent, {
      * Define setters and getters of PF.Node, then we can get the operations
      * of the pathfinding.
      */
-    bindEvents: function () {
+    bindEvents: function() {
         $('#draw_area').mousedown($.proxy(this.mousedown, this));
         $(window)
             .mousemove($.proxy(this.mousemove, this))
@@ -625,7 +625,7 @@ $.extend(Agent, {
         View.clearPath();
 
     },
-    clearCheckPoint: function (clearNumber, gridX = 0, gridY = 0) {
+    clearCheckPoint: function(clearNumber, gridX = 0, gridY = 0) {
         if (clearNumber == 0) {
             const ind = this.checkpoints.findIndex(node =>
                 node.x == gridX &&
@@ -705,7 +705,7 @@ $.extend(Agent, {
                 this.dragPit();
                 return;
             }
-            if (this.can('eraseWall') && this.isBombPos(gridX, gridY)) {//abe it's only our loss, we anyway have a weak codebase. plus we r removing features
+            if (this.can('eraseWall') && this.isBombPos(gridX, gridY)) { //abe it's only our loss, we anyway have a weak codebase. plus we r removing features
                 this.setWalkableAt(gridX, gridY, true);
                 this.setWalkableAt(gridX, gridY + 1, true);
                 this.setWalkableAt(gridX, gridY - 1, true);
@@ -899,6 +899,7 @@ $.extend(Agent, {
                 grid = this.grid,
                 gridX = coord[0],
                 gridY = coord[1];
+
             switch (state) {
                 case 'draggingStart':
                     if (!grid.isWalkableAt(gridX, gridY)) {
@@ -1096,7 +1097,7 @@ $.extend(Agent, {
         this.startX = gridX;
         this.startY = gridY;
         View.setStartPos(gridX, gridY);
-        this.grid.setWalkableAt(gridX, gridY, false);
+
     },
     setEndPos: function(gridX, gridY) {
         this.endX = gridX;
@@ -1190,7 +1191,7 @@ $.extend(Agent, {
             this.bombY = gridY;
         }
     },
-    clearposice: function (gridX, gridY) {
+    clearposice: function(gridX, gridY) {
         View.setWalkableAt(gridX, gridY, 'walkable', true, "clear");
         View.setWalkableAt(gridX - 1, gridY + 1, 'walkable', true, "clear");
         View.setWalkableAt(gridX + 1, gridY - 1, 'walkable', true, "clear");
