@@ -91,7 +91,7 @@ var View = {
         'stroke-width': 7,
     },
     supportedOperations: ['opened', 'closed', 'tested'],
-    init: function (opts) {
+    init: function(opts) {
         this.numCols = opts.numCols;
         this.numRows = opts.numRows;
         this.paper = Raphael('draw_area');
@@ -103,7 +103,7 @@ var View = {
      * Therefore, in order to not to block the rendering of browser ui,
      * We decomposed the task into smaller ones. Each will only generate a row.
      */
-    generateGrid: function (callback) {
+    generateGrid: function(callback) {
         var i, j, x, y,
             rect,
             rect,
@@ -119,8 +119,8 @@ var View = {
 
         paper.setSize(numCols * nodeSize, numRows * nodeSize);
 
-        createRowTask = function (rowId) {
-            return function (done) {
+        createRowTask = function(rowId) {
+            return function(done) {
                 rects[rowId] = [];
                 for (j = 0; j < numCols; ++j) {
                     x = j * nodeSize;
@@ -134,8 +134,8 @@ var View = {
             };
         };
 
-        sleep = function (done) {
-            setTimeout(function () {
+        sleep = function(done) {
+            setTimeout(function() {
                 done(null);
             }, 0);
         };
@@ -146,13 +146,13 @@ var View = {
             tasks.push(sleep);
         }
 
-        async.series(tasks, function () {
+        async.series(tasks, function() {
             if (callback) {
                 callback();
             }
         });
     },
-    setStartPos: function (gridX, gridY) {
+    setStartPos: function(gridX, gridY) {
         var coord = this.toPageCoordinate(gridX, gridY);
         if (!this.startNode) {
             this.startNode = this.paper.rect(
@@ -169,7 +169,7 @@ var View = {
             }).toFront();
         }
     },
-    setCheckPoint: function (gridX, gridY, oldX, oldY, value) {
+    setCheckPoint: function(gridX, gridY, oldX, oldY, value) {
         var coord = this.toPageCoordinate(gridX, gridY);
         console.log(this.checkpoint)
         if (value) {
@@ -206,93 +206,41 @@ var View = {
             }
         }
     },
-    setPitPos: function (gridX, gridY) {
+    setPitPos: function(gridX, gridY) {
         var coord = this.toPageCoordinate(gridX, gridY);
         var m2coord = this.toPageCoordinate(gridX - 2, gridY);
         var m1coord = this.toPageCoordinate(gridX - 1, gridY);
         var a2coord = this.toPageCoordinate(gridX + 2, gridY);
         var a1coord = this.toPageCoordinate(gridX + 1, gridY);
         console.log(this.pitNode);
-        if (!this.pitNode) {
-            console.log(this.blockedNodes[gridY][gridX])
-            this.pitNode = this.paper.rect(
+        this.pitNode = this.nodedrag(this.pitNode, coord, this.nodeStyle.pitnode);
+        this.pitm2Node = this.nodedrag(this.pitm2Node, m2coord, this.nodeStyle.pitarea);
+        this.pitm1Node = this.nodedrag(this.pitm1Node, m1coord, this.nodeStyle.pitarea);
+        this.pita2Node = this.nodedrag(this.pita2Node, a2coord, this.nodeStyle.pitarea);
+        this.pita1Node = this.nodedrag(this.pita1Node, a1coord, this.nodeStyle.pitarea);
+
+    },
+    nodedrag: function(Node, coord, style) {
+        if (!Node) {
+            Node = this.paper.rect(
                     coord[0],
                     coord[1],
                     this.nodeSize,
                     this.nodeSize
                 ).attr(this.nodeStyle.normal)
-                .animate(this.nodeStyle.pitnode, 1000);
+                .animate(style, 1000);
         } else {
 
-            this.pitNode.attr({
+            Node.attr({
                 x: coord[0],
                 y: coord[1]
             }).toFront();
 
         }
-        if (!this.pitm2Node) {
-            console.log(this.blockedNodes[gridY][gridX])
-            this.pitm2Node = this.paper.rect(
-                    m2coord[0],
-                    m2coord[1],
-                    this.nodeSize,
-                    this.nodeSize
-                ).attr(this.nodeStyle.normal)
-                .animate(this.nodeStyle.pitarea, 1000);
-        } else {
-            this.pitm2Node.attr({
-                x: m2coord[0],
-                y: m2coord[1]
-            }).toFront();
-        }
-        if (!this.pitm1Node) {
-            console.log(this.blockedNodes[gridY][gridX])
-            this.pitm1Node = this.paper.rect(
-                    m1coord[0],
-                    m1coord[1],
-                    this.nodeSize,
-                    this.nodeSize
-                ).attr(this.nodeStyle.normal)
-                .animate(this.nodeStyle.pitarea, 1000);
-        } else {
-            this.pitm1Node.attr({
-                x: m1coord[0],
-                y: m1coord[1]
-            }).toFront();
-        }
-        if (!this.pita1Node) {
-            console.log(this.blockedNodes[gridY][gridX])
-            this.pita1Node = this.paper.rect(
-                    a1coord[0],
-                    a1coord[1],
-                    this.nodeSize,
-                    this.nodeSize
-                ).attr(this.nodeStyle.normal)
-                .animate(this.nodeStyle.pitarea, 1000);
-        } else {
-            this.pita1Node.attr({
-                x: a1coord[0],
-                y: a1coord[1]
-            }).toFront();
-        }
-        if (!this.pita2Node) {
-            console.log(this.blockedNodes[gridY][gridX])
-            this.pita2Node = this.paper.rect(
-                    a2coord[0],
-                    a1coord[1],
-                    this.nodeSize,
-                    this.nodeSize
-                ).attr(this.nodeStyle.normal)
-                .animate(this.nodeStyle.pitarea, 1000);
-        } else {
-            this.pita2Node.attr({
-                x: a2coord[0],
-                y: a2coord[1]
-            }).toFront();
-        }
+        return Node;
 
     },
-    setIcePos: function (gridX, gridY) {
+    setIcePos: function(gridX, gridY) {
         var coord = this.toPageCoordinate(gridX, gridY);
         var d1coord = this.toPageCoordinate(gridX - 1, gridY + 1);
         var d2coord = this.toPageCoordinate(gridX + 1, gridY + 1);
@@ -343,7 +291,7 @@ var View = {
             }).toFront();
         }
     },
-    setBombPos: function (gridX, gridY) {
+    setBombPos: function(gridX, gridY) {
         var coord = this.toPageCoordinate(gridX, gridY);
         var lcoord = this.toPageCoordinate(gridX - 1, gridY);
         var rcoord = this.toPageCoordinate(gridX + 1, gridY);
@@ -424,7 +372,7 @@ var View = {
 
 
 
-    setEndPos: function (gridX, gridY) {
+    setEndPos: function(gridX, gridY) {
         var coord = this.toPageCoordinate(gridX, gridY);
         if (!this.endNode) {
             this.endNode = this.paper.rect(
@@ -444,7 +392,7 @@ var View = {
     /**
      * Set the attribute of the node at the given coordinate.
      */
-    setAttributeAt: function (gridX, gridY, attr, value, ob) {
+    setAttributeAt: function(gridX, gridY, attr, value, ob) {
         var color, nodeStyle = this.nodeStyle;
         switch (attr) {
             case 'walkable':
@@ -469,20 +417,20 @@ var View = {
                 return;
         }
     },
-    colorizeNode: function (node, color) {
+    colorizeNode: function(node, color) {
         node.animate({
             fill: color
         }, this.nodeColorizeEffect.duration);
     },
 
-    zoomNode: function (node) {
+    zoomNode: function(node) {
         node.toFront().attr({
             transform: this.nodeZoomEffect.transform,
         }).animate({
             transform: this.nodeZoomEffect.transformBack,
         }, this.nodeZoomEffect.duration);
     },
-    clearallpit: function () {
+    clearallpit: function() {
 
         if (this.pitNode != null) {
             this.pitNode.remove();
@@ -510,7 +458,7 @@ var View = {
 
         }
     },
-    clearallice: function () {
+    clearallice: function() {
 
         if (this.iceNode != null) {
             this.iceNode.remove();
@@ -529,7 +477,7 @@ var View = {
 
 
     },
-    clearallbomb: function () {
+    clearallbomb: function() {
 
         if (this.bombNode != null) {
             this.bombNode.remove();
@@ -560,7 +508,7 @@ var View = {
 
 
 
-    setWalkableAt: function (gridX, gridY, value, ob) {
+    setWalkableAt: function(gridX, gridY, value, ob) {
         var node, i, blockedNodes = this.blockedNodes;
         if (!blockedNodes) {
             blockedNodes = this.blockedNodes = new Array(this.numRows);
@@ -576,7 +524,7 @@ var View = {
 
                 this.colorizeNode(node, this.rects[gridY][gridX].attr('fill'));
                 this.zoomNode(node);
-                setTimeout(function () {
+                setTimeout(function() {
                     node.remove();
                 }, this.nodeZoomEffect.duration);
                 blockedNodes[gridY][gridX] = null;
@@ -608,7 +556,7 @@ var View = {
             this.zoomNode(node);
         }
     },
-    setPitAt: function (gridX, gridY, value) {
+    setPitAt: function(gridX, gridY, value) {
         var node, i, blockedNodes = this.blockedNodes;
         if (!blockedNodes) {
             blockedNodes = this.blockedNodes = new Array(this.numRows);
@@ -622,7 +570,7 @@ var View = {
             if (node) {
                 this.colorizeNode(node, this.rects[gridY][gridX].attr('fill'));
                 this.zoomNode(node);
-                setTimeout(function () {
+                setTimeout(function() {
                     node.remove();
                 }, this.nodeZoomEffect.duration);
                 blockedNodes[gridY][gridX] = null;
@@ -638,7 +586,7 @@ var View = {
         }
     },
 
-    clearFootprints: function () {
+    clearFootprints: function() {
         var i, x, y, coord, coords = this.getDirtyCoords();
         for (i = 0; i < coords.length; ++i) {
             coord = coords[i];
@@ -648,7 +596,7 @@ var View = {
             this.setCoordDirty(x, y, false);
         }
     },
-    clearBlockedNodes: function () {
+    clearBlockedNodes: function() {
         var i, j, blockedNodes = this.blockedNodes;
         if (!blockedNodes) {
             return;
@@ -662,7 +610,7 @@ var View = {
             }
         }
     },
-    drawPath: function (path) {
+    drawPath: function(path) {
         if (!path.length) {
             return;
         }
@@ -673,7 +621,7 @@ var View = {
     /**
      * Given a path, build its SVG represention.
      */
-    buildSvgPath: function (path) {
+    buildSvgPath: function(path) {
         var i, strs = [],
             size = this.nodeSize;
 
@@ -686,7 +634,7 @@ var View = {
 
         return strs.join('');
     },
-    clearPath: function () {
+    clearPath: function() {
         if (this.path) {
             this.path.remove();
         }
@@ -694,7 +642,7 @@ var View = {
     /**
      * Helper function to convert the page coordinate to grid coordinate
      */
-    toGridCoordinate: function (pageX, pageY) {
+    toGridCoordinate: function(pageX, pageY) {
         return [
             Math.floor(pageX / this.nodeSize),
             Math.floor(pageY / this.nodeSize)
@@ -703,13 +651,13 @@ var View = {
     /**
      * helper function to convert the grid coordinate to page coordinate
      */
-    toPageCoordinate: function (gridX, gridY) {
+    toPageCoordinate: function(gridX, gridY) {
         return [
             gridX * this.nodeSize,
             gridY * this.nodeSize
         ];
     },
-    showStats: function (opts) {
+    showStats: function(opts) {
         var texts = [
 
             '<b>Length: </b>' + Math.round(opts.pathLength * 100) / 100,
@@ -732,7 +680,7 @@ var View = {
             html: texts.join('<br>')
         })
     },
-    setCoordDirty: function (gridX, gridY, isDirty) {
+    setCoordDirty: function(gridX, gridY, isDirty) {
         var x, y,
             numRows = this.numRows,
             numCols = this.numCols,
@@ -749,7 +697,7 @@ var View = {
         }
         this.coordDirty[gridY][gridX] = isDirty;
     },
-    getDirtyCoords: function () {
+    getDirtyCoords: function() {
         var x, y,
             numRows = this.numRows,
             numCols = this.numCols,
