@@ -156,7 +156,7 @@ var View = {
      * Sets display for the start node.
      * This method will be called while setting default start position and dragging Start position.
      */
-    setStartPos: function (gridX, gridY) {
+    setStartPos: function(gridX, gridY) {
         var coord = this.toPageCoordinate(gridX, gridY);
         this.startNode = this.nodedrag(this.startNode, coord, this.nodeStyle.start);
     },
@@ -164,7 +164,7 @@ var View = {
      * Sets display for the checkpoint node.
      * This method will be called while inserting checkpoints, dragging checkpoints and clearing each or all checkpoints.
      */
-    setCheckPoint: function (gridX, gridY, oldX, oldY, value) {
+    setCheckPoint: function(gridX, gridY, oldX, oldY, value) {
         var coord = this.toPageCoordinate(gridX, gridY);
         if (value) {
             if (this.checkpoint.findIndex(node => node.x == oldX && node.y == oldY) == -1) {
@@ -178,7 +178,7 @@ var View = {
                             this.nodeSize
                         ).attr(this.nodeStyle.checkpoint)
                         .animate(this.nodeStyle.checkpoint, 1000)
-                })
+                });
             } else {
                 checkindex = this.checkpoint.findIndex(node => node.x == oldX && node.y == oldY);
                 this.checkpoint[checkindex].x = gridX;
@@ -255,7 +255,7 @@ var View = {
      * Sets display for the end node.
      * This method will be called while setting default end position and dragging end position.
      */
-    setEndPos: function (gridX, gridY) {
+    setEndPos: function(gridX, gridY) {
         var coord = this.toPageCoordinate(gridX, gridY);
         this.endNode = this.nodedrag(this.endNode, coord, this.nodeStyle.end);
 
@@ -367,23 +367,7 @@ var View = {
             }
             node = blockedNodes[gridY][gridX] = this.rects[gridY][gridX].clone();
             console.log("my object", ob);
-            if (ob == "wall") {
-                this.colorizeNode(node, this.nodeStyle.blocked.fill);
-            } else if (ob == "pit") {
-                console.log("pit style");
-                this.colorizeNode(node, this.nodeStyle.pitnode.fill);
-            } else if (ob == "ice") {
-                console.log("ice style");
-                this.colorizeNode(node, this.nodeStyle.icenode.fill);
-            } else if (ob == "bomb") {
-                this.colorizeNode(node, this.nodeStyle.bombnode.fill);
-            } else if (ob == "bombarea") {
-                this.colorizeNode(node, this.nodeStyle.bombarea.fill);
-            } else if (ob == "icearea") {
-                this.colorizeNode(node, this.nodeStyle.icearea.fill);
-            } else if (ob == "pitarea") {
-                this.colorizeNode(node, this.nodeStyle.pitarea.fill);
-            }
+            this.colorizeNode(node, this.nodeStyle.blocked.fill);
             this.zoomNode(node);
         }
     },
@@ -419,7 +403,7 @@ var View = {
     /**
      * Clear functions called on clearing path and clicking over walls.
      */
-    clearFootprints: function () {
+    clearFootprints: function() {
         var i, x, y, coord, coords = this.getDirtyCoords();
         for (i = 0; i < coords.length; ++i) {
             coord = coords[i];
