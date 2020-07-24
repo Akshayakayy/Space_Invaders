@@ -219,24 +219,8 @@ var View = {
         this.pita1Node = this.nodedrag(this.pita1Node, a1coord, this.nodeStyle.pitarea);
 
     },
-    nodedrag: function(Node, coord, style) {
-        if (!Node) {
-            Node = this.paper.rect(
-                    coord[0],
-                    coord[1],
-                    this.nodeSize,
-                    this.nodeSize
-                ).attr(this.nodeStyle.normal)
-                .animate(style, 1000);
-        } else {
-            Node.attr({
-                x: coord[0],
-                y: coord[1]
-            }).toFront();
-        }
-        return Node;
 
-    },
+
     setIcePos: function(gridX, gridY) {
         var coord = this.toPageCoordinate(gridX, gridY);
         var d1coord = this.toPageCoordinate(gridX - 1, gridY + 1);
@@ -256,6 +240,24 @@ var View = {
         this.bombrNode = this.nodedrag(this.bombrNode, rcoord, this.nodeStyle.bombarea);
         this.bombdNode = this.nodedrag(this.bombdNode, dcoord, this.nodeStyle.bombarea);
         this.bombuNode = this.nodedrag(this.bombuNode, ucoord, this.nodeStyle.bombarea);
+    },
+    nodedrag: function(Node, coord, style) {
+        if (!Node) {
+            Node = this.paper.rect(
+                    coord[0],
+                    coord[1],
+                    this.nodeSize,
+                    this.nodeSize
+                ).attr(this.nodeStyle.normal)
+                .animate(style, 1000);
+        } else {
+            Node.attr({
+                x: coord[0],
+                y: coord[1]
+            }).toFront();
+        }
+        return Node;
+
     },
     setEndPos: function(gridX, gridY) {
         var coord = this.toPageCoordinate(gridX, gridY);
