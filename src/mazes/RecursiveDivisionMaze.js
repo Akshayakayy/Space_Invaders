@@ -8,6 +8,7 @@
  * @param {number} opt.endirectionX x co-ordinate of the destination
  * @param {number} opt.endirectionY y co-ordinate of the destination
  * @param {Array<Object>} opt.checkpoints array of checkpoints on the grid
+ * @param {number} opt.density bool variable to choose between sparse and dense maze
  */
 function RecDivMaze(opt) {
 	opt = opt || {};
@@ -19,6 +20,7 @@ function RecDivMaze(opt) {
 	this.endX = opt.endX;
 	this.endY = opt.endY;
 	this.checkpoints = opt.checkpoints;
+	this.density = opt.density;
 	this.horizontalFlag = 1;
 	this.verticalFlag = 2;
 	this.southFlag = 1;
@@ -48,7 +50,9 @@ RecDivMaze.prototype.choose_orientation = function (width, height) {
  * @param {number} orientation
  */
 RecDivMaze.prototype.divide = function (x, y, width, height, orientation) {
-	if (width < 4 || height < 4)
+	var sizeLim = this.density ? 5 : 8;
+	console.log(sizeLim);
+	if (width < sizeLim || height < sizeLim)
 		return;
 	var horizontal = orientation == this.horizontalFlag;
 	var wallX = x + (horizontal ? 0 : Math.floor(Math.random() * (width - 2)));

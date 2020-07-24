@@ -109,7 +109,7 @@ var Agent = StateMachine.create({
         },
         {
             name: 'startMaze',
-            from:  ['ready', 'finished'],
+            from: ['ready', 'finished'],
             to: 'ready'
         }
     ],
@@ -280,7 +280,7 @@ $.extend(Agent, {
         // => searching
         Bot.botState(0);
     },
-    
+
     onrestart: function () {
         // When clearing the colorized nodes, there may be
         // nodes still animating, which is an asynchronous procedure.
@@ -326,9 +326,9 @@ $.extend(Agent, {
                 operationCount: this.operationCount,
             });
             View.drawPath(this.path);
-            
-            var botpan=document.getElementById('bot_panel');
-            var botmsg=document.getElementById('bot_msg');
+
+            var botpan = document.getElementById('bot_panel');
+            var botmsg = document.getElementById('bot_msg');
             Bot.botState(5);
             // msgid = 1;
             // msgs += 1;
@@ -391,7 +391,7 @@ $.extend(Agent, {
         if (this.endstatus == 1)
             this.findPath(1);
 
-        Bot.botState(8,this.checkPointsleft);
+        Bot.botState(8, this.checkPointsleft);
     },
     initmaze: function (mazetype) {
         this.mazetype = mazetype;
@@ -426,14 +426,19 @@ $.extend(Agent, {
             callback: $.proxy(this.initmaze, this, 'random'),
         }, {
             id: 1,
-            text: 'Recursive maze',
+            text: 'Dense Recursive maze',
             enabled: true,
-            callback: $.proxy(this.initmaze, this, 'recursive'),
+            callback: $.proxy(this.initmaze, this, 'dense_recursive'),
         }, {
             id: 2,
             text: 'Stair maze',
             enabled: true,
             callback: $.proxy(this.initmaze, this, 'stair'),
+        }, {
+            id: 3,
+            text: 'Sparse Recursive Maze',
+            enabled: true,
+            callback: $.proxy(this.initmaze, this, 'sparse_recursive'),
         });
         this.setButtonStatesObstacles({
             id: 1,
@@ -485,7 +490,7 @@ $.extend(Agent, {
                 endY: this.endY,
                 checkpoints: this.checkpoints
             });
-        } else if (mazetype == 'recursive') {
+        } else if (mazetype == 'dense_recursive') {
             maze = new PF.RecDivMaze({
                 xlim: rows,
                 ylim: cols,
@@ -493,7 +498,8 @@ $.extend(Agent, {
                 startY: this.startY,
                 endX: this.endX,
                 endY: this.endY,
-                checkpoints: this.checkpoints
+                checkpoints: this.checkpoints,
+                density: 1
             });
         } else if (mazetype == 'stair') {
             maze = new PF.StairMaze({
@@ -505,7 +511,19 @@ $.extend(Agent, {
                 endY: this.endY,
                 checkpoints: this.checkpoints
             });
+        } else if (mazetype == 'sparse_recursive') {
+            maze = new PF.RecDivMaze({
+                xlim: rows,
+                ylim: cols,
+                startX: this.startX,
+                startY: this.startY,
+                endX: this.endX,
+                endY: this.endY,
+                checkpoints: this.checkpoints,
+                density: 0
+            });
         }
+
         console.log(maze);
         var mazeWall = maze.createMaze();
         for (let i = 0; i < mazeWall.length; i++) {
@@ -668,21 +686,21 @@ $.extend(Agent, {
             this.clearCheckPoint(gridX, gridY);
             this.checkPointsleft++;
 
-            Bot.botState(9,this.checkPointsleft);
+            Bot.botState(9, this.checkPointsleft);
             return;
-        
-        } else if (event.ctrlKey && this.endstatus==1) {
+
+        } else if (event.ctrlKey && this.endstatus == 1) {
             if (!this.isStartOrEndPos(gridX, gridY) && grid.isWalkableAt(gridX, gridY) && this.checkPointsleft > 0) {
                 this.setCheckPoint(gridX, gridY, true);
                 this.checkPointsleft--;
                 this.findPath(1);
-                Bot.botState(10,this.checkPointsleft);
-            } 
+                Bot.botState(10, this.checkPointsleft);
+            }
         } else if (event.ctrlKey) {
             if (!this.isStartOrEndPos(gridX, gridY) && grid.isWalkableAt(gridX, gridY) && this.checkPointsleft > 0) {
                 this.setCheckPoint(gridX, gridY, true);
                 this.checkPointsleft--;
-                Bot.botState(10,this.checkPointsleft);
+                Bot.botState(10, this.checkPointsleft);
             }
         } else {
             if (this.can('dragStart') && this.isStartPos(gridX, gridY)) {
@@ -884,7 +902,7 @@ $.extend(Agent, {
                 gridY = coord[1];
             switch (state) {
                 case 'draggingStart':
-                    if (!grid.isWalkableAt(gridX,gridY)){
+                    if (!grid.isWalkableAt(gridX, gridY)) {
                         if (this.endstatus == 1)
                             this.findPath(1)
                     }
@@ -895,7 +913,7 @@ $.extend(Agent, {
                     }
                     break;
                 case 'draggingEnd':
-                    if (!grid.isWalkableAt(gridX,gridY)){
+                    if (!grid.isWalkableAt(gridX, gridY)) {
                         if (this.endstatus == 1)
                             this.findPath(1)
                     }
@@ -906,7 +924,7 @@ $.extend(Agent, {
                     }
                     break;
                 case 'draggingCheckpoint':
-                    if (!grid.isWalkableAt(gridX,gridY)){
+                    if (!grid.isWalkableAt(gridX, gridY)) {
                         if (this.endstatus == 1)
                             this.findPath(1)
                     }
@@ -926,9 +944,6 @@ $.extend(Agent, {
         $.each(arguments, function (i, opt) {
             console.log("Button id:", opt.id)
             var optid = opt.id;
-            // if (opt.id == 7) {
-            //     optid = 0;
-            // }
 
             var $button = Agent.$buttons.eq(optid);
             if (opt.text) {
