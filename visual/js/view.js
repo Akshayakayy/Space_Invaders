@@ -321,79 +321,33 @@ var View = {
         }, this.nodeZoomEffect.duration);
     },
     clearallpit: function() {
+        this.pitNode = this.clearob(this.pitNode);
+        this.pitm1Node = this.clearob(this.pitm1Node);
+        this.pitm2Node = this.clearob(this.pitm2Node);
+        this.pita1Node = this.clearob(this.pita1Node);
+        this.pita2Node = this.clearob(this.pita2Node);
 
-        if (this.pitNode != null) {
-            this.pitNode.remove();
-            this.pitNode = null;
-
-        }
-        if (this.pitm1Node != null) {
-            this.pitm1Node.remove();
-            this.pitm1Node = null;
-
-        }
-        if (this.pitm2Node != null) {
-            this.pitm2Node.remove();
-            this.pitm2Node = null;
-
-        }
-        if (this.pita1Node != null) {
-            this.pita1Node.remove();
-            this.pita1Node = null;
-
-        }
-        if (this.pita2Node != null) {
-            this.pita2Node.remove();
-            this.pita2Node = null;
-
-        }
     },
+    clearob: function(Node) {
+        if (Node != null) {
+            Node.remove();
+            Node = null;
+        }
+        return Node;
+    },
+
     clearallice: function() {
-
-        if (this.iceNode != null) {
-            this.iceNode.remove();
-            this.iceNode = null;
-
-        }
-        if (this.iced1Node != null) {
-            this.iced1Node.remove();
-            this.iced1Node = null;
-
-        }
-        if (this.iced2Node != null) {
-            this.iced2Node.remove();
-            this.iced2Node = null;
-        }
-
+        this.iceNode = this.clearob(this.iceNode);
+        this.iced1Node = this.clearob(this.iced1Node);
+        this.iced2Node = this.clearob(this.iced2Node);
 
     },
     clearallbomb: function() {
-
-        if (this.bombNode != null) {
-            this.bombNode.remove();
-            this.bombNode = null;
-
-        }
-        if (this.bombuNode != null) {
-            this.bombuNode.remove();
-            this.bombuNode = null;
-
-        }
-        if (this.bombdNode != null) {
-            this.bombdNode.remove();
-            this.bombdNode = null;
-
-        }
-        if (this.bomblNode != null) {
-            this.bomblNode.remove();
-            this.bomblNode = null;
-
-        }
-        if (this.bombrNode != null) {
-            this.bombrNode.remove();
-            this.bombrNode = null;
-
-        }
+        this.bombNode = this.clearob(this.bombNode);
+        this.bombuNode = this.clearob(this.bombuNode);
+        this.bombdNode = this.clearob(this.bombdNode);
+        this.bomblNode = this.clearob(this.bomblNode);
+        this.bombrNode = this.clearob(this.bombrNode);
     },
 
 
