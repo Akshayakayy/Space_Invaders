@@ -446,9 +446,9 @@ $.extend(Agent, {
             // => [starting, draggingStart, draggingEnd, draggingPit drawingStart, drawingEnd]
     },
     createMazeWall: function(event, x, y) {
-
         event.setWalkableAt(x, y, false);
     },
+
     onstartMaze: function(event, from, to) {
         this.endstatus = 0;
         var mazetype = this.mazetype;
