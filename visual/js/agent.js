@@ -198,15 +198,28 @@ $.extend(Agent, {
     },
     onaddPit: function(event, from, to, gridX, gridY) {
         console.log("adding pit");
+        if (this.numpit >= 1) {
+            Bot.botState(15);
+        } else
+            Bot.botState(13);
+
     },
     onaddIce: function(event, from, to, gridX, gridY) {
         console.log("adding ice");
+        if (this.numice >= 1) {
+            Bot.botState(14);
+        } else
+            Bot.botState(12);
 
         // => addingIce
     },
     onaddBomb: function(event, from, to, gridX, gridY) {
         this.setBombAt(gridX, gridY, false);
         console.log("adding bomb");
+        if (this.numbomb >= 1) {
+            Bot.botState(13);
+        } else
+            Bot.botState(11);
         // => addingBomb
     },
     pathnotfound: function() {

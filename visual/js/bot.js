@@ -74,6 +74,21 @@ var Bot = {
             case 10:
                 text = "Added a checkpoint <br><br> Checkpoints left: " + String(checkPointInfo) + "<br><br> You can remove a checkpoint using Ctrl+Click";
                 break;
+            case 11:
+                text = "Added a Bomb <br><br>" + "You can drag it by clicking on it";
+                break;
+            case 12:
+                text = "Added Ice <br><br>" + "You can drag it by clicking on it";
+                break;
+            case 13:
+                text = "Only one bomb obstacle can be inserted <br><br> you can drag the bomb to required position or remove all Obstacles by clicking on Remove Obstacles";
+                break;
+            case 14:
+                text = "Only one ice obstacle can be inserted <br><br> you can drag the ice to required position or remove all Obstacles by clicking on Remove Obstacles";
+                break;
+            case 15:
+                text = "Only one pit obstacle can be inserted <br><br> you can drag the pit to required position or remove all Obstacles by clicking on Remove Obstacles";
+                break;
 
         }
         if (state == 5)
