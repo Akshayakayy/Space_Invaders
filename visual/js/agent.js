@@ -280,7 +280,7 @@ $.extend(Agent, {
             console.log("Path nd operations")
             console.log(this.path)
             console.log(this.operations)
-            if (this.path.length == 1) {
+            if (this.path.length == 1 || this.path.length == 0) {
                 this.pathfound = 0
                 break;
             }
