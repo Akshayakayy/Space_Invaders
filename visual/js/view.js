@@ -154,20 +154,7 @@ var View = {
     },
     setStartPos: function(gridX, gridY) {
         var coord = this.toPageCoordinate(gridX, gridY);
-        if (!this.startNode) {
-            this.startNode = this.paper.rect(
-                    coord[0],
-                    coord[1],
-                    this.nodeSize,
-                    this.nodeSize
-                ).attr(this.nodeStyle.normal)
-                .animate(this.nodeStyle.start, 1000);
-        } else {
-            this.startNode.attr({
-                x: coord[0],
-                y: coord[1]
-            }).toFront();
-        }
+        this.startNode = this.nodedrag(this.startNode, coord, this.nodeStyle.start);
     },
     setCheckPoint: function(gridX, gridY, oldX, oldY, value) {
         var coord = this.toPageCoordinate(gridX, gridY);
@@ -219,24 +206,6 @@ var View = {
         this.pita1Node = this.nodedrag(this.pita1Node, a1coord, this.nodeStyle.pitarea);
 
     },
-    nodedrag: function(Node, coord, style) {
-        if (!Node) {
-            Node = this.paper.rect(
-                    coord[0],
-                    coord[1],
-                    this.nodeSize,
-                    this.nodeSize
-                ).attr(this.nodeStyle.normal)
-                .animate(style, 1000);
-        } else {
-            Node.attr({
-                x: coord[0],
-                y: coord[1]
-            }).toFront();
-        }
-        return Node;
-
-    },
     setIcePos: function(gridX, gridY) {
         var coord = this.toPageCoordinate(gridX, gridY);
         var d1coord = this.toPageCoordinate(gridX - 1, gridY + 1);
@@ -257,22 +226,28 @@ var View = {
         this.bombdNode = this.nodedrag(this.bombdNode, dcoord, this.nodeStyle.bombarea);
         this.bombuNode = this.nodedrag(this.bombuNode, ucoord, this.nodeStyle.bombarea);
     },
-    setEndPos: function(gridX, gridY) {
-        var coord = this.toPageCoordinate(gridX, gridY);
-        if (!this.endNode) {
-            this.endNode = this.paper.rect(
+    nodedrag: function(Node, coord, style) {
+        if (!Node) {
+            Node = this.paper.rect(
                     coord[0],
                     coord[1],
                     this.nodeSize,
                     this.nodeSize
                 ).attr(this.nodeStyle.normal)
-                .animate(this.nodeStyle.end, 1000);
+                .animate(style, 1000);
         } else {
-            this.endNode.attr({
+            Node.attr({
                 x: coord[0],
                 y: coord[1]
             }).toFront();
         }
+        return Node;
+
+    },
+    setEndPos: function(gridX, gridY) {
+        var coord = this.toPageCoordinate(gridX, gridY);
+        this.endNode = this.nodedrag(this.endNode, coord, this.nodeStyle.end);
+
     },
     /**
      * Set the attribute of the node at the given coordinate.
