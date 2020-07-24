@@ -1,6 +1,7 @@
 /**
  * The pathfinding visualization.
  * It uses raphael.js to show the grids.
+ * It handles most of the inputs and outputs in the Raphael grid.
  */
 
 var View = {
@@ -11,39 +12,6 @@ var View = {
             fill: '#CFCFCF',
             'stroke-opacity': 0.6, // the border
         },
-        pitnode: {
-
-            fill: 'url("images/pit.jpeg")',
-            'stroke-opacity': 0.2,
-
-        },
-        pitarea: {
-            fill: '#004C70',
-            "stroke-opacity": 0.1,
-
-        },
-        bombnode: {
-            fill: 'url("images/bomb.png")',
-            "stroke-opacity": 0.2,
-
-        },
-        bombarea: {
-            fill: 'url("images/bombarea.jpg")',
-            "stroke-opacity": 0.1,
-
-        },
-
-        icenode: {
-            fill: 'url("images/ice.jpg")',
-            'stroke-opacity': 0.2,
-
-        },
-        icearea: {
-            fill: 'url("images/icearea.png")',
-            "stroke-opacity": 0.1,
-
-        },
-
         blocked: {
             fill: '#47101E',
             'stroke-opacity': 0.2,
@@ -104,6 +72,7 @@ var View = {
      * We decomposed the task into smaller ones. Each will only generate a row.
      */
     generateGrid: function (callback) {
+        // It is used to generate the grid. 
         var i, j, x, y,
             rect,
             normalStyle, nodeSize,
@@ -152,6 +121,7 @@ var View = {
         });
     },
     setStartPos: function (gridX, gridY) {
+        // Sets the start position at the co-ordinates(gridX, gridY)
         var coord = this.toPageCoordinate(gridX, gridY);
         if (!this.startNode) {
             this.startNode = this.paper.rect(
@@ -169,8 +139,8 @@ var View = {
         }
     },
     setCheckPoint: function (gridX, gridY, oldX, oldY, value) {
+        // Sets the checckpoint position at the co-ordinates(gridX, gridY)
         var coord = this.toPageCoordinate(gridX, gridY);
-        console.log(this.checkpoint)
         if (value) {
             if (this.checkpoint.findIndex(node => node.x == oldX && node.y == oldY) == -1) {
                 this.checkpoint.push({
@@ -196,7 +166,6 @@ var View = {
         } else {
             if (this.checkpoint.findIndex(node => node.x == gridX && node.y == gridY) != -1) {
                 checkindex = this.checkpoint.findIndex(node => node.x == gridX && node.y == gridY);
-                console.log("Check", checkindex, this.rects[gridY][gridX])
                 node = this.rects[gridY][gridX].clone()
                 this.rects[gridY][gridX].remove()
                 node.attr(this.nodeStyle.normal)
@@ -205,24 +174,8 @@ var View = {
             }
         }
     },
-    setPitPos: function (gridX, gridY) {
-        var coord = this.toPageCoordinate(gridX, gridY);
-        if (!this.pitNode) {
-            this.pitNode = this.paper.rect(
-                    coord[0],
-                    coord[1],
-                    this.nodeSize,
-                    this.nodeSize
-                ).attr(this.nodeStyle.normal)
-                .animate(this.nodeStyle.start, 1000);
-        } else {
-            this.pitNode.attr({
-                x: coord[0],
-                y: coord[1]
-            }).toFront();
-        }
-    },
     setEndPos: function (gridX, gridY) {
+        // Sets the destination position at the co-ordinates(gridX, gridY)
         var coord = this.toPageCoordinate(gridX, gridY);
         if (!this.endNode) {
             this.endNode = this.paper.rect(
@@ -268,6 +221,7 @@ var View = {
         }
     },
     colorizeNode: function (node, color) {
+        // Fill the node with a particular colour
         node.animate({
             fill: color
         }, this.nodeColorizeEffect.duration);
@@ -281,6 +235,7 @@ var View = {
         }, this.nodeZoomEffect.duration);
     },
     setWalkableAt: function (gridX, gridY, value, ob) {
+        // Sets the walkable status of a particular node
         var node, i, blockedNodes = this.blockedNodes;
         if (!blockedNodes) {
             blockedNodes = this.blockedNodes = new Array(this.numRows);
@@ -292,7 +247,6 @@ var View = {
         if (value) {
             // clear blocked node
             if (node) {
-                console.log(node)
 
                 this.colorizeNode(node, this.rects[gridY][gridX].attr('fill'));
                 this.zoomNode(node);
@@ -307,58 +261,14 @@ var View = {
                 return;
             }
             node = blockedNodes[gridY][gridX] = this.rects[gridY][gridX].clone();
-            console.log("my object", ob);
             if (ob == "wall") {
                 this.colorizeNode(node, this.nodeStyle.blocked.fill);
-            } else if (ob == "pit") {
-                console.log("pit style");
-                this.colorizeNode(node, this.nodeStyle.pitnode.fill);
-            } else if (ob == "ice") {
-                console.log("ice style");
-                this.colorizeNode(node, this.nodeStyle.icenode.fill);
-            } else if (ob == "bomb") {
-                this.colorizeNode(node, this.nodeStyle.bombnode.fill);
-            } else if (ob == "bombarea") {
-                this.colorizeNode(node, this.nodeStyle.bombarea.fill);
-            } else if (ob == "icearea") {
-                this.colorizeNode(node, this.nodeStyle.icearea.fill);
-            } else if (ob == "pitarea") {
-                this.colorizeNode(node, this.nodeStyle.pitarea.fill);
             }
             this.zoomNode(node);
         }
     },
-    setPitAt: function (gridX, gridY, value) {
-        var node, i, blockedNodes = this.blockedNodes;
-        if (!blockedNodes) {
-            blockedNodes = this.blockedNodes = new Array(this.numRows);
-            for (i = 0; i < this.numRows; ++i) {
-                blockedNodes[i] = [];
-            }
-        }
-        node = blockedNodes[gridY][gridX];
-        if (value) {
-            // clear blocked node
-            if (node) {
-                this.colorizeNode(node, this.rects[gridY][gridX].attr('fill'));
-                this.zoomNode(node);
-                setTimeout(function () {
-                    node.remove();
-                }, this.nodeZoomEffect.duration);
-                blockedNodes[gridY][gridX] = null;
-            }
-        } else {
-            // add pit to Node
-            if (node) {
-                return;
-            }
-            node = blockedNodes[gridY][gridX] = this.rects[gridY][gridX].clone();
-            this.colorizeNode(node, this.nodeStyle.pitnode.fill);
-            this.zoomNode(node);
-        }
-    },
-
     clearFootprints: function () {
+        // Clears the visited and tested nodes.
         var i, x, y, coord, coords = this.getDirtyCoords();
         for (i = 0; i < coords.length; ++i) {
             coord = coords[i];
@@ -369,6 +279,7 @@ var View = {
         }
     },
     clearBlockedNodes: function () {
+        // Clears the obstacles
         var i, j, blockedNodes = this.blockedNodes;
         if (!blockedNodes) {
             return;
@@ -383,11 +294,11 @@ var View = {
         }
     },
     drawPath: function (path) {
+        // Draws the path from start to end when a path is found
         if (!path.length) {
             return;
         }
         var svgPath = this.buildSvgPath(path);
-        console.log(svgPath)
         this.path = this.paper.path(svgPath).attr(this.pathStyle);
     },
     /**
@@ -407,6 +318,7 @@ var View = {
         return strs.join('');
     },
     clearPath: function () {
+        // Clear the path
         if (this.path) {
             this.path.remove();
         }
@@ -430,6 +342,7 @@ var View = {
         ];
     },
     showStats: function (opts) {
+        // Show the length, time and the number of operations in a toast notification at the bottom right corner.
         var texts = [
 
             '<b>Length: </b>' + Math.round(opts.pathLength * 100) / 100,
