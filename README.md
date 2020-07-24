@@ -29,8 +29,22 @@ Implemented various types of mazes using algorithms:
 
 ![Test Image 1](https://github.com/Akshayakayy/Space_Invaders/blob/master/visual/images/gifs/maze.gif)
 
-### New searching algorithm:
-* Collaborative Learning Agents
+### Searching algorithms:
+
+*  `AStarFinder` 
+*  `BestFirstFinder`
+*  `BreadthFirstFinder` 
+*  `DijkstraFinder` 
+*  `IDAStarFinder.js` 
+*  `JumpPointFinder` 
+*  `OrthogonalJumpPointFinder` 
+*  `BiAStarFinder`
+*  `BiBestFirstFinder`
+*  `BiBreadthFirstFinder` 
+*  `BiDijkstraFinder` 
+*  `CollaborativeLearningAgentsFinder` 
+
+The prefix `Bi` for the last four finders in the above list stands for the bi-directional searching strategy.
 
 ### Other features:
 * Music loop in game
@@ -60,174 +74,18 @@ The project is deployed in Azure. You can access it here: https://tathagataraha.
 
 ------
 
-If you want to use it in Node.js, you may install it via `npm`.
+## Technologies Used
 
-```bash
-npm install pathfinding
-```
-
-Then, in your program:
-
-```javascript
-var PF = require('pathfinding');
-```
-
-See the `Basic Usage` section below for usage details.
+* Gulp - We have used gulp to compile the src folder to form a .min.js file
+* Bootstrap - We have used Bootstrap for decoration of the UI.
+* Sweetalert - Sweetalert is mainly used for the guide and showing the stats in the end.
+* Raphael - Raphael is used for generating the grid on which the whole thing happens.
+* Npm - It is used for using node modules.
+* Git - It is used for version control.
+* HTML, CSS, JS and other basic web dev tools are used to write the whole project.
 
 
-Basic Usage
------------
-
-To build a grid-map of width 5 and height 3:
-
-```javascript
-var grid = new PF.Grid(5, 3); 
-```
-
-By default, all the nodes in the grid will be able to be walked through.
-To set whether a node at a given coordinate is walkable or not, use the `setWalkableAt` method.
-
-For example, to set the node at (0, 1) to be un-walkable, where 0 is the x coordinate (from left to right), and 
-1 is the y coordinate (from up to down):
-
-```javascript
-grid.setWalkableAt(0, 1, false);
-```
-
-You may also pass in a matrix while instantiating the `PF.Grid` class.
-It will initiate all the nodes in the grid with the same walkability indicated by the matrix.
-0 for walkable while 1 for blocked.
-
-```javascript
-var matrix = [
-    [0, 0, 0, 1, 0],
-    [1, 0, 0, 0, 1],
-    [0, 0, 1, 0, 0],
-];
-var grid = new PF.Grid(matrix);
-```
-
-Currently there are 10 path-finders bundled in this library, namely:
-
-*  `AStarFinder` *
-*  `BestFirstFinder`
-*  `BreadthFirstFinder` *
-*  `DijkstraFinder` *
-*  `IDAStarFinder.js` *
-*  `JumpPointFinder` *
-*  `OrthogonalJumpPointFinder` *
-*  `BiAStarFinder`
-*  `BiBestFirstFinder`
-*  `BiBreadthFirstFinder` *
-*  `BiDijkstraFinder` *
-
-The prefix `Bi` for the last four finders in the above list stands for the bi-directional searching strategy.
-
-Also, Note that only the finders with trailing asterisks are guaranteed to find the shortest path.
-
-To build a path-finder, say, the `AStarFinder`:
-
-```javascript
-var finder = new PF.AStarFinder();
-```
-
-To find a path from (1, 2) to (4, 2), (Note: both the start point and end point should be walkable):
-
-```javascript
-var path = finder.findPath(1, 2, 4, 2, grid);
-```
-
-`path` will be an array of coordinates including both the start and end positions.
-
-For the `matrix` defined previously, the `path` will be:
-
-```javascript
-[ [ 1, 2 ], [ 1, 1 ], [ 2, 1 ], [ 3, 1 ], [ 3, 2 ], [ 4, 2 ] ]
-```
-
-Be aware that `grid` will be modified in each path-finding, and will not be usable afterwards. If you want to use a single grid multiple times, create a clone for it before calling `findPath`.
-
-```javascript
-var gridBackup = grid.clone();
-```
-
-
-Advanced Usage
---------------
-
-When instantiating path-finders, you may pass in additional parameters to indicate which specific strategies to use.
-
-For all path-finders, you may indicate whether diagonal movement is allowed. The default value is `false`, which means that the path can only go orthogonally.
-
-In order to enable diagonal movement:
-
-```javascript
-var finder = new PF.AStarFinder({
-    allowDiagonal: true
-});
-```
-
-When diagonal movement is enabled, you might want to prevent the path from touching the corners of the occupied grid blocks. This is usually desirable if the objects using the path have physical width and can also move between the grid cells.
-
-To enable the corner crossing prevention:
-
-```javascript
-var finder = new PF.AStarFinder({
-    allowDiagonal: true,
-    dontCrossCorners: true
-});
-```
-
-Note that `dontCrossCorners` only makes sense when `allowDiagonal` is also used. Currently all algorithms except `JumpPointFinder` support this feature.
-
-For `AStarFinder`, `BestFirstFinder` and all their `Bi` relatives, you may indicate which heuristic function to use.
-
-The predefined heuristics are `PF.Heuristic.manhattan`(default), `PF.Heuristic.chebyshev`, `PF.Heuristic.euclidean` and `PF.Heuristic.octile`.
-
-To use the chebyshev heuristic:
-
-```javascript
-var finder = new PF.AStarFinder({
-    heuristic: PF.Heuristic.chebyshev
-});
-```
-
-To build a `BestFirstFinder` with diagonal movement allowed and a custom heuristic function:
-
-```javascript
-var finder = new PF.BestFirstFinder({
-    allowDiagonal: true,
-    heuristic: function(dx, dy) {
-        return Math.min(dx, dy);
-    }
-});
-```
-
-To smoothen the path, you may use `PF.Util.smoothenPath`. This routine will return
-a new path with the original one unmodified.
-
-```javascript
-var newPath = PF.Util.smoothenPath(grid, path);
-```
-
-Note that the new path will be compressed as well, i.e. if the original path is
-`[[0, 1], [0, 2], [0, 3], [0, 4]]`, then the new path will be `[[0, 1], [0, 4]]`.
-
-To just compress a path without smoothing it, you may use `PF.Util.compressPath`.
-
-```javascript
-var newPath = PF.Util.compressPath(path);
-```
-
-To expand the compressed path like `[[0, 1], [0, 4]]` back to `[[0, 1], [0, 2], [0, 3], [0, 4]]`,
-you may use `PF.Util.expandPath`.
-
-```javascript
-var newPath = PF.Util.expandPath(path);
-```
-
-
-Development
+## Project Layout
 ------------
 
 Layout:
@@ -235,42 +93,69 @@ Layout:
     .
     |-- lib          # browser distribution
     |-- src          # source code (algorithms only)
-    |-- test         # test scripts
-    |-- utils        # build scripts
-	|-- benchmark    # benchmarks
+    	|-- core     # includes grid, node layout with heuristics and utils
+	|-- finders  # includes searching algorithms
+	|-- mazes    # includes maze algorithms
     `-- visual       # visualization
+    	|-- css      # css libraries
+	|-- error404 # http 404 error page
+	|-- images   # static images and gifs
+	|-- js	     # js libraries for agent control and visualization
 
-Make sure you have `node.js` installed, then use `npm` to install the dependencies: 
 
-    npm install -d 
+## Programming Paradigm: 
 
-The build system uses gulp, so make sure you have it installed:
+Object-Oriented Programming
 
-    npm install -d -g gulp
+#### Classes
 
-To build the browser distribution:
+* Agent
 
-    gulp compile && mv lib/pathfinding-browser.min.js visual/lib
+Our agent is defined in the visual/js/agent.js file. Based on the user inputs from the panel and the grid, the agent performs the job required.
+If any maze algorithm is selected, the agent clears all the obstacles and renders that particular maze algo.
+If any search algorithm is selected, the agent searches for the destination accordingly.
+On changing the speed, the speed of deploying the speed changes.
+The user inputs in the grid-like the start position and the end position and checkpoints. While finding the path it considers the checkpoints and the obstacles placed on the way.
+After the path is found, dragging the checkpoint or start or endpoints renders the path in real-time.
+These are some of the functions of the agent. We can call the agent a rational agent because here the user inputs and the grid state functions as the precepts of the agent and the agents take the decision and perform the actions based on the perceived environment.
 
-To run the tests
-(algorithms only, not including the visualization) with
-[mocha](http://mochajs.org/) and [should.js](https://github.com/visionmedia/should.js)
-First install mocha:
+* Mazes
 
-    npm install -d -g mocha
+The mazes are defined in the src/mazes folder. Each of the 3 mazes has its classes. 
+Input: Depending on the maze user chooses, the agent initializes the class of that particular maze.
+Action: After the maze is initialized, each class takes the grid and other things as input and forms the maze on the grid. In case of the recursive mazes, it takes the density as input too.
 
-Then run the tests:
+* Finder
 
-    gulp test
+The finders are defined in the src/finders folder. Each of the 10 finders has their own classes.
+Input: Depending on the finder the user chooses and the parameters of the finder, the agent initialize the class of that particular finder.
+Output: The classes take in the current state grid and other parameters as input and tries to find the 
 
-To run the benchmarks:
+* Bot
 
-    gulp bench
+The Bot class is defined in the visual/js/bot.js file. 
+Input: It receives the action performed by the agent as input and sets the display text
+Action: According to the bot state set due to the input, it changes the innerHTML of the bot’s content to appropriate messages. These messages disappear automatically after the set time if the close button is not pressed through setTimeout function. 
 
-Or if you are feeling lazy, the default gulp task does everything(except running the benchmarks):
+Since the control shifts to these functions after the set time, to avoid clashes between one message to another, the original text and current text are compared. In this way, a message has the power to only delete itself. Result messages are given message IDs because they stay on screen for longer, and shouldn't hide a more recent result message.
 
-    gulp
+* View
 
+The View class is in the visual/js/view.js file. It handles most of the inputs and outputs in the Raphael grid. 
+* Panel
+
+The Panel class is in the visual/js/panel.js file. This comprises of all the elements in the navbar. It handles the user inputs from the navigation also responsible for initialization of the correct finder.
+
+* Guide
+
+The Guide class is in the visual/js/guide.js file. Sweetalert’s help is taken to display the tutorial aesthetically. It contains an async function backAndForth that decides which message and gif to display according to which step the user is in the guide.
+
+
+
+
+
+
+ 
 License
 -------
 
@@ -282,7 +167,6 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 =======
 # Space_Invaders
 Repository for project "NAVIGATE THE MARS ROVER" under Microsoft Mars Colonization Program 2020
