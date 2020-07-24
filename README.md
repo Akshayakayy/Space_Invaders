@@ -90,18 +90,6 @@ The project is deployed in Azure. You can access it here: https://tathagataraha.
 
 Layout:
 
-    .
-    ├── lib          # browser distribution
-    ├── src          # source code (algorithms only)
-    	├──  core     # includes grid, node layout with heuristics and utils
-	├──  finders  # includes searching algorithms
-	├──  mazes    # includes maze algorithms
-    ├── visual       # visualization
-    	├──  css      # css libraries
-	├──  error404 # http 404 error page
-	├──  images   # static images and gifs
-	├──  js	     # js libraries for agent control and visualization
-
 * [lib](./lib)	` browser distribution `
 * [src](./src)	` source code (algorithms only) `
    * [core](./src/core)	` includes grid, node layout with heuristics and utils `
