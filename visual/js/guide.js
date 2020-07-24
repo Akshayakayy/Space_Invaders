@@ -93,6 +93,12 @@ async function backAndForth() {
                 html = "Lastly, we have a friend from Interstellar who will guide you through your journey."
                 imageUrl = "images/gifs/tars.gif"
                 break;
+            case 11:
+                title = "Drag Obstacles"
+                html = "You can also drag obstacles by clicking on them and moving your mouse"
+                imageUrl = "images/gifs/tars.gif" //insert dragging gif and change case num
+                break;
+
 
         }
         const result = await swalQueueStep.fire({
