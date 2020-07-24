@@ -1,8 +1,7 @@
 {
-  "name": "pathfinding",
-  "version": "0.4.18",
-  "description": "Comprehensive pathfinding library for grid based games",
-  "homepage": "https://github.com/qiao/PathFinding.js",
+  "name": "MarsRoverPathfinder",
+  "description": "This is the Javascript based webapp for navigating the mars rover using various pathfinding algorithms. It lets the user visualize route found using various algorithms, add checkpoints along the way, mazes to confuse the rover and drag start, checkpoints and endpoints in real time.",
+  "homepage": "https://github.com/Akshayakayy/Space_Invaders",
   "keywords": [
     "pathfinding",
     "astar",
