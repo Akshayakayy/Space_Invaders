@@ -110,8 +110,8 @@ Layout:
 * [visual](./visual)	`visualization`
    * [css](./visual/css)	`css libraries`
    * [error404](./visual/error404)	`http 404 error page`
-   * [images](./visual/images) `static images and gifs
-   * [js](./visual/js)	 `js libraries for agent control and visualization
+   * [images](./visual/images) `static images and gifs`
+   * [js](./visual/js)	 `js libraries for agent control and visualization`
 
 
 
