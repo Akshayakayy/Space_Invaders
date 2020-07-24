@@ -1,6 +1,6 @@
 # Space_Invaders
 ## Project 1: NAVIGATE THE MARS ROVER
-Help the Mars Curiosity Rover find the shortest path between two points while avoiding obstacles on the way. ####
+Help the Mars Curiosity Rover find the shortest path between two points while avoiding obstacles on the way. 
 
 # Introduction
 This is the Javascript based webgame for navigating the mars rover using various pathfinding algorithms.
