@@ -257,7 +257,7 @@ $.extend(Agent, {
             );
             this.path = this.path.concat(res['path']);
             this.operations = this.operations.concat(res['operations']);
-            if (this.path.length == 1) {
+            if (this.path.length == 1 || this.path.length == 0) {
                 this.pathfound = 0
                 break;
             }
