@@ -145,23 +145,6 @@ $.extend(Agent, {
         this.setWalkableAt(gridX, gridY, true, "wall");
         // => erasingWall
     },
-    pathnotfound: function () {
-        const Toast = Swal.mixin({
-            toast: true,
-            position: 'bottom-end',
-            showConfirmButton: false,
-            timer: 10000,
-            timerProgressBar: true,
-            onOpen: (to) => {
-                to.addEventListener('mouseenter', Swal.stopTimer)
-                to.addEventListener('mouseleave', Swal.resumeTimer)
-            }
-        })
-        Toast.fire({
-            icon: 'error',
-            title: 'Path not found'
-        })
-    },
     /**
      * -------------------------------------------------------------------------------
      * Agent functions that get triggered when various buttons on navbar are pressed (buttonpress Event percept)
@@ -370,6 +353,7 @@ $.extend(Agent, {
         });
         var rows = this.gridSize[0];
         var cols = this.gridSize[1];
+        //creates Maze class objects based on the type of Maze selected by user
         if (mazetype == 'random') {
             maze = new PF.RandomMaze({
                 xlim: rows,
@@ -531,6 +515,11 @@ $.extend(Agent, {
 
         View.setAttributeAt(op.x, op.y, op.attr, op.value, false);
     },
+    /**
+     * ----------------------------------------------------------------------------------------
+     * Clear Functions: used to remove path, walls and checkpoints
+     * ----------------------------------------------------------------------------------------
+     */
     clearOperations: function () {
         this.operations = [];
         this.path = []
@@ -568,51 +557,12 @@ $.extend(Agent, {
     buildNewGrid: function () {
         this.grid = new PF.Grid(this.gridSize[0], this.gridSize[1]);
     },
-    mousedown: function (event) { //triggered on pressing on the grid
-        var coord = View.toGridCoordinate(event.pageX, event.pageY),
-            gridX = coord[0],
-            gridY = coord[1],
-            grid = this.grid;
-        if ((event.ctrlKey) && this.isCheckPoint(gridX, gridY) != -1) {
-            this.clearCheckPoint(0, gridX, gridY);
-            this.checkPointsleft++;
-            Bot.botState(9, this.checkPointsleft);
-            return;
-
-        } else if (event.ctrlKey) {
-            if (!this.isStartOrEndPos(gridX, gridY) && grid.isWalkableAt(gridX, gridY) && this.checkPointsleft > 0) {
-                this.setCheckPoint(gridX, gridY, true);
-                this.checkPointsleft--;
-                if (this.endstatus == 1) {
-                    this.findPath(1);
-                }
-                Bot.botState(10, this.checkPointsleft);
-            }
-        } else {
-            if (this.can('dragStart') && this.isStartPos(gridX, gridY)) {
-                this.dragStart();
-                return;
-            }
-            if (this.can('dragEnd') && this.isEndPos(gridX, gridY)) {
-                this.dragEnd();
-                return;
-            }
-            if (this.can('dragCheckpoint') && this.isCheckPoint(gridX, gridY) != -1) {
-                this.currCheckpoint = this.isCheckPoint(gridX, gridY)
-                this.dragCheckpoint();
-                return;
-            }
-            if (this.can('dragStart') && this.isStartPos(gridX, gridY)) {
-                this.dragStart();
-                return;
-            }
-            if (this.can('dragEnd') && this.isEndPos(gridX, gridY)) {
-                this.dragEnd();
-                return;
-            }
-        }
-
-    },
+    /** 
+     * This function finds the path as per choice of algorithm by the user.
+     * In case of checkpoints it first calls TSP to find out what sequence
+     * the checkpoints should be visited in. Finally it renders the path 
+     * found using drawPath() from View.
+     */
     findPath: function (viewoperations) {
         this.clearOperations();
         this.clearFootprints();
@@ -679,23 +629,75 @@ $.extend(Agent, {
             View.drawPath(path);
         }
     },
+    /**
+     * ----------------------------------------------------------------------------------------
+     * These functions process percepts in form of mouse press, mouseup and cursor motion.
+     * ----------------------------------------------------------------------------------------
+     */
+    mousedown: function (event) { //triggered on pressing on the grid
+        var coord = View.toGridCoordinate(event.pageX, event.pageY),
+            gridX = coord[0],
+            gridY = coord[1],
+            grid = this.grid;
+        if ((event.ctrlKey) && this.isCheckPoint(gridX, gridY) != -1) {
+            this.clearCheckPoint(0, gridX, gridY);
+            this.checkPointsleft++;
+            Bot.botState(9, this.checkPointsleft);
+            return;
+
+        } else if (event.ctrlKey) {
+            if (!this.isStartPos(gridX, gridY) && !this.isEndPos(gridX, gridY) && grid.isWalkableAt(gridX, gridY) && this.checkPointsleft > 0) {
+                this.setCheckPoint(gridX, gridY, true);
+                this.checkPointsleft--;
+                if (this.endstatus == 1) {
+                    this.findPath(1);
+                }
+                Bot.botState(10, this.checkPointsleft);
+            }
+        } else {
+            if (this.can('dragStart') && this.isStartPos(gridX, gridY)) {
+                this.dragStart();
+                return;
+            }
+            if (this.can('dragEnd') && this.isEndPos(gridX, gridY)) {
+                this.dragEnd();
+                return;
+            }
+            if (this.can('dragCheckpoint') && this.isCheckPoint(gridX, gridY) != -1) {
+                this.currCheckpoint = this.isCheckPoint(gridX, gridY)
+                this.dragCheckpoint();
+                return;
+            }
+            if (this.can('dragStart') && this.isStartPos(gridX, gridY)) {
+                this.dragStart();
+                return;
+            }
+            if (this.can('dragEnd') && this.isEndPos(gridX, gridY)) {
+                this.dragEnd();
+                return;
+            }
+        }
+
+    },
     mousemove: function (event) { //triggered on moving cursor on the grid
         var coord = View.toGridCoordinate(event.pageX, event.pageY),
             grid = this.grid,
             gridX = coord[0],
             gridY = coord[1];
 
-        if (this.isStartOrEndPos(gridX, gridY) || this.isCheckPoint(gridX, gridY) != -1) {
+        if (this.isStartPos(gridX, gridY) && this.isEndPos(gridX, gridY) || this.isCheckPoint(gridX, gridY) != -1) {
             return;
         }
-
+        /**
+        * Different behavior based on dragging objects on the grid, e.g Start point, End point or Checkpoints.
+        */
         switch (this.current) {
             case 'draggingStart':
                 if (grid.isWalkableAt(gridX, gridY)) {
                     this.mousemoveflag = 1
                     this.setStartPos(gridX, gridY);
                     if (this.endstatus == 1)
-                        this.findPath(0)
+                        this.findPath(0);
                 }
                 break;
             case 'draggingEnd':
@@ -703,7 +705,7 @@ $.extend(Agent, {
                     this.mousemoveflag = 1
                     this.setEndPos(gridX, gridY);
                     if (this.endstatus == 1)
-                        this.findPath(0)
+                        this.findPath(0);
                 }
                 break;
             case 'draggingCheckpoint':
@@ -713,7 +715,7 @@ $.extend(Agent, {
                     this.checkpoints[this.currCheckpoint].x = gridX;
                     this.checkpoints[this.currCheckpoint].y = gridY;
                     if (this.endstatus == 1) {
-                        this.findPath(0)
+                        this.findPath(0);
                     }
                 }
                 break;
@@ -734,29 +736,29 @@ $.extend(Agent, {
                 gridX = coord[0],
                 gridY = coord[1];
             /**
-             * triggered while trying to drag objects on the grid, e.g Start point, End point or Checkpoints.
+             * Different behavior based on dragging objects on the grid, e.g Start point, End point or Checkpoints.
              */
             switch (state) {
                 case 'draggingStart':
                     if (!grid.isWalkableAt(gridX, gridY)) {
                         if (this.endstatus == 1)
-                            this.findPath(1)
+                            this.findPath(1);
                     }
                     if (grid.isWalkableAt(gridX, gridY) && !this.isEndPos(gridX, gridY) && this.isCheckPoint(gridX, gridY) == -1) {
                         this.setStartPos(gridX, gridY);
                         if (this.endstatus == 1)
-                            this.findPath(1)
+                            this.findPath(1);
                     }
                     break;
                 case 'draggingEnd':
                     if (!grid.isWalkableAt(gridX, gridY)) {
                         if (this.endstatus == 1)
-                            this.findPath(1)
+                            this.findPath(1);
                     }
                     if (grid.isWalkableAt(gridX, gridY) && !this.isStartPos(gridX, gridY) && this.isCheckPoint(gridX, gridY) == -1) {
                         this.setEndPos(gridX, gridY);
                         if (this.endstatus == 1)
-                            this.findPath(1)
+                            this.findPath(1);
                     }
                     break;
                 case 'draggingCheckpoint':
@@ -764,12 +766,12 @@ $.extend(Agent, {
                         if (this.endstatus == 1)
                             this.findPath(1)
                     }
-                    if (grid.isWalkableAt(gridX, gridY) && !this.isStartOrEndPos(gridX, gridY)) {
+                    if (grid.isWalkableAt(gridX, gridY) && !this.isStartPos(gridX, gridY) && !this.isEndPos(gridX, gridY)) {
                         View.setCheckPoint(gridX, gridY, this.checkpoints[this.currCheckpoint].x, this.checkpoints[this.currCheckpoint].y, true)
                         this.checkpoints[this.currCheckpoint].x = gridX;
                         this.checkpoints[this.currCheckpoint].y = gridY;
                         if (this.endstatus == 1) {
-                            this.findPath(1)
+                            this.findPath(1);
                         }
                     }
                     break;
@@ -895,6 +897,11 @@ $.extend(Agent, {
         })
         View.setCheckPoint(gridX, gridY, -1, -1, true)
     },
+    /**
+     * ----------------------------------------------------------------------------------------
+     * These functions check what type of node the current node is (start,end or checkpoint).
+     * ----------------------------------------------------------------------------------------
+     */
     isStartPos: function (gridX, gridY) {
         return gridX === this.startX && gridY === this.startY;
     },
@@ -904,8 +911,26 @@ $.extend(Agent, {
     isCheckPoint: function (gridX, gridY) {
         return this.checkpoints.findIndex(node => node.x == gridX && node.y == gridY);
     },
-    isStartOrEndPos: function (gridX, gridY) {
-        return this.isStartPos(gridX, gridY) || this.isEndPos(gridX, gridY);
+    /**
+     * ----------------------------------------------------------------------------------------
+     * Utility functions
+     * ----------------------------------------------------------------------------------------
+     */
+    pathnotfound: function () { //function that returns error when path cannot be found
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'bottom-end',
+            showConfirmButton: false,
+            timer: 10000,
+            timerProgressBar: true,
+            onOpen: (to) => {
+                to.addEventListener('mouseenter', Swal.stopTimer)
+                to.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+        })
+        Toast.fire({
+            icon: 'error',
+            title: 'Path not found'
+        })
     },
-
 });
