@@ -174,7 +174,6 @@ $.extend(Agent, {
     },
     ondrawWall: function(event, from, to, gridX, gridY) {
         console.log("drawing wall", gridX, gridY);
-        console.log(gridX)
         this.setWalkableAt(gridX, gridY, false, "wall");
         // => drawingWall
     },
@@ -202,7 +201,11 @@ $.extend(Agent, {
         console.log("adding pit");
     },
     onaddIce: function(event, from, to, gridX, gridY) {
-        console.log("adding ice");
+        if (!this.isStartOrEndPos(gridX, gridY) || !this.isStartOrEndPos(gridX - 1, gridY + 1) || !this.isStartOrEndPos(gridX + 1, gridY + 1)) {
+            console.log("adding ice");
+        } else {
+            console.log("please move start to different pos");
+        }
 
         // => addingIce
     },
@@ -915,11 +918,17 @@ $.extend(Agent, {
                 this.setBombAt(this.centerX + 12, this.centerY + 10, false);
                 break;
             case 'addingIce':
-                this.setIceAt(this.centerX, this.centerY - 1, false);
+                posX = this.centerX;
+                posY = this.centerY - 1;
+                if (!this.isStartOrEndPos(posX, posY) || !this.isStartOrEndPos(posX - 1, posY + 1) || !this.isStartOrEndPos(posX + 1, posY + 1)) {
+
+                    this.setIceAt(posX, posY, false);
+                }
+
                 // gridX = this.centerX;
-                // gridY = this.centerY;
-                // console.log(grid.isWalkableAt(this.centerX, (this.centerY - 1)))
-                // if (grid.isWalkableAt(this.centerX, (this.centerY - 1)) && grid.isWalkableAt(this.centerX + 1, (this.centerY - 2)) && grid.isWalkableAt(this.centerX - 1, (this.centerY))) {
+                // gridY = this.centerY - 1;
+
+                // if (this.checkbefdrag(gridX, gridY) && this.checkbefdrag(gridX - 1, gridY + 1) && this.checkbefdrag(gridX + 1, gridY + 1)) {
                 //     this.setIceAt(this.centerX, this.centerY - 1, false);
                 // } else {
                 //     this.clearposice(this.centerX, this.centerY - 1);
@@ -1248,12 +1257,11 @@ $.extend(Agent, {
             this.bombY = gridY;
         }
     },
-    clearposice: function(gridX, gridY) {
-        // this.grid.setWalkableAt(gridX, gridY, true);
-        View.setWalkableAt(gridX, gridY, 'walkable', true, "clear");
-        View.setWalkableAt(gridX - 1, gridY + 1, 'walkable', true, "clear");
-        View.setWalkableAt(gridX + 1, gridY - 1, 'walkable', true, "clear");
-    },
+    // clearposice: function(gridX, gridY) {
+    //     View.setWalkableAt(gridX, gridY, 'walkable', true, "clear");
+    //     View.setWalkableAt(gridX - 1, gridY + 1, 'walkable', true, "clear");
+    //     View.setWalkableAt(gridX + 1, gridY - 1, 'walkable', true, "clear");
+    // },
     setBombArea: function(gridX, gridY, walkable) {
         this.grid.setWalkableAt(gridX, gridY, walkable);
         View.setAttributeAt(gridX, gridY, 'walkable', walkable, "bombarea");
