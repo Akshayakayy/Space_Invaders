@@ -59,6 +59,7 @@ async function backAndForth() {
                 title = "Choose Search Algorithm"
                 html = "As the Chief Engineer, you can choose between various state-of-the-art \
                 PathFinding algorithms to find the shortest route for the rover to reach its base. "
+                imageUrl = "images/gifs/algos.gif"
                 break;
             case 6:
                 title = "Start searching for shortest route"
