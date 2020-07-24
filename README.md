@@ -91,16 +91,28 @@ The project is deployed in Azure. You can access it here: https://tathagataraha.
 Layout:
 
     .
-    |-- lib          # browser distribution
-    |-- src          # source code (algorithms only)
-    	|-- core     # includes grid, node layout with heuristics and utils
-	|-- finders  # includes searching algorithms
-	|-- mazes    # includes maze algorithms
-    `-- visual       # visualization
-    	|-- css      # css libraries
-	|-- error404 # http 404 error page
-	|-- images   # static images and gifs
-	|-- js	     # js libraries for agent control and visualization
+    ├── lib          # browser distribution
+    ├── src          # source code (algorithms only)
+    	├──  core     # includes grid, node layout with heuristics and utils
+	├──  finders  # includes searching algorithms
+	├──  mazes    # includes maze algorithms
+    ├── visual       # visualization
+    	├──  css      # css libraries
+	├──  error404 # http 404 error page
+	├──  images   # static images and gifs
+	├──  js	     # js libraries for agent control and visualization
+
+* [lib](./lib)	` browser distribution `
+* [src](./src)	` source code (algorithms only) `
+   * [core](./src/core)	` includes grid, node layout with heuristics and utils `
+   * [finders](./src/finders)	` includes searching algorithms`
+   * [mazes](./src/mazes)		`includes maze algorithms`
+* [visual](./visual)	`visualization`
+   * [css](./visual/css)	`css libraries`
+   * [error404](./visual/error404)	`http 404 error page`
+   * [images](./visual/images) `static images and gifs
+   * [js](./visual/js)	 `js libraries for agent control and visualization
+
 
 
 ## Programming Paradigm: 
@@ -150,22 +162,6 @@ The Panel class is in the visual/js/panel.js file. This comprises of all the ele
 
 The Guide class is in the visual/js/guide.js file. Sweetalert’s help is taken to display the tutorial aesthetically. It contains an async function backAndForth that decides which message and gif to display according to which step the user is in the guide.
 
-
-
-
-
-
- 
-License
--------
-
-[MIT License](http://www.opensource.org/licenses/mit-license.php)
-
-&copy; 2011-2012 Xueqiao Xu &lt;xueqiaoxu@gmail.com&gt;
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 =======
 # Space_Invaders
