@@ -212,7 +212,6 @@ var View = {
         var m1coord = this.toPageCoordinate(gridX - 1, gridY);
         var a2coord = this.toPageCoordinate(gridX + 2, gridY);
         var a1coord = this.toPageCoordinate(gridX + 1, gridY);
-        console.log(this.pitNode);
         this.pitNode = this.nodedrag(this.pitNode, coord, this.nodeStyle.pitnode);
         this.pitm2Node = this.nodedrag(this.pitm2Node, m2coord, this.nodeStyle.pitarea);
         this.pitm1Node = this.nodedrag(this.pitm1Node, m1coord, this.nodeStyle.pitarea);
@@ -244,52 +243,9 @@ var View = {
         var coord = this.toPageCoordinate(gridX, gridY);
         var d1coord = this.toPageCoordinate(gridX - 1, gridY + 1);
         var d2coord = this.toPageCoordinate(gridX + 1, gridY + 1);
-        console.log(this.iceNode);
-        if (!this.iceNode) {
-
-            this.iceNode = this.paper.rect(
-                    coord[0],
-                    coord[1],
-                    this.nodeSize,
-                    this.nodeSize
-                ).attr(this.nodeStyle.normal)
-                .animate(this.nodeStyle.icenode, 1000);
-        } else {
-            this.iceNode.attr({
-                x: coord[0],
-                y: coord[1]
-            }).toFront();
-        }
-        if (!this.iced1Node) {
-
-            this.iced1Node = this.paper.rect(
-                    d1coord[0],
-                    d1coord[1],
-                    this.nodeSize,
-                    this.nodeSize
-                ).attr(this.nodeStyle.normal)
-                .animate(this.nodeStyle.icearea, 1000);
-        } else {
-            this.iced1Node.attr({
-                x: d1coord[0],
-                y: d1coord[1]
-            }).toFront();
-        }
-        if (!this.iced2Node) {
-
-            this.iced2Node = this.paper.rect(
-                    d2coord[0],
-                    d2coord[1],
-                    this.nodeSize,
-                    this.nodeSize
-                ).attr(this.nodeStyle.normal)
-                .animate(this.nodeStyle.icearea, 1000);
-        } else {
-            this.iced2Node.attr({
-                x: d2coord[0],
-                y: d2coord[1]
-            }).toFront();
-        }
+        this.iceNode = this.nodedrag(this.iceNode, coord, this.nodeStyle.icenode);
+        this.iced1Node = this.nodedrag(this.iced1Node, d1coord, this.nodeStyle.icearea);
+        this.iced2Node = this.nodedrag(this.iced2Node, d2coord, this.nodeStyle.icearea);
     },
     setBombPos: function(gridX, gridY) {
         var coord = this.toPageCoordinate(gridX, gridY);
@@ -297,77 +253,11 @@ var View = {
         var rcoord = this.toPageCoordinate(gridX + 1, gridY);
         var dcoord = this.toPageCoordinate(gridX, gridY - 1);
         var ucoord = this.toPageCoordinate(gridX, gridY + 1);
-
-        if (!this.bombNode) {
-            this.bombNode = this.paper.rect(
-                    coord[0],
-                    coord[1],
-                    this.nodeSize,
-                    this.nodeSize
-                ).attr(this.nodeStyle.normal)
-                .animate(this.nodeStyle.bombnode, 1000);
-        } else {
-            this.bombNode.attr({
-                x: coord[0],
-                y: coord[1]
-            }).toFront();
-        }
-        if (!this.bomblNode) {
-            this.bomblNode = this.paper.rect(
-                    lcoord[0],
-                    lcoord[1],
-                    this.nodeSize,
-                    this.nodeSize
-                ).attr(this.nodeStyle.normal)
-                .animate(this.nodeStyle.bombarea, 1000);
-        } else {
-            this.bomblNode.attr({
-                x: lcoord[0],
-                y: lcoord[1]
-            }).toFront();
-        }
-        if (!this.bombrNode) {
-            this.bombrNode = this.paper.rect(
-                    rcoord[0],
-                    rcoord[1],
-                    this.nodeSize,
-                    this.nodeSize
-                ).attr(this.nodeStyle.normal)
-                .animate(this.nodeStyle.bombarea, 1000);
-        } else {
-            this.bombrNode.attr({
-                x: rcoord[0],
-                y: rcoord[1]
-            }).toFront();
-        }
-        if (!this.bombuNode) {
-            this.bombuNode = this.paper.rect(
-                    ucoord[0],
-                    ucoord[1],
-                    this.nodeSize,
-                    this.nodeSize
-                ).attr(this.nodeStyle.normal)
-                .animate(this.nodeStyle.bombarea, 1000);
-        } else {
-            this.bombuNode.attr({
-                x: ucoord[0],
-                y: ucoord[1]
-            }).toFront();
-        }
-        if (!this.bombdNode) {
-            this.bombdNode = this.paper.rect(
-                    dcoord[0],
-                    dcoord[1],
-                    this.nodeSize,
-                    this.nodeSize
-                ).attr(this.nodeStyle.normal)
-                .animate(this.nodeStyle.bombarea, 1000);
-        } else {
-            this.bombdNode.attr({
-                x: dcoord[0],
-                y: dcoord[1]
-            }).toFront();
-        }
+        this.bombNode = this.nodedrag(this.bombNode, coord, this.nodeStyle.bombnode);
+        this.bomblNode = this.nodedrag(this.bomblNode, lcoord, this.nodeStyle.bombarea);
+        this.bombrNode = this.nodedrag(this.bombrNode, rcoord, this.nodeStyle.bombarea);
+        this.bombdNode = this.nodedrag(this.bombdNode, dcoord, this.nodeStyle.bombarea);
+        this.bombuNode = this.nodedrag(this.bombuNode, ucoord, this.nodeStyle.bombarea);
     },
 
 
