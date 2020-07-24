@@ -146,7 +146,7 @@ $.extend(Agent, {
     /**
      * Asynchronous transition from `none` state to `ready` state.
      */
-    onleavenone: function () {
+    onleavenone: function() {
         var numCols = this.gridSize[0],
             numRows = this.gridSize[1];
 
@@ -156,7 +156,7 @@ $.extend(Agent, {
             numCols: numCols,
             numRows: numRows
         });
-        View.generateGrid(function () {
+        View.generateGrid(function() {
             Agent.setDefaultStartEndPos();
             Agent.bindEvents();
             Agent.transition(); // transit to the next state (ready)
@@ -167,18 +167,18 @@ $.extend(Agent, {
         this.$maze_buttons = $('.maze_button');
         this.$obstacle_buttons = $('.obstacle_button');
         console.log(this.$maze_buttons)
-        // this.hookPathFinding();
+            // this.hookPathFinding();
 
         return StateMachine.ASYNC;
         // => ready
     },
-    ondrawWall: function (event, from, to, gridX, gridY) {
+    ondrawWall: function(event, from, to, gridX, gridY) {
         console.log("drawing wall", gridX, gridY);
         console.log(gridX)
         this.setWalkableAt(gridX, gridY, false, "wall");
         // => drawingWall
     },
-    oneraseWall: function (event, from, to, gridX, gridY) {
+    oneraseWall: function(event, from, to, gridX, gridY) {
         console.log("erasing wall");
         if (this.pitX == gridX && this.pitY == gridY) {
             this.numpit = 0;
@@ -196,20 +196,20 @@ $.extend(Agent, {
         this.setWalkableAt(gridX, gridY, true, "wall");
         // => erasingWall
     },
-    onaddPit: function (event, from, to, gridX, gridY) {
+    onaddPit: function(event, from, to, gridX, gridY) {
         console.log("adding pit");
     },
-    onaddIce: function (event, from, to, gridX, gridY) {
+    onaddIce: function(event, from, to, gridX, gridY) {
         console.log("adding ice");
 
         // => addingIce
     },
-    onaddBomb: function (event, from, to, gridX, gridY) {
+    onaddBomb: function(event, from, to, gridX, gridY) {
         this.setBombAt(gridX, gridY, false);
         console.log("adding bomb");
         // => addingBomb
     },
-    pathnotfound: function () {
+    pathnotfound: function() {
         const Toast = Swal.mixin({
             toast: true,
             position: 'bottom-end',
@@ -227,7 +227,7 @@ $.extend(Agent, {
         })
 
     },
-    onsearch: function (event, from, to) {
+    onsearch: function(event, from, to) {
         var grid,
             timeStart, timeEnd,
             finder = Panel.getFinder();
@@ -293,18 +293,18 @@ $.extend(Agent, {
         console.log(this.current)
         if (!this.pathfound)
             this.finish()
-        // => searching
+            // => searching
         Bot.botState(0);
     },
 
-    onrestart: function () {
+    onrestart: function() {
         // When clearing the colorized nodes, there may be
         // nodes still animating, which is an asynchronous procedure.
         // Therefore, we have to defer the `abort` routine to make sure
         // that all the animations are done by the time we clear the colors.
         // The same reason applies for the `onreset` event handler.
         this.endstatus = 0;
-        setTimeout(function () {
+        setTimeout(function() {
             Agent.clearOperations();
             Agent.clearFootprints();
             Agent.start();
@@ -317,22 +317,22 @@ $.extend(Agent, {
 
         // => restarting
     },
-    onpause: function (event, from, to) {
+    onpause: function(event, from, to) {
         // => paused
         Bot.botState(2);
     },
-    onresume: function (event, from, to) {
+    onresume: function(event, from, to) {
         this.loop();
         // => searching
         Bot.botState(3);
     },
-    oncancel: function (event, from, to) {
+    oncancel: function(event, from, to) {
         this.clearOperations();
         this.clearFootprints();
         // => ready
         Bot.botState(4);
     },
-    onfinish: function (event, from, to) {
+    onfinish: function(event, from, to) {
         if (!this.pathfound) {
             this.pathnotfound()
         } else {
@@ -365,27 +365,24 @@ $.extend(Agent, {
         this.operations = [];
         // => finished
     },
-    onclear: function (event, from, to) {
+    onclear: function(event, from, to) {
         this.clearOperations();
         this.clearFootprints();
         // => ready
         Bot.botState(6);
     },
-    onmodify: function (event, from, to) {
+    onmodify: function(event, from, to) {
         // => modified
     },
-    onreset: function (event, from, to) {
+    onreset: function(event, from, to) {
         this.endstatus = 0;
-        setTimeout(function () {
-            Agent.clearOperations();
-            Agent.clearAll();
-            Agent.buildNewGrid();
-            View.clearallpit();
-            View.clearallice();
-            View.clearallbomb();
-
-
-        }, View.nodeColorizeEffect.duration * 1.2);
+        setTimeout(function() {
+                Agent.clearOperations();
+                Agent.clearAll();
+                Agent.buildNewGrid();
+                View.clearallobstacles();
+            },
+            View.nodeColorizeEffect.duration * 1.2);
         this.setButtonStates({
             id: 3,
             enabled: true,
@@ -400,7 +397,7 @@ $.extend(Agent, {
     /**
      * The following functions are called on entering states.
      */
-    clearAllCheckPoints: function () {
+    clearAllCheckPoints: function() {
         console.log("Clearing all checkpoints!");
         for (let i = 0; i < this.checkpoints.length; i++)
             View.setCheckPoint(this.checkpoints[i].x, this.checkpoints[i].y, -1, -1, false);
@@ -414,11 +411,11 @@ $.extend(Agent, {
 
         Bot.botState(8, this.checkPointsleft);
     },
-    initmaze: function (mazetype) {
+    initmaze: function(mazetype) {
         this.mazetype = mazetype;
         this.startMaze();
     },
-    onready: function () {
+    onready: function() {
         console.log('=> ready');
         this.setButtonStates({
             id: 0,
@@ -457,29 +454,29 @@ $.extend(Agent, {
             callback: $.proxy(this.initmaze, this, 'stair'),
         });
         this.setButtonStatesObstacles({
-            id: 1,
-            text: 'Add Bomb',
-            enabled: true,
-            callback: $.proxy(this.addBomb, this)
-        }, {
-            id: 2,
-            text: 'Add Ice',
-            enabled: true,
-            callback: $.proxy(this.addIce, this)
-        }, {
-            id: 3,
-            text: 'Add Pit',
-            enabled: true,
-            callback: $.proxy(this.addPit, this)
+                id: 1,
+                text: 'Add Bomb',
+                enabled: true,
+                callback: $.proxy(this.addBomb, this)
+            }, {
+                id: 2,
+                text: 'Add Ice',
+                enabled: true,
+                callback: $.proxy(this.addIce, this)
+            }, {
+                id: 3,
+                text: 'Add Pit',
+                enabled: true,
+                callback: $.proxy(this.addPit, this)
 
-        })
-        // => [starting, draggingStart, draggingEnd, draggingPit drawingStart, drawingEnd]
+            })
+            // => [starting, draggingStart, draggingEnd, draggingPit drawingStart, drawingEnd]
     },
-    createMazeWall: function (event, x, y) {
+    createMazeWall: function(event, x, y) {
 
         event.setWalkableAt(x, y, false);
     },
-    onstartMaze: function (event, from, to) {
+    onstartMaze: function(event, from, to) {
         this.endstatus = 0;
         var mazetype = this.mazetype;
         Agent.clearOperations();
@@ -533,7 +530,7 @@ $.extend(Agent, {
             setTimeout(this.createMazeWall, 3, this, mazeWall[i].x, mazeWall[i].y);
         }
     },
-    onstarting: function (event, from, to) {
+    onstarting: function(event, from, to) {
         console.log('=> starting');
         this.endstatus = 0;
         // Clears any existing search progress
@@ -545,7 +542,7 @@ $.extend(Agent, {
         this.search();
         // => searching
     },
-    onsearching: function () {
+    onsearching: function() {
 
         console.log('=> searching');
         this.setButtonStates({
@@ -561,7 +558,7 @@ $.extend(Agent, {
         });
         // => [paused, finished]
     },
-    onpaused: function () {
+    onpaused: function() {
         console.log('=> paused');
         this.setButtonStates({
             id: 0,
@@ -576,7 +573,7 @@ $.extend(Agent, {
         });
         // => [searching, ready]
     },
-    onfinished: function () {
+    onfinished: function() {
         console.log('=> finished');
         this.setButtonStates({
             id: 0,
@@ -590,7 +587,7 @@ $.extend(Agent, {
             callback: $.proxy(this.clear, this),
         });
     },
-    onmodified: function () {
+    onmodified: function() {
         console.log('=> modified');
         this.setButtonStates({
             id: 0,
@@ -609,16 +606,16 @@ $.extend(Agent, {
      * Define setters and getters of PF.Node, then we can get the operations
      * of the pathfinding.
      */
-    hookPathFinding: function () {
+    hookPathFinding: function() {
         this.operations = [];
     },
-    bindEvents: function () {
+    bindEvents: function() {
         $('#draw_area').mousedown($.proxy(this.mousedown, this));
         $(window)
             .mousemove($.proxy(this.mousemove, this))
             .mouseup($.proxy(this.mouseup, this));
     },
-    loop: function () {
+    loop: function() {
 
         speed = Panel.getSpeed();
         var operationsPerSecond = speed * 5;
@@ -633,7 +630,7 @@ $.extend(Agent, {
             setTimeout(loop, interval);
         })();
     },
-    step: function () {
+    step: function() {
         var operations = this.operations,
             op, isSupported;
 
@@ -649,16 +646,16 @@ $.extend(Agent, {
 
         View.setAttributeAt(op.x, op.y, op.attr, op.value, false);
     },
-    clearOperations: function () {
+    clearOperations: function() {
         this.operations = [];
         this.path = []
     },
-    clearFootprints: function () {
+    clearFootprints: function() {
         View.clearFootprints();
         View.clearPath();
 
     },
-    clearCheckPoint: function (gridX, gridY) {
+    clearCheckPoint: function(gridX, gridY) {
         const ind = this.checkpoints.findIndex(node =>
             node.x == gridX &&
             node.y == gridY
@@ -673,16 +670,16 @@ $.extend(Agent, {
         if (this.endstatus == 1)
             this.findPath(1);
     },
-    clearAll: function () {
+    clearAll: function() {
         this.clearFootprints();
         View.clearBlockedNodes();
         View.clearallpit();
 
     },
-    buildNewGrid: function () {
+    buildNewGrid: function() {
         this.grid = new PF.Grid(this.gridSize[0], this.gridSize[1]);
     },
-    mousedown: function (event) {
+    mousedown: function(event) {
         var coord = View.toGridCoordinate(event.pageX, event.pageY),
             gridX = coord[0],
             gridY = coord[1],
@@ -780,7 +777,7 @@ $.extend(Agent, {
         }
 
     },
-    findPath: function (viewoperations) {
+    findPath: function(viewoperations) {
         this.clearOperations();
         this.clearFootprints();
         var path = [];
@@ -801,7 +798,7 @@ $.extend(Agent, {
         res = TSP.onTSP()
         this.checkpoints = res[0]
         this.pathfound = res[1]
-        // this.checkpoints, this.pathfound = TSP.onTSP()
+            // this.checkpoints, this.pathfound = TSP.onTSP()
         if (this.currCheckpoint != -1) {
             for (var i = 0; i < this.checkpoints.length; i++)
                 if (checkx == this.checkpoints[i].x && checky == this.checkpoints[i].y) {
@@ -852,7 +849,7 @@ $.extend(Agent, {
             View.drawPath(path);
         }
     },
-    mousemove: function (event) {
+    mousemove: function(event) {
         var coord = View.toGridCoordinate(event.pageX, event.pageY),
             grid = this.grid,
             gridX = coord[0],
@@ -960,7 +957,7 @@ $.extend(Agent, {
                 break;
         }
     },
-    mouseup: function (event) {
+    mouseup: function(event) {
         if (Agent.can('rest')) {
             var state = this.current;
             Agent.rest();
@@ -1059,8 +1056,8 @@ $.extend(Agent, {
             }
         }
     },
-    setButtonStates: function () {
-        $.each(arguments, function (i, opt) {
+    setButtonStates: function() {
+        $.each(arguments, function(i, opt) {
             console.log("Button id:", opt.id)
             var optid = opt.id;
             // if (opt.id == 7) {
@@ -1087,8 +1084,8 @@ $.extend(Agent, {
             }
         });
     },
-    setButtonStatesMaze: function () {
-        $.each(arguments, function (i, opt) {
+    setButtonStatesMaze: function() {
+        $.each(arguments, function(i, opt) {
 
             var optid = opt.id;
             console.log(opt)
@@ -1112,8 +1109,8 @@ $.extend(Agent, {
             }
         });
     },
-    setButtonStatesObstacles: function () {
-        $.each(arguments, function (i, opt) {
+    setButtonStatesObstacles: function() {
+        $.each(arguments, function(i, opt) {
 
             var optid = opt.id;
             console.log(opt)
@@ -1143,7 +1140,7 @@ $.extend(Agent, {
      * of start node and end node.
      * It will detect user's display size, and compute the best positions.
      */
-    setDefaultStartEndPos: function () {
+    setDefaultStartEndPos: function() {
         var width, height,
             marginRight, availWidth,
             centerX, centerY,
@@ -1162,40 +1159,40 @@ $.extend(Agent, {
         this.setStartPos(this.centerX - 5, this.centerY);
         this.setEndPos(this.centerX + 15, this.centerY + 10);
     },
-    setStartPos: function (gridX, gridY) {
+    setStartPos: function(gridX, gridY) {
         this.startX = gridX;
         this.startY = gridY;
         View.setStartPos(gridX, gridY);
         this.grid.setWalkableAt(gridX, gridY, false);
     },
-    setEndPos: function (gridX, gridY) {
+    setEndPos: function(gridX, gridY) {
         this.endX = gridX;
         this.endY = gridY;
         View.setEndPos(gridX, gridY);
         // this.grid.setWalkableAt(gridX, gridY, false);
     },
-    setPitPos: function (gridX, gridY) {
+    setPitPos: function(gridX, gridY) {
         this.pitX = gridX;
         this.pitY = gridY;
         console.log("setting pit at", gridX, gridY);
         View.setPitPos(gridX, gridY);
 
     },
-    checkbefdrag: function (gridX, gridY) {
+    checkbefdrag: function(gridX, gridY) {
 
         return this.grid.isWalkableAt(gridX, gridY) && this.isCheckPoint(gridX, gridY) == -1 && !this.isStartOrEndPos(gridX, gridY);
 
     },
 
 
-    setIcePos: function (gridX, gridY) {
+    setIcePos: function(gridX, gridY) {
         this.iceX = gridX;
         this.iceY = gridY;
         console.log("setting ice at", gridX, gridY);
         View.setIcePos(gridX, gridY);
 
     },
-    setBombPos: function (gridX, gridY) {
+    setBombPos: function(gridX, gridY) {
         this.bombX = gridX;
         this.bombY = gridY;
         console.log("setting bomb at", gridX, gridY);
@@ -1203,19 +1200,19 @@ $.extend(Agent, {
 
     },
 
-    setWalkableAt: function (gridX, gridY, walkable, pit) {
+    setWalkableAt: function(gridX, gridY, walkable, pit) {
         this.grid.setWalkableAt(gridX, gridY, walkable, pit);
         View.setAttributeAt(gridX, gridY, 'walkable', walkable, "wall");
     },
-    setCheckPoint: function (gridX, gridY) {
+    setCheckPoint: function(gridX, gridY) {
         this.checkpoints.push({
-            x: gridX,
-            y: gridY
-        })
-        // View.setAttributeAt(gridX, gridY, 'checkpoint', true);
+                x: gridX,
+                y: gridY
+            })
+            // View.setAttributeAt(gridX, gridY, 'checkpoint', true);
         View.setCheckPoint(gridX, gridY, -1, -1, true)
     },
-    setPitAt: function (gridX, gridY, walkable) {
+    setPitAt: function(gridX, gridY, walkable) {
         if (this.numpit < 1) {
             this.grid.setWalkableAt(gridX, gridY, walkable);
             View.setAttributeAt(gridX, gridY, 'walkable', walkable, "pit");
@@ -1230,11 +1227,11 @@ $.extend(Agent, {
 
 
     },
-    setPitArea: function (gridX, gridY, walkable) {
+    setPitArea: function(gridX, gridY, walkable) {
         this.grid.setWalkableAt(gridX, gridY, walkable);
         View.setAttributeAt(gridX, gridY, 'walkable', walkable, "pitarea");
     },
-    setIceAt: function (gridX, gridY, walkable) {
+    setIceAt: function(gridX, gridY, walkable) {
         if (this.numice < 1) {
             this.grid.setWalkableAt(gridX, gridY, walkable);
             View.setAttributeAt(gridX, gridY, 'walkable', walkable, "ice");
@@ -1246,11 +1243,11 @@ $.extend(Agent, {
 
         }
     },
-    setIceArea: function (gridX, gridY, walkable) {
+    setIceArea: function(gridX, gridY, walkable) {
         this.grid.setWalkableAt(gridX, gridY, walkable);
         View.setAttributeAt(gridX, gridY, 'walkable', walkable, "icearea");
     },
-    setBombAt: function (gridX, gridY, walkable) {
+    setBombAt: function(gridX, gridY, walkable) {
         if (this.numbomb < 1) {
             this.grid.setWalkableAt(gridX, gridY, walkable);
             View.setAttributeAt(gridX, gridY, 'walkable', walkable, "bomb");
@@ -1263,39 +1260,39 @@ $.extend(Agent, {
             this.bombY = gridY;
         }
     },
-    clearposice: function (gridX, gridY) {
+    clearposice: function(gridX, gridY) {
         // this.grid.setWalkableAt(gridX, gridY, true);
         View.setWalkableAt(gridX, gridY, 'walkable', true, "clear");
         View.setWalkableAt(gridX - 1, gridY + 1, 'walkable', true, "clear");
         View.setWalkableAt(gridX + 1, gridY - 1, 'walkable', true, "clear");
     },
-    setBombArea: function (gridX, gridY, walkable) {
+    setBombArea: function(gridX, gridY, walkable) {
         this.grid.setWalkableAt(gridX, gridY, walkable);
         View.setAttributeAt(gridX, gridY, 'walkable', walkable, "bombarea");
     },
-    isStartPos: function (gridX, gridY) {
+    isStartPos: function(gridX, gridY) {
         return gridX === this.startX && gridY === this.startY;
     },
-    isStartorEndPos: function (gridX, gridY) {
+    isStartorEndPos: function(gridX, gridY) {
         return (gridX === this.startX && gridY === this.startY) || (gridX === this.endX && gridY === this.endY);
     },
-    isPitPos: function (gridX, gridY) {
+    isPitPos: function(gridX, gridY) {
         return gridX === this.pitX && gridY === this.pitY;
     },
-    isIcePos: function (gridX, gridY) {
+    isIcePos: function(gridX, gridY) {
         return gridX === this.iceX && gridY === this.iceY;
     },
-    isBombPos: function (gridX, gridY) {
+    isBombPos: function(gridX, gridY) {
         return gridX === this.bombX && gridY === this.bombY;
     },
-    isEndPos: function (gridX, gridY) {
+    isEndPos: function(gridX, gridY) {
         return gridX === this.endX && gridY === this.endY;
     },
 
-    isCheckPoint: function (gridX, gridY) {
+    isCheckPoint: function(gridX, gridY) {
         return this.checkpoints.findIndex(node => node.x == gridX && node.y == gridY);
     },
-    isStartOrEndPos: function (gridX, gridY) {
+    isStartOrEndPos: function(gridX, gridY) {
         return (this.isStartPos(gridX, gridY) || this.isEndPos(gridX, gridY));
     },
 
